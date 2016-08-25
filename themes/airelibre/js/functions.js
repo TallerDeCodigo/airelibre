@@ -114,6 +114,100 @@
 	  $grid.isotope({ filter: filterValue });
 	});
 
+
+
+	$('.desktop').transe({
+	    0: {
+	        height: '90px'
+	    },
+	    40: {
+	        height: '45px'
+	    }
+	});
+
+	$('.desktop .wrapper').transe({
+	    0: {
+	        height: '90px'
+	    },
+	    40: {
+	        height: '45px'
+	    }
+	});
+
+	$('.social .nav-item').transe({
+	    0: {
+	        opacity: '1'
+	    },
+	    30: {
+	        opacity: '0'
+	    }
+	});
+
+	$('.menu').transe({
+	    0: {
+	        height: '90px'
+	    },
+	    40: {
+	        height: '45px'
+	    }
+	});
+
+	$('.social').transe({
+	    30: {
+	        top: '0px'
+	    },
+	    40: {
+	        top: '-45px'
+	    }
+	});
+
+	$('.botones').transe({
+	    0: {
+	        top: '0px'
+	    },
+	    40: {
+	        top: '-45px'
+	    }
+	});
+
+	$('.player').transe({
+	    0: {
+	        top: '90px'
+	    },
+	    40: {
+	        top: '45px'
+	    }
+	});
+
+	$('.submenu').transe({
+	    0: {
+	        top: '90px'
+	    },
+	    40: {
+	        top: '45px'
+	    }
+	});
+
+	$('.logogif').transe({
+	    0: {
+	        width: '96%',
+	        opacity: '1'
+	    },
+	    40: {
+	        width: '44%',
+	        opacity: '0'
+	    }
+	});
+
+	$('.logosvg').transe({
+	    40: {
+	        opacity: '0'
+	    },
+	    60: {
+	        opacity: '1'
+	    }
+	});
+
 })(jQuery);
 
 // jQuery(document).ready(function($) {
