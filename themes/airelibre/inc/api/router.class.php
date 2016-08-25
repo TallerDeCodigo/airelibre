@@ -288,12 +288,12 @@ class Router{
 			});
 
 			/**
-			 * Fetch product detai
+			 * Fetch column detai
 			 * @category GET Endpoint
 			 * Dedalo approved
 			 */
-			$slim->get('/rest/v1/products/:product_id/', function($product_id){
-				echo fetch_product_detail($product_id);
+			$slim->get('/rest/v1/columns/:column_id/', function($column_id = NULL){
+				echo fetch_column_detail($column_id);
 				exit;
 			});
 

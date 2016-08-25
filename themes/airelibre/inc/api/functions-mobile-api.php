@@ -163,24 +163,8 @@ function mobile_login_check($user_id, $user_token){
 // Feed
 function fetch_main_feed(){
 
-	$entries_feed = array();
-	if($filter == "all"){
-		$filter_nice = "Cronológico";
-		$entries = filter_posts_by( "all" );
-	}
-	if($filter == "most_popular"){
-		$filter_nice = "Más populares";
-		$entries = filter_posts_by("popular");
-	}
-	if($filter == "boosted"){
-		$filter_nice = "Recomendados";
-		$entries = filter_posts_by("boosted");
-	}
-	if($filter == "ending"){
-		$filter_nice = "Por terminar";
-		$entries = filter_posts_by("ending");
-	}
-
+	$entries = fetch_home();
+		
 	foreach ($entries as $index => $entry) {
 
 		$product_price 			= (get_post_meta($entry->ID,'precio_producto', true) != '') ? get_post_meta($entry->ID,'precio_producto', true) : NULL;
@@ -193,44 +177,18 @@ function fetch_main_feed(){
 		$post_thumbnail_url = $post_thumbnail_url[0];
 		$foto_user = get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
 
-		if(!$index){
-			$entries_feed['featured'][] = array(
-									'ID' 					=> $entry->ID,
-									'product_title' 		=> $entry->post_title,
-									'product_description' 	=> $trimmed_description,
-									'price'					=> $product_price,
-									'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
-									'designer_brand'		=> 	array(
-																	"ID"   => $designer_brand->ID,
-																	"name" => $designer_brand->display_name,
-																	"profile_pic" 	=> ($foto_user) ? $foto_user : null,
-																),
-									'type'					=> $entry->post_type,
-									$entry->post_type		=> true,
-									'link_base'				=> ($entry->post_type == 'productos') ? 'detail' : 'post',
-								);
-			$entries_feed['featured'][$index]['designer_brand'] = (!$designer_brand) ? null :  $entries_feed['featured'][$index]['designer_brand'];
-		}else{
-			$entries_feed['pool'][] = array(
-									'ID' 					=> $entry->ID,
-									'product_title' 		=> $entry->post_title,
-									'product_description' 	=> $trimmed_description,
-									'price'					=> $product_price,
-									'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
-									'designer_brand'		=> array(
-																	"ID"   => $designer_brand->ID,
-																	"name" => $designer_brand->display_name,
-																	"profile_pic" 	=> ($foto_user) ? $foto_user : null,
-																),
-									'type'					=> $entry->post_type,
-									$entry->post_type		=> true,
-									'link_base'				=> ($entry->post_type == 'productos') ? 'detail' : 'post',
-								);
-			$entries_feed['pool'][$index-1]['designer_brand'] = (!$designer_brand) ? null :  $entries_feed['pool'][$index-1]['designer_brand'];
-		}
+		
+		$entries_feed['pool'][] = array(
+								'ID' 					=> $entry->ID,
+								'title' 				=> $entry->post_title,
+								'excerpt' 				=> $trimmed_description,
+								'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
+								'type'					=> $entry->post_type,
+								$entry->post_type		=> true,
+							);
+
 		
 	}
-	$entries_feed['filter_nice'] = $filter_nice;
 
 	return json_encode($entries_feed);
 }
@@ -240,52 +198,19 @@ function fetch_main_feed(){
 	 * Get entries feed ordered chronologically
 	 * @param $offset
 	 */
-	function get_chronological($offset = 0){
+	function fetch_home($offset = 0){
 		
-		$today = date('Y-m-d');
 		$args = array(
-				'post_type'   		=> array('post', 'productos'),
+				'post_type'   		=> array('columna'),
 				'post_status' 		=> 'publish',
-				'paged'				=> $offset+1,
-				'posts_per_page' 	=> 20,
+				'posts_per_page' 	=> 3,
 				'orderby'   		=> 'date',
 			);
 		$query = new WP_Query($args);
 		return $query->posts;
 	}
 
-	/**
-	 * Get filtered event feed
-	 * @param $filter
-	 * @param $offset
-	 */
-	function filter_posts_by($filter = "all", $offset = 0){
-		
-		switch ($filter) {
-				case 'all':
-					return get_chronological($offset);
-					break;
-				case 'near':
-					return get_near_events_array($offset);
-					break;
-				case 'boosted':
-					return get_boosted_events($offset);
-					break;
-				case 'popular':
-					return get_most_popular($offset);
-					break;
-				case 'visitors':
-					return get_most_visited($offset);
-					break;
-				case 'ending':
-					return get_ending_events($offset);
-					break;
-				
-				default:
-				return false;
-					break;
-			}
-	}
+
 
 	/*
 	 * Fetch categories for feed
@@ -489,120 +414,35 @@ function fetch_main_feed(){
 	 * @param Int $product_id
 	 * @return JSON Object
 	 */
-	function fetch_product_detail($product_id = NULL){
-		if(!$product_id)
+	function fetch_column_detail($column_id = NULL){
+		if(!$column_id)
 			return NULL;
-		$post =  get_post($product_id);
-		
-		$product_author 		= (get_user_by("id", $post->post_author)) ? get_user_by("id", $post->post_author) : NULL;
-		$designer_brand			= $product_author->data;
+		$post =  get_post($column_id);
+
+		$author 				= wp_get_post_terms( $column_id, "autor" );
 
 		$trimmed_description 	= ($post->post_content !== '') ? wp_trim_words( $post->post_content, $num_words = 15, $more = '...' ) : NULL;
 		$post_thumbnail_id 	= get_post_thumbnail_id($post->ID);
 		$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'large');
 		$post_thumbnail_url = $post_thumbnail_url[0];
-		$foto_user 			= get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
-		$product_price 		= (get_post_meta($post->ID,'precio_producto', true) != '') ? get_post_meta($post->ID,'precio_producto', true) : NULL;
-		$info_tecninca		= get_post_meta($post->ID, 'info_tecninca', TRUE);
-		$notas_tecnicas		= wpautop(get_post_meta($post->ID, 'notas_tecnicas', TRUE));
-		$printer_type		= get_post_meta($post->ID, 'printer_type', TRUE);
-		$supports_rafts		= get_post_meta($post->ID, 'supports_rafts', TRUE);
-		$infill				= get_post_meta($post->ID, 'infill', TRUE);
-		$resolution			= get_post_meta($post->ID, 'resolution', TRUE);
-		$file_for_download 	= get_post_meta($post->ID, 'file_for_download', true);
-		$download_count 	= get_post_meta($post->ID, 'download_count', true);
-		
-		$times_viewed 		= get_post_meta($post->ID, 'times_viewed', true);
-		$times_viewed 		= ($times_viewed != "") ? intval($times_viewed) : 0;
-		$times_viewed++;
-		update_post_meta($post->ID, 'times_viewed', $times_viewed);
-		
-		$tags = wp_get_post_tags( $post->ID );
-		$design_tools = get_the_terms( $post->ID, 'design-tools' );
-		
+		// $foto_user 			= get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
+
 		$final_array = array(
 								"ID" 				=> $post->ID,
-								"product_title" 	=> $post->post_title,
-								"product_description" => $post->post_content,
-								"product_price" 	=> $product_price,
+								"title" 			=> $post->post_title,
+								"content" 			=> $post->post_content,
+								"author" 			=> $author[0]->name,
 								"slug" 				=> $post->post_name,
 								"type" 				=> $post->post_type,
 								"thumb_url" 		=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
-								"has_file" 			=> ($file_for_download) ? TRUE : FALSE,
-								"download_count" 	=> ($download_count == '') ? 0 : $download_count,
-								"times_viewed" 		=> $times_viewed,
-								"gallery" 			=> array(),
-								"by_same_maker"		=> array(),
-								"tags"				=> array(),
-								"design_toos"		=> array(),
-								$post->post_type 	=> true,
-								"designer_brand" 	=>  array(
-															"ID"   => $designer_brand->ID,
-															"name" => $designer_brand->display_name,
-															"profile_pic" 	=> ($foto_user) ? $foto_user : null,
-														),
-								"technical"			=> array(
-															"info" 	=> wpautop($info_tecninca),
-															"notes" => $notas_tecnicas,
-														),
-								"printer"			=> array(
-															"type" 	=> ($printer_type !== '') ? $printer_type : NULL,
-															"rafts" => ($supports_rafts !== '') ? $supports_rafts : NULL,
-															"infill" => ($infill !== '') ? $infill : NULL,
-															"resolution" => ($resolution !== '') ? $resolution : NULL,
-														),
+								$post->post_type 	=> true
 							);
 
 		$media = get_attached_media( 'image', $post->ID );
 		foreach ($media as $each_image) {
 			$medium = wp_get_attachment_image_src($each_image->ID, 'large');
 			$final_array['gallery']['pool'][]['url'] = $medium[0];
-		}
-		$same_maker = get_posts(array(
-									"author" 			=> $designer_brand->ID,
-									"post_type" 		=> "productos",
-									"post_status" 		=> "publish",
-									"posts_per_page" 	=> 4,
-									"exclude" 			=> $product_id,
-									"orderby" 			=> "rand",
-								));
-
-		if($same_maker)
-			foreach ($same_maker as $each_related) {
-				$post_thumbnail_id 	= get_post_thumbnail_id($each_related->ID);
-				$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'thumbnail');
-				$post_thumbnail_url = $post_thumbnail_url[0];
-				$final_array['by_same_maker']['pool'][] = array( 
-																"ID"			=> $each_related->ID,
-																"product_title" => $each_related->post_title,
-																"thumb_url"		=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
-															);
-			}
-		if($tags){
-			
-			foreach ($tags as $each_tag) {
-				$final_array['tags']['pool'][] = array( 
-																"ID"		=> $each_tag->term_id,
-																"name" 		=> $each_tag->name,
-																"slug"		=> $each_tag->slug,
-															);
-			}
-			$final_array['tags']['count'] = count($final_array['tags']['pool']);
-		}
-		if($design_tools){
-			
-			foreach ($design_tools as $each_dt) {
-				$final_array['design_tools']['pool'][] = array( 
-																"ID"		=> $each_dt->term_id,
-																"name" 		=> $each_dt->name,
-																"slug"		=> $each_dt->slug,
-															);
-			}
-			$final_array['design_tools']['count'] = count($final_array['design_tools']['pool']);
-		}
-
-		$final_array['gallery']['count'] = count($final_array['gallery']['pool']);
-		$final_array['by_same_maker']['count'] = count($final_array['by_same_maker']['pool']);
+		}		
 		return json_encode($final_array);
 	} 
 
