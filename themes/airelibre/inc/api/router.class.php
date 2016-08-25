@@ -230,9 +230,9 @@ class Router{
 			 * @type ANNONYMOUS
 			 * Dedalo approved
 			 */
-			$slim->get('/rest/v1/feed(/:offset(/:filter))',function ( $offset = 0, $filter = "all"){
+			$slim->get('/rest/v1/feed/',function (){
 				// TODO Use user information to cure feed
-				echo fetch_main_feed($filter, $offset);
+				echo fetch_main_feed();
 				exit;
 			});
 

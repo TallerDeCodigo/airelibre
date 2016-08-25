@@ -161,7 +161,7 @@ function mobile_login_check($user_id, $user_token){
 }
 
 // Feed
-function fetch_main_feed($filter = "all", $offset){
+function fetch_main_feed(){
 
 	$entries_feed = array();
 	if($filter == "all"){

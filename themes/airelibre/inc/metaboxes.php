@@ -7,7 +7,7 @@
 
 	add_action('add_meta_boxes', function(){
 
-		// add_meta_box( id, title, name_meta_callback, post_type, context, priority );
+		add_meta_box( "podcast_details", "Detalles de audio", "file_meta_callback", "podcast", "side", "high" );
 
 	});
 
@@ -17,10 +17,11 @@
 
 
 
-	function name_meta_callback($post){
-		// $name = get_post_meta($post->ID, '_name_meta', true);
-		// wp_nonce_field(__FILE__, '_name_meta_nonce');
-		// echo "<input type='text' class='widefat' id='name' name='_name_meta' value='$name'/>";
+	function file_meta_callback($post){
+		$file_url = get_post_meta($post->ID, '_file_url_meta', true);
+		wp_nonce_field(__FILE__, '_audio_details_meta_nonce');
+		echo "<label>Nombre del archivo:</label>";
+		echo "<input type='text' class='widefat' id='file_url' name='_file_url_meta' value='$file_url'/>";
 	}
 
 
@@ -44,8 +45,8 @@
 			return $post_id;
 
 
-		if ( isset($_POST['_name_meta']) and check_admin_referer(__FILE__, '_name_meta_nonce') ){
-			update_post_meta($post_id, '_name_meta', $_POST['_name_meta']);
+		if ( isset($_POST['_file_url_meta']) and check_admin_referer(__FILE__, '_audio_details_meta_nonce') ){
+			update_post_meta($post_id, '_file_url_meta', $_POST['_file_url_meta']);
 		}
 
 
