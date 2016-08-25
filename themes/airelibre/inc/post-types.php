@@ -7,19 +7,19 @@
 	add_action('init', function(){
 
 
-		// NOTICIAS
-		/*$labels = array(
-			'name'          => 'Noticias',
-			'singular_name' => 'Noticia',
-			'add_new'       => 'Nueva Noticia',
-			'add_new_item'  => 'Nueva Noticia',
-			'edit_item'     => 'Editar Noticia',
-			'new_item'      => 'Nueva Noticia',
-			'all_items'     => 'Todas',
-			'view_item'     => 'Ver Noticia',
-			'search_items'  => 'Buscar Noticia',
-			'not_found'     => 'No se encontro',
-			'menu_name'     => 'Noticias'
+		// Podcasts
+		$labels = array(
+			'name'          => 'Podcasts',
+			'singular_name' => 'Podcast',
+			'add_new'       => 'Nuevo Podcast',
+			'add_new_item'  => 'Nuevo Podcast',
+			'edit_item'     => 'Editar Podcast',
+			'new_item'      => 'Nuevo Podcast',
+			'all_items'     => 'Todos',
+			'view_item'     => 'Ver Podcast',
+			'search_items'  => 'Buscar Podcast',
+			'not_found'     => 'No se encontró',
+			'menu_name'     => 'Podcasts'
 		);
 
 		$args = array(
@@ -29,14 +29,46 @@
 			'show_ui'            => true,
 			'show_in_menu'       => true,
 			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'noticias' ),
+			'rewrite'            => array( 'slug' => 'podcasts' ),
 			'capability_type'    => 'post',
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'menu_position'      => 6,
 			'taxonomies'         => array( 'category' ),
-			'supports'           => array( 'title', 'editor', 'thumbnail' )
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail' )
 		);
-		register_post_type( 'noticia', $args );*/
+		register_post_type( 'podcast', $args );
+
+		// Columnas
+		$labels = array(
+			'name'          => 'Columnas',
+			'singular_name' => 'Columnas',
+			'add_new'       => 'Nueva Columna',
+			'add_new_item'  => 'Nueva Columna',
+			'edit_item'     => 'Editar Columna',
+			'new_item'      => 'Nueva Columna',
+			'all_items'     => 'Todos',
+			'view_item'     => 'Ver Columna',
+			'search_items'  => 'Buscar Columnas',
+			'not_found'     => 'No se encontró',
+			'menu_name'     => 'Columnas'
+		);
+
+		$args = array(
+			'labels'             => $labels,
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => 'columnas' ),
+			'capability_type'    => 'post',
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_position'      => 6,
+			'taxonomies'         => array( 'category' ),
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail' )
+		);
+		register_post_type( 'columna', $args );
 
 	});

@@ -9,7 +9,7 @@
 	function custom_taxonomies_callback(){
 
 		// AUTORES
-		/*if( ! taxonomy_exists('autores')){
+		if( ! taxonomy_exists('autores')){
 
 			$labels = array(
 				'name'              => 'Autores',
@@ -33,8 +33,8 @@
 				'rewrite'           => array( 'slug' => 'autores' ),
 			);
 
-			register_taxonomy( 'autor', 'libro', $args );
-		}*/
+			register_taxonomy( 'autor', array('podcast', 'columna'), $args );
+		}
 		
 		
 		// TERMS
