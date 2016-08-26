@@ -165,28 +165,15 @@ class Router{
 				$User = new User();
 				/* Create user */
 				$email = isset($_GET['email']) ? $_GET['email'] : NULL;
-				file_put_contents(
-					'/logs/php.log',
-					var_export( $email, true ) . PHP_EOL,
-					FILE_APPEND
-				);
+				
 				if(!$email)
 					json_encode(FALSE);
 				$username = str_replace("@", "_", $email);
 				$username = substr(str_replace(".", "", $username), 0, 14 );
-				file_put_contents(
-					'/logs/php.log',
-					var_export( $username, true ) . PHP_EOL,
-					FILE_APPEND
-				);
+				
 				if($User->_username_exists($username)){
 
 					$user = get_user_by("slug", $username);
-					file_put_contents(
-						'/logs/php.log',
-						var_export( $user, true ) . PHP_EOL,
-						FILE_APPEND
-					);
 					$foto_user = get_user_meta( $user->ID, "foto_user", TRUE );
 
 					$json_response = array(
@@ -196,11 +183,6 @@ class Router{
 											'role'			=> $user->roles[0],
 											'profile_url'	=> $foto_user,
 										);
-					file_put_contents(
-						'/logs/php.log',
-						var_export( $json_response, true ) . PHP_EOL,
-						FILE_APPEND
-					);
 					wp_send_json_success($json_response);
 				}
 				echo json_encode(array("success" => FALSE));
