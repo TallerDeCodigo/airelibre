@@ -49,7 +49,7 @@ class User{
 							"last_name" 	=> $last_name,
 							"display_name" 	=> $display_name,
 							"nickname"		=> $display_name,
-							"role" 			=> "dedalo_user"
+							"role" 			=> "subscriber"
 						);
 
 		$update = wp_update_user( $userdata );
@@ -61,7 +61,7 @@ class User{
 	 * Get username
 	 */
 	public function _username_exists($username){
-		$user = get_user_by( 'login', $username );
+		$user = get_user_by( 'slug', $username );
 		if(!$user) return FALSE;
 		if($user_id 	= 	username_exists( $username )) return $user_id;
 	}
@@ -74,6 +74,7 @@ class User{
 
 		//Check for twitter meta, email or username
 		$user = get_user_by( 'login', $username );
+
 		if(!$user) return FALSE;
 		$found_google	= 	get_user_meta($user->ID, 'gpId', TRUE);
 		$found_facebook = 	get_user_meta($user->ID, 'fbId', TRUE);
@@ -96,19 +97,11 @@ class User{
 	 * NOTE: If no password is passed the account may become inaccessible if created outside social login methods
 	 */
 	public function create_if__notExists($email, $attrs = array(), $autologin = TRUE){
-		$username = str_replace("@", "_", $user);
-		$username = str_replace(".", "", $username);
-		// file_put_contents(
-		// 	'/logs/php.log',
-		// 	var_export( $username, true ) . PHP_EOL,
-		// 	FILE_APPEND
-		// );
+		$username = str_replace("@", "_", $email);
+		$username = substr(str_replace(".", "", $username), 0, 14 );
+
 		$found = $this->check_if_user_exists($username, $email);
-		// file_put_contents(
-		// 	'/logs/php.log',
-		// 	var_export( $found, true ) . PHP_EOL,
-		// 	FILE_APPEND
-		// );
+
 		if(!$found){
 			$password = isset($attrs['password']) ? $attrs['password'] : wp_generate_password();
 			$user_id = $this->create($username,  $password, $email, $attrs);

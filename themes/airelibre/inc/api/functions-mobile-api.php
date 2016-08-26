@@ -321,62 +321,27 @@ function fetch_main_feed(){
 	 */
 	function fetch_me_information($user_login  = NULL){
 
-		$search_brand = -1;
-		$search_model = -1;
 		$user = get_user_by("login", $user_login);
 		$userData = get_userdata( $user->ID );
 
-		$assigned_terms = wp_get_object_terms( $user->ID, 'user_category' );
 		$foto_user = get_user_meta( $user->ID, 'foto_user', TRUE );
 		$first_name = get_user_meta( $user->ID, 'first_name', TRUE );
 		$last_name = get_user_meta( $user->ID, 'last_name', TRUE );
-		$printer_brand = get_user_meta( $user->ID, 'printer_brand', TRUE );
-		$printer_model = get_user_meta( $user->ID, 'printer_model', TRUE );
-		$bio = get_user_meta( $user->ID, 'user_3dbio', TRUE );
 
-		$brand_object = get_term_by("id", intval($printer_brand), "printer-model");
-
-		$model_object = get_term_by("id", intval($printer_model), "printer-model");
-
-		$catalogue = file_get_contents(THEMEPATH."inc/pModels.json");
-		$catalogue = json_decode($catalogue);
-		$catalogue = (array) $catalogue;
-
-		if($brand_object !== FALSE)
-			$search_brand = array_search($brand_object->name, array_keys($catalogue), TRUE);
-
-		if($model_object !== FALSE)
-			$search_model = intval(array_search($model_object->name, $catalogue[$brand_object->name]));
-
+	
 		$me =   array(
 					"ID" 				=> $user->ID,
 					"login" 			=> $userData->data->user_login,
 					"first_name" 		=> $first_name,
 					"last_name" 		=> $last_name,
 					"email" 			=> $userData->data->user_email,
-					"bio" 				=> $bio,
-					"printer_brand" 	=> $printer_brand,
-					"printer_model" 	=> $printer_model,
-					"cat_printer_brand" => $search_brand,
-					"cat_printer_model" => $search_model,
+					"bio" 				=> $userData->data->description,
 					"display_name" 		=> $userData->data->display_name,
 					"profile_pic" 		=> ($foto_user) ? $foto_user : null,
 					"role" 				=> $user->roles[0],
 					"valid_token"		=> "HFJEUUSNNSO(h@rDc0d3d)DJJEHHAGADMNDHS&$86324",
 					"categories" 		=> array(),
 				);
-
-		if($printer_model !== -1)
-			$me['models_already'] =	$catalogue[$brand_object->name];
-
-		foreach ($assigned_terms as $each_term){
-			$me['categories'][] =   array(
-										"ID" => $each_term->term_id,
-										"name" => $each_term->name,
-										"slug" => $each_term->slug
-									);
-			$me['is_'.$each_term->slug] = true;
-		}
 
 		return wp_send_json($me);
 		

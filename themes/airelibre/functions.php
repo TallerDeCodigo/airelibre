@@ -135,7 +135,7 @@
 
 	include_once( 'inc/api/router.class.php' );
 
-	include_once( 'inc/api/User.class.php' );
+	// include_once( 'inc/api/User.class.php' );
 	
 	
 // MODIFICAR EL MAIN QUERY ///////////////////////////////////////////////////////////
