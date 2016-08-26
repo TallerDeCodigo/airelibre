@@ -17,11 +17,27 @@
 						<span class="art-categ">[DEPORTES]</span>
 					</div>
 				</div>
+
+				<?php
+					$args = array(
+							'post_type' => array('columna', 'podcast'),
+							'posts_per_page' => -1
+						);
+
+					$posts = get_posts($args);
+					foreach($posts as $post): setup_postdata($post);
+					$posttype = get_post_type();
+					if($posttype == 'columna'){
+				?>
+
+				
 				<div class="grid-item normal columna">
-					<a class="grid-link" href="#">
-						<img src="<?php echo THEMEPATH; ?>images/2.png">
-						<div class="art-title"><span>WITKIN</span></div>
-						<div class="art-descr">La leyenda del boxeo, Mohamed Ali, murió este viernes a los 74 años, informó su familia, mientras estaba en el hospital por problemas...</div>
+					<a class="grid-link" href="<?php the_permalink(); ?>">
+						<?php if(has_post_thumbnail($post->ID)){
+							the_post_thumbnail('small');
+						}?>
+						<div class="art-title"><span><?php the_title(); ?></span></div>
+						<div class="art-descr"><?php the_excerpt(); ?></div>
 					</a>
 					<div class="art-info">
 						<span class="art-author">Martha Cristiana</span>
@@ -29,53 +45,9 @@
 						<span class="art-categ">[DEPORTES]</span>
 					</div>
 				</div>
-				<div class="grid-item normal columna">
-					<a class="grid-link" href="#">
-						<img src="<?php echo THEMEPATH; ?>images/4.png">
-						<div class="art-title"><span>WITKIN</span></div>
-						<div class="art-descr">La leyenda del boxeo, Mohamed Ali, murió este viernes a los 74 años, informó su familia, mientras estaba en el hospital por problemas...</div>
-					</a>
-					<div class="art-info">
-						<span class="art-author">Martha Cristiana</span>
-						<span class="art-date">junio 18, 2016</span>
-						<span class="art-categ">[DEPORTES]</span>
-					</div>
-				</div>
-				<div class="grid-item normal columna">
-					<a class="grid-link" href="#">
-						<img src="<?php echo THEMEPATH; ?>images/3.png">
-						<div class="art-title"><span>WITKIN</span></div>
-						<div class="art-descr">La leyenda del boxeo, Mohamed Ali, murió este viernes a los 74 años, informó su familia, mientras estaba en el hospital por problemas...</div>
-					</a>
-					<div class="art-info">
-						<span class="art-author">Martha Cristiana</span>
-						<span class="art-date">junio 18, 2016</span>
-						<span class="art-categ">[DEPORTES]</span>
-					</div>
-				</div>
-				<div class="grid-item normal columna no-img">
-					<a class="grid-link" href="#">
-						<div class="art-title"><span>WITKIN</span></div>
-						<div class="art-descr">La leyenda del boxeo, Mohamed Ali, murió este viernes a los 74 años, informó su familia, mientras estaba en el hospital por problemas...</div>
-					</a>
-					<div class="art-info">
-						<span class="art-author">Martha Cristiana</span>
-						<span class="art-date">junio 18, 2016</span>
-						<span class="art-categ">[DEPORTES]</span>
-					</div>
-				</div>
-				<div class="grid-item normal columna">
-					<a class="grid-link" href="#">
-						<img src="<?php echo THEMEPATH; ?>images/3.png">
-						<div class="art-title"><span>WITKIN</span></div>
-						<div class="art-descr">La leyenda del boxeo, Mohamed Ali, murió este viernes a los 74 años, informó su familia, mientras estaba en el hospital por problemas...</div>
-					</a>
-					<div class="art-info">
-						<span class="art-author">Martha Cristiana</span>
-						<span class="art-date">junio 18, 2016</span>
-						<span class="art-categ">[DEPORTES]</span>
-					</div>
-				</div>
+
+				<?php } elseif($posttype == 'podcast'){ ?>
+				
 				<div class="grid-item podcast">
 					<div class="pod-img">
 						<img src="<?php echo THEMEPATH; ?>images/5.png">
@@ -88,29 +60,9 @@
 					<div class="pod-data">18 min | junio 15, 2016</div>
 					<a href="#" class="pod-play"><img src="<?php echo THEMEPATH; ?>images/play-blue.svg"></a>
 				</div>
-				<div class="grid-item normal columna">
-					<a class="grid-link" href="#">
-						<img src="<?php echo THEMEPATH; ?>images/3.png">
-						<div class="art-title"><span>WITKIN</span></div>
-						<div class="art-descr">La leyenda del boxeo, Mohamed Ali, murió este viernes a los 74 años, informó su familia, mientras estaba en el hospital por problemas...</div>
-					</a>
-					<div class="art-info">
-						<span class="art-author">Martha Cristiana</span>
-						<span class="art-date">junio 18, 2016</span>
-						<span class="art-categ">[DEPORTES]</span>
-					</div>
-				</div>
-				<div class="grid-item normal columna no-img">
-					<a class="grid-link" href="#">
-						<div class="art-title"><span>WITKIN</span></div>
-						<div class="art-descr">La leyenda del boxeo, Mohamed Ali, murió este viernes a los 74 años, informó su familia, mientras estaba en el hospital por problemas...</div>
-					</a>
-					<div class="art-info">
-						<span class="art-author">Martha Cristiana</span>
-						<span class="art-date">junio 18, 2016</span>
-						<span class="art-categ">[DEPORTES]</span>
-					</div>
-				</div>
+			
+				<?php } endforeach; wp_reset_postdata(); ?>
+
 			</div>
 			<div class="more-posts">VER MÁS</div>
 		</section>

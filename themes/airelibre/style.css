@@ -177,7 +177,7 @@ footer a {text-decoration:none;color:inherit;}
 
 .destacado {position:relative;}
 .normal img {width:100%;height:auto;}
-.no-img:hover {background:#000;}
+.grid-item:hover {background:#000;}
 
 .art-title {font-size:275%;font-weight:900;text-transform:uppercase;padding:2px 15px;}
 .art-title span {border-bottom:5px solid #000;line-height:150%;margin-bottom:-15px;}
@@ -186,9 +186,9 @@ footer a {text-decoration:none;color:inherit;}
 .art-info span {display:block;}
 .art-categ {color:#0245ff;}
 
-.grid-item:not(.no-img):hover .art-title span {color:#0245ff;border-bottom:5px solid #0245ff;}
-.no-img:hover .art-title span {color:#FFF;border-bottom:5px solid #FFF;}
-.no-img:hover .art-descr {color:#FFF;}
+
+.grid-item:hover .art-title span {color:#FFF;border-bottom:5px solid #FFF;}
+.grid-item:hover .art-descr {color:#FFF;}
 
 .podcast {background:#7e7e7e;}
 .pod-img {position:relative;}
@@ -203,6 +203,7 @@ footer a {text-decoration:none;color:inherit;}
 /* SINGLE */
 
 .single h2 {font-size:310%;letter-spacing:0.05em;}
+.single h3 {font-size:180%;letter-spacing:0.05em;}
 .quote {font-family:'Crimson';font-weight:600;max-width:450px;font-size:164%;margin-bottom:55px;line-height:150%;}
 .quote span {display:block;}
 .red-comment {color:#ff3752;max-width:470px;font-size:215%;margin-bottom:30px;}

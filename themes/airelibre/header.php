@@ -165,9 +165,9 @@
 					<div class="showname">LA HORA DE LA COMIDA [14:00 – 16:00]</div>
 					<div class="breadcrumbs">Hunting » Fishlights » Serpientes EP</div>
 				</div>
-				<div class="changer">
+				<!-- <div class="changer">
 					<div class="podc-ch">PODCAST</div>
 					<div class="live-ch circle roja">AL AIRE LIBRE</div>
-				</div>
+				</div> -->
 			</div>
 		</section>
