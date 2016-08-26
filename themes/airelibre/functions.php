@@ -78,7 +78,7 @@
 
 	add_filter( 'show_admin_bar', function($content){
 		// return ( current_user_can('administrator') ) ? $content : false;
-		return false;
+		return $content;
 	});
 
 
@@ -135,7 +135,7 @@
 
 	include_once( 'inc/api/router.class.php' );
 
-	include_once( 'inc/api/User.class.php' );
+	// include_once( 'inc/api/User.class.php' );
 	
 	
 // MODIFICAR EL MAIN QUERY ///////////////////////////////////////////////////////////

@@ -135,18 +135,18 @@ class Router{
 			$slim->post('/rest/v1/auth/user/', function () {
 
 				extract($_POST);
-				if (!isset($username)) wp_send_json_error('Please provide a username');
+				if (!isset($email)) wp_send_json_error('Please provide a username');
 				
 				/* Create user object */
 				$User 	= new User();
 
-				$created = $User->create_if__notExists($username, $email, $attrs, FALSE);
+				$created = $User->create_if__notExists($email, $attrs, FALSE);
 				if($created){
 					if( isset($attrs['login_redirect']) 
 						 AND (!$attrs['login_redirect'] OR $attrs['login_redirect'] == FALSE)
 					  ) {
 						mobile_pseudo_login();
-						wp_send_json_success($created);
+						wp_send_json_success(get_user_by("id", $created)->user_login);
 					}
 						
 					/* Must provide password to use this method */
@@ -161,19 +161,31 @@ class Router{
 			 * Check if user exists
 			 * 
 			 */
-			$slim->get('/rest/v1/user/exists/:username', function ($username) {
+			$slim->get('/rest/v1/user/exists/', function () {
 				$User = new User();
 				/* Create user */
+				$email = isset($_GET['email']) ? $_GET['email'] : NULL;
+				
+				if(!$email)
+					json_encode(FALSE);
+				$username = str_replace("@", "_", $email);
+				$username = substr(str_replace(".", "", $username), 0, 14 );
+				
 				if($User->_username_exists($username)){
-					$user = get_user_by("id", $user_id);
+
+					$user = get_user_by("slug", $username);
+					$foto_user = get_user_meta( $user->ID, "foto_user", TRUE );
+
 					$json_response = array(
-											'user_id' => $User->_username_exists($username), 
-											'username' => $username,
-											'user_login' => $username
+											'user_id' 		=> $User->_username_exists($username), 
+											'username' 		=> $username,
+											'user_login' 	=> $username,
+											'role'			=> $user->roles[0],
+											'profile_url'	=> $foto_user,
 										);
 					wp_send_json_success($json_response);
 				}
-				wp_send_json_error();
+				echo json_encode(array("success" => FALSE));
 				exit;
 			});
 
@@ -233,6 +245,20 @@ class Router{
 			$slim->get('/rest/v1/feed/',function (){
 				// TODO Use user information to cure feed
 				echo fetch_main_feed();
+				exit;
+			});
+			
+			/**
+			 * Get archive feed
+			 * @param String $user_login The user to retrieve timeline for
+			 * @param Int $offset Number of offsetted posts pages for pagination purposes
+			 * @param String $filter
+			 * @type ANNONYMOUS
+			 * Dedalo approved
+			 */
+			$slim->get('/rest/v1/feed/:kind/',function ($kind){
+				// TODO Use user information to cure feed
+				echo fetch_archive_feed($kind);
 				exit;
 			});
 
@@ -769,249 +795,6 @@ class Router{
 			exit;
 		});
 
-
-		
-			/*                         _            
-			 *     _____   _____ _ __ | |_ ___  ___ 
-			 *    / _ \ \ / / _ \ '_ \| __/ _ \/ __|
-			 *   |  __/\ V /  __/ | | | || (_) \__ \
-			 *    \___| \_/ \___|_| |_|\__\___/|___/
-			 *                                      
-			 */
-		
-
-			/*
-			 * Get event single data
-			 * 
-			 * @param Int $event_id
-			 * @param String $user_login
-			 */
-			$slim->get('/rest/v1/:u_login/events/:e/',function($user_login, $event_id) {
-				echo get_event_single($event_id, $user_login);
-				exit;
-			});
-
-			/*
-			 * Schedule an event
-			 * @param String $user_login
-			 * @param Int $evento_id (via $_POST)
-			 */
-			$slim->post('/rest/v1/:u_login/schedule',function($user_login) {
-				$user = get_user_by('login', $user_login );
-				if(museografo_agendar_evento($user)) echo wp_send_json_success();
-				exit;
-			});
-
-			/*
-			 * Unschedule an event
-			 * @param String $user_login
-			 * @param Int $evento_id (via $_POST)
-			 */
-			$slim->post('/rest/v1/:u_login/unschedule',function($user_login) {
-				$user = get_user_by('login', $user_login );
-				if(museografo_desagendar_evento($user)) echo wp_send_json_success();
-				exit;
-			});
-
-			/*
-			 * Mark event as attended
-			 * @param String $user_login
-			 * @param Int $post_ID (via $_POST)
-			 * @TO DO: Include geolocation parameter to check before marking an event
-			 */
-			$slim->post('/rest/v1/:u_login/events/attend',function($user_login) {
-				if(confirmar_asistencia($user_login)) 
-					wp_send_json_success();
-				wp_send_json_error('There ws an error marking the event');
-				exit;
-			});
-
-			/*
-			 * Get scheduled events for a user
-			 * @param Int $user_login
-			 * @returns Array of Integers
-			 */
-			$slim->get('/rest/v1/:u_login/scheduled', function($user_login) {
-				$user = get_user_by('login', $user_login );
-				$scheduled = museografo_eventos_agendados($user);
-				$scheduled = array_map('intval', $scheduled);
-				echo json_encode($scheduled);
-				exit;
-			});
-
-			/*
-			 * Get scheduled events feed
-			 * @param Int $user_login
-			 * @returns JSON encoded Array of Objects
-			 */
-			$slim->get('/rest/v1/:u_login/scheduled_feed/:offset/', function( $user_login, $offset) {
-				$user_obj = get_user_by("slug", $user_login);
-				if(!$user_obj)
-					wp_send_json_error("No such user here");
-				$scheduled_full = get_scheduled_feed($user_obj, $offset, 99);
-				echo $scheduled_full;
-				exit;
-			});
-
-			/*
-			 * Get attachments for the event gallery
-			 * @param Int $event_id
-			 * @param Int $limit
-			 */
-			$slim->get('/rest/v1/events/:e_id/gallery/:limit/(:size/)', function($event_id, $limit, $size = 'gallery_mobile') {	
-				echo get_event_gallery($event_id, $limit, $size);
-				exit;
-			});
-
-			/*
-			 * Recomend event to another user
-			 * @param Int $event_id
-			 */
-			$slim->post('/rest/v1/:u_login/recomend/', function($user_login) {
-				$user = get_user_by('login', $user_login );
-				echo recomend_event_to_user($user);
-				exit;
-			});
-
-			/*
-			 * Create a new event
-			 * @param String $logged The user that's logged in
-			 * @param Array $event_data Form data to create an event (via $_POST)
-			 */
-			$slim->post('/rest/v1/:logged/event/', function($logged) {
-				
-				$result = museo_create_new_event($logged, $_POST);
-				wp_send_json_success($result);
-				if(isset($_POST['_redirect']) AND $result){
-					wp_redirect($_POST['_redirect']);
-				}elseif(!$result){
-					wp_redirect(user_url('nav=crear-evento?created=false'));
-				}
-				exit;
-			});
-
-			/*
-			 * Create a new special project
-			 * @param String $logged The user that's logged in
-			 * @param Array $event_data Form data to create an event (via $_POST)
-			 */
-			$slim->post('/rest/v1/:logged/project/', function($logged) {
-				
-				$result = museo_create_new_project($logged, $_POST);
-				wp_send_json_success($result);
-				if(isset($_POST['_redirect']) AND $result){
-					wp_redirect($_POST['_redirect']);
-				}elseif(!$result){
-					wp_redirect(user_url('nav=create-project?created=false'));
-				}
-				exit;
-			});
-
-		
-		/*                                    
-		 *                                           _        
-		 *   ___ ___  _ __ ___  _ __ ___   ___ _ __ | |_ ___  
-		 *  / __/ _ \| '_ ` _ \| '_ ` _ \ / _ \ '_ \| __/ __| 
-		 * | (_| (_) | | | | | | | | | | |  __/ | | | |_\__ \ 
-		 *  \___\___/|_| |_| |_|_| |_| |_|\___|_| |_|\__|___/
-		 *                                                   
-		 */
-		
-			/*
-			 * Post a new comment to an event
-			 * @param String $logged_user The user posting the comment
-			 * @param Int $event_id The event where the comment is posted (via $_POST)
-			 * @param String $comment_content The content of the comment (via $_POST)
-			 * @TO DO Implement replies (indented comments)
-			 */
-			$slim->post('/rest/v1/:logged_user/events/comments/',function($logged_user) {
-				if(post_comment_to_event($logged_user)) 
-					wp_send_json_success();
-				wp_send_json_error('There was a problem posting your comment');
-				exit;
-			});
-			
-			/*
-			 * Get comments from a certain event
-			 * @param Int $event_id
-			 * @TO DO Implement replies (indented comments)
-			 */
-			$slim->get('/rest/v1/events/comments/:event_id/:offset',function($event_id, $offset) {
-				return get_event_comments($event_id, $offset);
-				exit;
-			});
-
-			/*
-			 * Get comments from a certain user
-			 * @param Int $user_id
-			 * 
-			 */
-			$slim->get('/rest/v1/:u_login/comments',function($user_login) {
-				$user = get_user_by('login', $user_login );
-				echo mobile_get_user_comments($user->ID);
-				exit;
-			});
-
-			/*
-			 * Upvote a comment
-			 * @param String $user_login
-			 * @param Int $comment_id
-			 */
-			$slim->post('/rest/v1/:u_login/upvote/:c_id', function( $user_login, $comment_id) {
-				
-				$user = get_user_by('login', $user_login );
-				$comment = get_comment( $comment_id );
-				
-				$args = array(
-							'comment_id' 		=> $comment_id,
-							'parent_id' 		=> $comment->comment_post_ID,
-							'comment_author_id' => $comment->user_id,
-							'vote' 				=> 'up',
-							'voter'				=> $user
-						);
-				if(vote_comment($args)) wp_send_json_success();
-				exit;
-			});
-
-			/*
-			 * Downvote a comment
-			 * @param String $user_login
-			 * @param Int $comment_id
-			 */
-			$slim->post('/rest/v1/:u_login/downvote/:c_id', function( $user_login, $comment_id) {
-				
-				$user = get_user_by('login', $user_login );
-				$comment = get_comment( $comment_id );
-				
-				$args = array(
-							'comment_id' 		=> $comment_id,
-							'parent_id' 		=> $comment->comment_post_ID,
-							'comment_author_id' => $comment->user_id,
-							'vote' 				=> 'down',
-							'voter'				=> $user
-						);
-				if(vote_comment($args)) wp_send_json_success();
-				exit;
-			});
-
-		
-		/*                                    
-		 *   __   _____ _ __  _   _  ___  ___ 
-		 *   \ \ / / _ \ '_ \| | | |/ _ \/ __|
-		 *    \ V /  __/ | | | |_| |  __/\__ \
-		 *     \_/ \___|_| |_|\__,_|\___||___/
-		 *                                    
-		 */
-		
-			/*
-			 * Get venue single data
-			 * @param Int $venue_id
-			 * 
-			 */
-			$slim->get('/rest/v1/:user_login/venues/:venue_id/',function($user_login, $venue_id) {
-				wp_send_json_success(get_venue_profile($venue_id, $user_login));
-				exit;
-			});
 
 
 	   

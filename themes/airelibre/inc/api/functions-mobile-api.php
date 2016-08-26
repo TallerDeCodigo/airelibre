@@ -160,38 +160,65 @@ function mobile_login_check($user_id, $user_token){
 	wp_send_json_success();
 }
 
-// Feed
-function fetch_main_feed(){
+	// Feed
+	function fetch_main_feed(){
 
-	$entries = fetch_home();
-		
-	foreach ($entries as $index => $entry) {
+		$entries = fetch_home();
+			
+		foreach ($entries as $index => $entry) {
 
-		$product_price 			= (get_post_meta($entry->ID,'precio_producto', true) != '') ? get_post_meta($entry->ID,'precio_producto', true) : NULL;
-		$product_author 		= (get_user_by("id", $entry->post_author)) ? get_user_by("id", $entry->post_author) : NULL;
+			$product_price 			= (get_post_meta($entry->ID,'precio_producto', true) != '') ? get_post_meta($entry->ID,'precio_producto', true) : NULL;
+			$product_author 		= (get_user_by("id", $entry->post_author)) ? get_user_by("id", $entry->post_author) : NULL;
 
-		$designer_brand			= $product_author->data;
-		$trimmed_description 	= ($entry->post_content !== '') ? wp_trim_words( $entry->post_content, $num_words = 15, $more = '...' ) : NULL;
-		$post_thumbnail_id = get_post_thumbnail_id($entry->ID);
-		$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'large');
-		$post_thumbnail_url = $post_thumbnail_url[0];
-		$foto_user = get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
+			$designer_brand			= $product_author->data;
+			$trimmed_description 	= ($entry->post_content !== '') ? wp_trim_words( $entry->post_content, $num_words = 15, $more = '...' ) : NULL;
+			$post_thumbnail_id = get_post_thumbnail_id($entry->ID);
+			$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'large');
+			$post_thumbnail_url = $post_thumbnail_url[0];
+			$foto_user = get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
 
-		
-		$entries_feed['pool'][] = array(
-								'ID' 					=> $entry->ID,
-								'title' 				=> $entry->post_title,
-								'excerpt' 				=> $trimmed_description,
-								'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
-								'type'					=> $entry->post_type,
-								$entry->post_type		=> true,
-							);
+			
+			$entries_feed['pool'][] = array(
+									'ID' 					=> $entry->ID,
+									'title' 				=> $entry->post_title,
+									'excerpt' 				=> $trimmed_description,
+									'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
+									'type'					=> $entry->post_type,
+									$entry->post_type		=> true,
+								);
 
-		
+			
+		}
+
+		return json_encode($entries_feed);
 	}
 
-	return json_encode($entries_feed);
-}
+
+	function fetch_archive_feed($kind = NULL){
+		if($kind == "recent")
+			$kind = array("columna","podcast");
+		$args = array(
+					"post_type" 		=> $kind,
+					"post_status"		=> "publish",
+					"orderby"			=> "date",
+					"posts_per_page"	=> 5
+				);
+		$results = get_posts($args);
+		$final = array("pool" => array(), "count" => 0);
+		foreach ($results as &$each_result) {
+			$final["pool"][] = array(
+									"ID"	=> $each_result->ID,
+									"title" => $each_result->post_title,
+									"slug" 	=> $each_result->post_name,
+									"thumb" => get_the_post_thumbnail_url( $each_result->ID, "medium" ),
+									"excerpt" => $each_result->post_excerpt,
+									$each_result->post_type => TRUE
+								);
+				$each_result->{$each_result->post_type} = TRUE;
+		}
+		$final['count'] = count($final["pool"]);
+		return json_encode($final);
+	}
 
 
 	/**
@@ -321,44 +348,21 @@ function fetch_main_feed(){
 	 */
 	function fetch_me_information($user_login  = NULL){
 
-		$search_brand = -1;
-		$search_model = -1;
 		$user = get_user_by("login", $user_login);
 		$userData = get_userdata( $user->ID );
 
-		$assigned_terms = wp_get_object_terms( $user->ID, 'user_category' );
 		$foto_user = get_user_meta( $user->ID, 'foto_user', TRUE );
 		$first_name = get_user_meta( $user->ID, 'first_name', TRUE );
 		$last_name = get_user_meta( $user->ID, 'last_name', TRUE );
-		$printer_brand = get_user_meta( $user->ID, 'printer_brand', TRUE );
-		$printer_model = get_user_meta( $user->ID, 'printer_model', TRUE );
-		$bio = get_user_meta( $user->ID, 'user_3dbio', TRUE );
 
-		$brand_object = get_term_by("id", intval($printer_brand), "printer-model");
-
-		$model_object = get_term_by("id", intval($printer_model), "printer-model");
-
-		$catalogue = file_get_contents(THEMEPATH."inc/pModels.json");
-		$catalogue = json_decode($catalogue);
-		$catalogue = (array) $catalogue;
-
-		if($brand_object !== FALSE)
-			$search_brand = array_search($brand_object->name, array_keys($catalogue), TRUE);
-
-		if($model_object !== FALSE)
-			$search_model = intval(array_search($model_object->name, $catalogue[$brand_object->name]));
-
+	
 		$me =   array(
 					"ID" 				=> $user->ID,
 					"login" 			=> $userData->data->user_login,
 					"first_name" 		=> $first_name,
 					"last_name" 		=> $last_name,
 					"email" 			=> $userData->data->user_email,
-					"bio" 				=> $bio,
-					"printer_brand" 	=> $printer_brand,
-					"printer_model" 	=> $printer_model,
-					"cat_printer_brand" => $search_brand,
-					"cat_printer_model" => $search_model,
+					"bio" 				=> $userData->data->description,
 					"display_name" 		=> $userData->data->display_name,
 					"profile_pic" 		=> ($foto_user) ? $foto_user : null,
 					"role" 				=> $user->roles[0],
@@ -366,47 +370,8 @@ function fetch_main_feed(){
 					"categories" 		=> array(),
 				);
 
-		if($printer_model !== -1)
-			$me['models_already'] =	$catalogue[$brand_object->name];
-
-		foreach ($assigned_terms as $each_term){
-			$me['categories'][] =   array(
-										"ID" => $each_term->term_id,
-										"name" => $each_term->name,
-										"slug" => $each_term->slug
-									);
-			$me['is_'.$each_term->slug] = true;
-		}
-
 		return wp_send_json($me);
 		
-	}
-
-
-	/**
-	 * Fetch search page composite layout
-	 * @param String $user_logged
-	 * @return JSON Object
-	 */
-	function fetch_search_composite($user_logged = NULL){
-
-		$previous = array("pool" => array(), "count" => 0);
-		/* Get categories from another endpoint */
-		$categories = file_get_contents(site_url('rest/v1/content/enum/categories/'));
-		$categories = json_decode($categories);
-		/* Fetch 4 featured products */
-		$featured 	= fetch_featured_products();
-		/* Get previous searches */
-		// if($logged){
-		// 	// $previous 	= fetch_previous_searches();
-		// }
-		$composite = array(
-									"featured" 		=> $featured,
-									"previous" 		=> $previous,
-									"categories" 	=> $categories,
-							);
-
-		return json_encode($composite);
 	}
 
 	/**
