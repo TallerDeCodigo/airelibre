@@ -95,10 +95,20 @@ class User{
 	 * @return $success JSON encoded success, if user was created response contains also an object with the user info
 	 * NOTE: If no password is passed the account may become inaccessible if created outside social login methods
 	 */
-	public function create_if__notExists($username, $email, $attrs = array(), $autologin = TRUE){
-		
+	public function create_if__notExists($email, $attrs = array(), $autologin = TRUE){
+		$username = str_replace("@", "_", $user);
+		$username = str_replace(".", "", $username);
+		// file_put_contents(
+		// 	'/logs/php.log',
+		// 	var_export( $username, true ) . PHP_EOL,
+		// 	FILE_APPEND
+		// );
 		$found = $this->check_if_user_exists($username, $email);
-		
+		// file_put_contents(
+		// 	'/logs/php.log',
+		// 	var_export( $found, true ) . PHP_EOL,
+		// 	FILE_APPEND
+		// );
 		if(!$found){
 			$password = isset($attrs['password']) ? $attrs['password'] : wp_generate_password();
 			$user_id = $this->create($username,  $password, $email, $attrs);

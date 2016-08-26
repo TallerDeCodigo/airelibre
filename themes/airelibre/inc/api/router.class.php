@@ -135,12 +135,12 @@ class Router{
 			$slim->post('/rest/v1/auth/user/', function () {
 
 				extract($_POST);
-				if (!isset($username)) wp_send_json_error('Please provide a username');
+				if (!isset($email)) wp_send_json_error('Please provide a username');
 				
 				/* Create user object */
 				$User 	= new User();
 
-				$created = $User->create_if__notExists($username, $email, $attrs, FALSE);
+				$created = $User->create_if__notExists($email, $attrs, FALSE);
 				if($created){
 					if( isset($attrs['login_redirect']) 
 						 AND (!$attrs['login_redirect'] OR $attrs['login_redirect'] == FALSE)
@@ -161,9 +161,12 @@ class Router{
 			 * Check if user exists
 			 * 
 			 */
-			$slim->get('/rest/v1/user/exists/:username', function ($username) {
+			$slim->get('/rest/v1/user/exists/', function () {
 				$User = new User();
 				/* Create user */
+				$email = isser($_GET['email']) ? $email : NULL;
+				if(!$email)
+					json_encode(FALSE);
 				if($User->_username_exists($username)){
 					$user = get_user_by("id", $user_id);
 					$json_response = array(
@@ -173,7 +176,7 @@ class Router{
 										);
 					wp_send_json_success($json_response);
 				}
-				wp_send_json_error();
+				json_encode(FALSE);
 				exit;
 			});
 

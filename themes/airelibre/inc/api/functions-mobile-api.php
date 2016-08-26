@@ -382,33 +382,6 @@ function fetch_main_feed(){
 		
 	}
 
-
-	/**
-	 * Fetch search page composite layout
-	 * @param String $user_logged
-	 * @return JSON Object
-	 */
-	function fetch_search_composite($user_logged = NULL){
-
-		$previous = array("pool" => array(), "count" => 0);
-		/* Get categories from another endpoint */
-		$categories = file_get_contents(site_url('rest/v1/content/enum/categories/'));
-		$categories = json_decode($categories);
-		/* Fetch 4 featured products */
-		$featured 	= fetch_featured_products();
-		/* Get previous searches */
-		// if($logged){
-		// 	// $previous 	= fetch_previous_searches();
-		// }
-		$composite = array(
-									"featured" 		=> $featured,
-									"previous" 		=> $previous,
-									"categories" 	=> $categories,
-							);
-
-		return json_encode($composite);
-	}
-
 	/**
 	 * Fetch product detail information
 	 * @param Int $product_id
