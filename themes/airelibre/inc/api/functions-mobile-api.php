@@ -160,38 +160,65 @@ function mobile_login_check($user_id, $user_token){
 	wp_send_json_success();
 }
 
-// Feed
-function fetch_main_feed(){
+	// Feed
+	function fetch_main_feed(){
 
-	$entries = fetch_home();
-		
-	foreach ($entries as $index => $entry) {
+		$entries = fetch_home();
+			
+		foreach ($entries as $index => $entry) {
 
-		$product_price 			= (get_post_meta($entry->ID,'precio_producto', true) != '') ? get_post_meta($entry->ID,'precio_producto', true) : NULL;
-		$product_author 		= (get_user_by("id", $entry->post_author)) ? get_user_by("id", $entry->post_author) : NULL;
+			$product_price 			= (get_post_meta($entry->ID,'precio_producto', true) != '') ? get_post_meta($entry->ID,'precio_producto', true) : NULL;
+			$product_author 		= (get_user_by("id", $entry->post_author)) ? get_user_by("id", $entry->post_author) : NULL;
 
-		$designer_brand			= $product_author->data;
-		$trimmed_description 	= ($entry->post_content !== '') ? wp_trim_words( $entry->post_content, $num_words = 15, $more = '...' ) : NULL;
-		$post_thumbnail_id = get_post_thumbnail_id($entry->ID);
-		$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'large');
-		$post_thumbnail_url = $post_thumbnail_url[0];
-		$foto_user = get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
+			$designer_brand			= $product_author->data;
+			$trimmed_description 	= ($entry->post_content !== '') ? wp_trim_words( $entry->post_content, $num_words = 15, $more = '...' ) : NULL;
+			$post_thumbnail_id = get_post_thumbnail_id($entry->ID);
+			$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'large');
+			$post_thumbnail_url = $post_thumbnail_url[0];
+			$foto_user = get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
 
-		
-		$entries_feed['pool'][] = array(
-								'ID' 					=> $entry->ID,
-								'title' 				=> $entry->post_title,
-								'excerpt' 				=> $trimmed_description,
-								'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
-								'type'					=> $entry->post_type,
-								$entry->post_type		=> true,
-							);
+			
+			$entries_feed['pool'][] = array(
+									'ID' 					=> $entry->ID,
+									'title' 				=> $entry->post_title,
+									'excerpt' 				=> $trimmed_description,
+									'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
+									'type'					=> $entry->post_type,
+									$entry->post_type		=> true,
+								);
 
-		
+			
+		}
+
+		return json_encode($entries_feed);
 	}
 
-	return json_encode($entries_feed);
-}
+
+	function fetch_archive_feed($kind = NULL){
+		if($kind == "recent")
+			$kind = array("columna","podcast");
+		$args = array(
+					"post_type" 		=> $kind,
+					"post_status"		=> "publish",
+					"orderby"			=> "date",
+					"posts_per_page"	=> 5
+				);
+		$results = get_posts($args);
+		$final = array("pool" => array(), "count" => 0);
+		foreach ($results as &$each_result) {
+			$final["pool"][] = array(
+									"ID"	=> $each_result->ID,
+									"title" => $each_result->post_title,
+									"slug" 	=> $each_result->post_name,
+									"thumb" => get_the_post_thumbnail_url( $each_result->ID, "medium" ),
+									"excerpt" => $each_result->post_excerpt,
+									$each_result->post_type => TRUE
+								);
+				$each_result->{$each_result->post_type} = TRUE;
+		}
+		$final['count'] = count($final["pool"]);
+		return json_encode($final);
+	}
 
 
 	/**
