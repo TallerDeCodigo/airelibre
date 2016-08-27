@@ -34,6 +34,33 @@
 			);
 
 			register_taxonomy( 'autor', array('podcast', 'columna'), $args );
+
+		// PROGRAMAS
+		if( ! taxonomy_exists('programas')){
+
+			$labels = array(
+				'name'              => 'Programas',
+				'singular_name'     => 'Programa',
+				'search_items'      => 'Buscar',
+				'all_items'         => 'Todos',
+				'edit_item'         => 'Editar Programa',
+				'update_item'       => 'Actualizar Programa',
+				'add_new_item'      => 'Nuevo Programa',
+				'new_item_name'     => 'Nombre Nuevo Programa',
+				'menu_name'         => 'Programas'
+			);
+
+			$args = array(
+				'hierarchical'      => true,
+				'labels'            => $labels,
+				'show_ui'           => true,
+				'show_admin_column' => true,
+				'show_in_nav_menus' => true,
+				'query_var'         => true,
+				'rewrite'           => array( 'slug' => 'programas' ),
+			);
+
+			register_taxonomy( 'programa', array('podcast'), $args );
 		}
 		
 		
