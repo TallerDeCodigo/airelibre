@@ -162,7 +162,7 @@
 
 
 	add_filter('excerpt_length', function($length){
-		return 35;
+		return 25;
 	});
 
 

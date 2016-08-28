@@ -204,15 +204,16 @@ footer a {text-decoration:none;color:inherit;}
 
 .single h2 {font-size:310%;letter-spacing:0.05em;}
 .single h3 {font-size:180%;letter-spacing:0.05em;}
-.quote {font-family:'Crimson';font-weight:600;max-width:450px;font-size:164%;margin-bottom:55px;line-height:150%;}
-.quote span {display:block;}
+blockquote p {font-family:'Crimson';font-weight:600;max-width:450px;font-size:164%;margin-bottom:20px!important;line-height:150%; color: #000!important;}
+blockquote span {display:block;}
 .red-comment {color:#ff3752;max-width:470px;font-size:215%;margin-bottom:30px;}
 .big-img {width:100%;height:auto;}
 .img-foot {font-size:93%;color:#ababab;margin-bottom:30px;}
 .img-foot span {color:#000;font-weight:900;}
 .single p {color:#5c5c5c;font-family:'Crimson';font-weight:300;font-size:164%;line-height:150%;}
 .single p span {font-family:'Regular';font-weight:900;color:#000;font-size:110%;border-bottom:4px solid #000;height:34px;}
-.more-author {border-bottom:2px solid #979797;border-top:2px solid #979797;font-size:162%;overflow:hidden;font-style:italic;color:#2a3545;margin-top:35px;}
+.more-author {border-bottom:2px solid #979797;border-top:2px solid #979797;font-size:162%;overflow:hidden;font-style:italic;color:#2a3545;margin-top:35px; text-transform: uppercase; text-decoration: none;}
+.more-author a {color:#2a3545; text-transform: uppercase; text-decoration: none;}
 
 .info-left span {display:block;}
 .left-author {color:#0245ff;}

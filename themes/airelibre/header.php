@@ -22,8 +22,8 @@
 		<header class="desktop">
 			<div class="wrapper">
 				<div class="logo left">
-					<img class="logogif" src="<?php echo THEMEPATH; ?>images/logo.gif">
-					<img class="logosvg" src="<?php echo THEMEPATH; ?>images/mobile.svg">
+					<a href="<?php echo site_url(); ?>"><img class="logogif" src="<?php echo THEMEPATH; ?>images/logo.gif"></a>
+					<a href="<?php echo site_url(); ?>"><img class="logosvg" src="<?php echo THEMEPATH; ?>images/mobile.svg"></a>
 				</div>
 				<div class="menu right">
 					<nav class="social">
@@ -31,7 +31,7 @@
 						<a href="#" class="nav-item"><img src="<?php echo THEMEPATH; ?>images/social/fb.svg"></a>
 						<a href="#" class="nav-item"><img src="<?php echo THEMEPATH; ?>images/social/sp.svg"></a>
 						<a href="#" class="nav-item"><img src="<?php echo THEMEPATH; ?>images/social/sc.svg"></a>
-						<div class="nav-item ultima">HOLA, MARIANA</div>
+						<!-- <div class="nav-item ultima">HOLA, MARIANA</div> -->
 					</nav>
 					<nav class="botones">
 						<a data-filter="*" class="nav-item">RADIO</a>
