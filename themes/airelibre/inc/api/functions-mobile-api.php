@@ -159,6 +159,15 @@ function mobile_pseudo_logout($logged){
 function mobile_login_check($user_id, $user_token){
 	wp_send_json_success();
 }
+	
+	function fetchRadio(){
+		/*** TODO Check time and send playlist with covers ***/
+		// return array(
+		// 				""
+		// 			);
+		return "http://airelibre.dev/wp-content/uploads/radio/1.mp3";
+	}
+
 
 	// Feed
 	function fetch_main_feed(){
@@ -172,7 +181,7 @@ function mobile_login_check($user_id, $user_token){
 
 			$designer_brand			= $product_author->data;
 			$trimmed_description 	= ($entry->post_content !== '') ? wp_trim_words( $entry->post_content, $num_words = 15, $more = '...' ) : NULL;
-			$post_thumbnail_id = get_post_thumbnail_id($entry->ID);
+			$post_thumbnail_id 	= get_post_thumbnail_id($entry->ID);
 			$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'large');
 			$post_thumbnail_url = $post_thumbnail_url[0];
 			$foto_user = get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
@@ -189,10 +198,10 @@ function mobile_login_check($user_id, $user_token){
 
 			
 		}
+		$entries_feed['radio'] = fetchRadio();
 
 		return json_encode($entries_feed);
 	}
-
 
 	function fetch_archive_feed($kind = NULL){
 		if($kind == "recent")
