@@ -24,7 +24,7 @@
 			</div>
 			<!-- <img class="big-img" src="<?php echo THEMEPATH; ?>images/mad.png" /> -->
 			<!-- <div class="img-foot"><span>Wikimedia Commons photograph of a restaurant in Jimma, Ethiopia.</span> Photo by Rod Waddington. Some rights reserved.</div> -->
-			<div class="more-author"><a class="" href="">VER MÁS DE <?php echo $autor->name; ?></a></div>
+			<div class="more-author"><a class="" href="<?php echo site_url();?>/autores/<?php echo $autor->slug; ?>/">VER MÁS DE <?php echo $autor->name; ?></a></div>
 		</section>
 		<?php wp_reset_query(); wp_reset_postdata(); ?>
 		<section class="bottom-single">
