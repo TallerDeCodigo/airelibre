@@ -16,7 +16,7 @@
 			<p class="chromeframe">Estás usando una versión <strong>vieja</strong> de tu explorador. Por favor <a href="http://browsehappy.com/" target="_blank"> actualiza tu explorador</a> para tener una experiencia completa.</p>
 		<![endif]-->
 		<header class="mobile">
-			<a class="mob-logo" href="#"><img src="<?php echo THEMEPATH; ?>images/mobile.svg"></a>
+			<a class="mob-logo" href="<?php echo site_url(''); ?>"><img src="<?php echo THEMEPATH; ?>images/mobile.svg"></a>
 		</header>
 		<div id="nav-icon3"><span></span><span></span><span></span><span></span></div>
 		<header class="desktop">

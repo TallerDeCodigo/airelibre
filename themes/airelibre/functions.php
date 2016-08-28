@@ -291,7 +291,7 @@
 	  $config = array(
 	    'id' => 'info_programa_meta',          // meta box id, unique per meta box
 	    'title' => 'Información del programa',          // meta box title
-	    'pages' => array('programa'),        // taxonomy name, accept categories, post_tag and custom taxonomies
+	    'pages' => array('programa', 'autor'),        // taxonomy name, accept categories, post_tag and custom taxonomies
 	    'context' => 'normal',            // where the meta box appear: normal (default), advanced, side; optional
 	    'fields' => array(),            // list of meta fields (can be added by field arrays)
 	    'local_images' => false,          // Use local or hosted images (meta box images for add/remove)
@@ -310,7 +310,7 @@
 	  
 	  
 	  //Image field
-	  $my_meta->addImage($prefix.'image_field_id',array('name'=> __('Portada del programa ','tax-meta')));
+	  $my_meta->addImage($prefix.'image_field_id',array('name'=> __('Portada ','tax-meta')));
 	 
 	  /*
 	   * To Create a reapeater Block first create an array of fields
@@ -320,7 +320,7 @@
 	  $repeater_fields[] = $my_meta->addText($prefix.'re_text_field_id',array('name'=> __('My Text ','tax-meta')),true);
 	  $repeater_fields[] = $my_meta->addTextarea($prefix.'re_textarea_field_id',array('name'=> __('My Textarea ','tax-meta')),true);
 	  $repeater_fields[] = $my_meta->addCheckbox($prefix.'re_checkbox_field_id',array('name'=> __('My Checkbox ','tax-meta')),true);
-	  $repeater_fields[] = $my_meta->addImage($prefix.'image_field_id',array('name'=> __('Portada del programa ','tax-meta')),true);
+	  $repeater_fields[] = $my_meta->addImage($prefix.'image_field_id',array('name'=> __('Portada ','tax-meta')),true);
 	  
 	  /*
 	   * Then just add the fields to the repeater block
