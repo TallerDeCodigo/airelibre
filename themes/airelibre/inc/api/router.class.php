@@ -240,7 +240,6 @@ class Router{
 			 * @param Int $offset Number of offsetted posts pages for pagination purposes
 			 * @param String $filter
 			 * @type ANNONYMOUS
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/feed/',function (){
 				// TODO Use user information to cure feed
@@ -254,13 +253,28 @@ class Router{
 			 * @param Int $offset Number of offsetted posts pages for pagination purposes
 			 * @param String $filter
 			 * @type ANNONYMOUS
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/feed/:kind/',function ($kind){
 				// TODO Use user information to cure feed
 				echo fetch_archive_feed($kind);
 				exit;
 			});
+
+			/**
+			 * Get podcast by episode
+			 * @param String $episode_id
+			 */
+			$slim->get('/rest/v1/podcasts/:episode_id/', function ($episode_id){
+				// TODO Use user information to cure feed
+				echo fetch_episode($episode_id);
+				exit;
+			});
+
+
+
+
+
+
 
 			/**
 			 * Get home feed for a logged user
@@ -281,7 +295,6 @@ class Router{
 			 * @param Integer $limit
 			 * @param Integer $offset for pagination
 			 * @category GET Endpoint
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/content/enum/categories/:level/:limit(/:offset)/', function($level, $limit = 5, $offset = 0){
 				echo fetch_categories($level, $limit, $offset);
@@ -294,7 +307,6 @@ class Router{
 			 * @param Integer $limit
 			 * @param Integer $offset for pagination
 			 * @category GET Endpoint
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/content/enum/categories/', function(){
 				echo fetch_categories_tree();
@@ -306,7 +318,6 @@ class Router{
 			 * @param String $taxonomy ['category', 'design-tools', 'license']
 			 * @param Integer $term_id 
 			 * @category GET Endpoint
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/content/taxonomy/:taxonomy/:term_id/', function($taxonomy = 'category', $term_id){
 				echo fetch_taxonomy_archive($term_id, $taxonomy);
@@ -316,7 +327,6 @@ class Router{
 			/**
 			 * Fetch column detai
 			 * @category GET Endpoint
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/columns/:column_id/', function($column_id = NULL){
 				echo fetch_column_detail($column_id);
@@ -326,7 +336,6 @@ class Router{
 			/**
 			 * Fetch post detail
 			 * @category GET Endpoint
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/content/:post_id/', function($post_id){
 				echo fetch_post_detail($post_id);
@@ -338,7 +347,6 @@ class Router{
 			 * @param String $filter
 			 * @param Integer $limit defaults to 5
 			 * @category GET Endpoint
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/content/users/:filter(/:limit)/', function($filter, $limit = 5){
 				echo fetch_randomUsers($filter, $limit);
@@ -350,7 +358,6 @@ class Router{
 			 * @param String $filter
 			 * @param Integer $limit defaults to 5
 			 * @category GET Endpoint
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/:logged_user/content/users/:filter(/:limit)/', function($logged_user, $filter, $limit = 5){
 				$user = get_user_by("slug", $logged_user);
@@ -370,7 +377,6 @@ class Router{
 			/**
 			 * Get search elements
 			 * @category GET Endpoint
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1(/:logged)/content/search-composite/', function($logged = 'not_logged'){
 
@@ -382,7 +388,6 @@ class Router{
 			 * Search website
 			 * @param String $s
 			 * @todo Divide search by: people, tag, events and accept the parameter as a filter
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/content/search/:s(/:offset)/',function( $s, $offset = 0) {
 				echo json_encode(search_dedalo($s, $offset));
@@ -394,7 +399,6 @@ class Router{
 			 * @param String $message via $_POST
 			 * @param File $file via $_FILES
 			 * @return Array/Object advanced results compound
-			 * Dedalo approved
 			 */
 			$slim->post('/rest/v1/:logged_user/content/search/advanced/',function($logged_user = NULL) {
 				$args = NULL;
@@ -441,7 +445,6 @@ class Router{
 			 * User ME
 			 * @return JSON formatted user basic info
 			 * TO DO: Check data sent by this endpoint and activate it
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/:logged/me/', function ($logged = NULL) {
 				echo fetch_me_information($logged);
@@ -452,7 +455,6 @@ class Router{
 			 * Get user dashboard
 			 * @param String $logged User requesting the profile
 			 * @return JSON formatted dashboard information
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/:logged/dashboard/', function ($logged){
 				echo fetch_user_dashboard($logged);
@@ -464,7 +466,6 @@ class Router{
 			 * @param String $logged User requesting the profile
 			 * @param String $queried_login User whose profile is requested
 			 * @return JSON formatted user profile info
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/:logged/maker/:queried_id/', function ($logged, $queried_id){
 				echo fetch_user_profile($queried_id, $logged);
@@ -475,7 +476,6 @@ class Router{
 			 * @param String $logged User requesting the profile
 			 * @param String $queried_login User whose profile is requested
 			 * @return JSON formatted user profile info
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/min/:logged/maker/:queried_id/', function ($logged, $queried_id){
 				echo min_fetch_user_profile($queried_id, $logged);
@@ -488,7 +488,6 @@ class Router{
 			 * @param String $queried_login User whose profile is requested
 			 * @param String $@ User location via GET
 			 * @return JSON formatted user profile info
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/around/:logged/makers/:filter(/:limit)', function ($logged, $filter, $limit = 10){
 				if(!isset($_GET['@']))
@@ -506,7 +505,6 @@ class Router{
 			 * @see museografo_completar_perfil
 			 * @return JSON formatted user profile info
 			 * @todo Make this endpoint a PATCH
-			 * Dedalo approved
 			 */
 			$slim->post('/rest/v1/user/:user_login/', function($user_login){
 				// $app = \Slim\Slim::getInstance();
@@ -586,7 +584,6 @@ class Router{
 			 * @param Int $who The user ID to follow
 			 * @param String $type The type of user who is following
 			 * @return JSON success
-			 * Dedalo approved
 			 */
 			$slim->post('/rest/v1/:who_follows/follow',function($who_follows) {
 
@@ -602,7 +599,6 @@ class Router{
 			 * @param Int $who_follows The active logged user
 			 * @param Int $who The user ID to unfollow
 			 * @return JSON success
-			 * Dedalo approved
 			 */
 			$slim->post('/rest/v1/:who_follows/unfollow',function($who_follows) {
 				
@@ -617,7 +613,6 @@ class Router{
 			/* Follow Category
 			 * @param String $user_login Who follows
 			 * @param $cat_id via $_POST
-			 * Dedalo approved
 			 */
 			$slim->post('/rest/v1/:user_login/categories/follow/', function($user_login) {
 				$cat_id = (!empty($_POST) AND isset($_POST['cat_id'])) ? $_POST['cat_id'] : NULL ; 
@@ -628,7 +623,6 @@ class Router{
 			/* Unfollow Cateogry
 			 * @param String $user_login Who follows
 			 * @param $cat_id via $_POST
-			 * Dedalo approved
 			 */
 			$slim->post('/rest/v1/:user_login/categories/unfollow/',function($user_login) {
 				$cat_id = (!empty($_POST) AND isset($_POST['cat_id'])) ? $_POST['cat_id'] : NULL ; 
@@ -639,7 +633,6 @@ class Router{
 			/* Check if user is following category
 			 * @param String $user_login Who
 			 * @param Integer $cat_id Which
-			 * Dedalo approved
 			 */
 			$slim->get('/rest/v1/:user_login/categories/is_following/:cat_id/',function($user_login, $cat_id) {
 				echo (is_following_cat($user_login, $cat_id)) ? "true" : "false";
@@ -786,7 +779,6 @@ class Router{
 		 * Select printer for my product
 		 * @param String $user_login
 		 * @param Int $ref_id
-		 * DEDALO APPROVED
 		 */
 		$slim->post('/rest/v1/:user_login/purchase/:ref_id',function($user_login, $ref_id) {
 			extract($_POST);

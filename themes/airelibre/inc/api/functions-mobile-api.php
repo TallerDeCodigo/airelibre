@@ -176,26 +176,32 @@ function mobile_login_check($user_id, $user_token){
 			
 		foreach ($entries as $index => $entry) {
 
-			$product_price 			= (get_post_meta($entry->ID,'precio_producto', true) != '') ? get_post_meta($entry->ID,'precio_producto', true) : NULL;
-			$product_author 		= (get_user_by("id", $entry->post_author)) ? get_user_by("id", $entry->post_author) : NULL;
 
-			$designer_brand			= $product_author->data;
 			$trimmed_description 	= ($entry->post_content !== '') ? wp_trim_words( $entry->post_content, $num_words = 15, $more = '...' ) : NULL;
 			$post_thumbnail_id 	= get_post_thumbnail_id($entry->ID);
-			$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'large');
+			$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'medium');
 			$post_thumbnail_url = $post_thumbnail_url[0];
-			$foto_user = get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
+			$foto_user = get_user_meta( $entry->author, 'foto_user', TRUE );
 
+			$programa =  wp_get_post_terms($entry->ID, "programa");
+			$programa = !empty($programa) ? $programa[0]->name : NULL;
+			
+			$authors_concat =  "";
+			$authors =  wp_get_post_terms($entry->ID, "autor");
+			if(!empty($authors))
+				$authors_concat = (count($authors) == 1) ? "con {$authors[0]->name}" :  "con {$authors[0]->name} y {$authors[1]->name}";
 			
 			$entries_feed['pool'][] = array(
 									'ID' 					=> $entry->ID,
 									'title' 				=> $entry->post_title,
 									'excerpt' 				=> $trimmed_description,
+									'content' 				=> $entry->post_content,
 									'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
 									'type'					=> $entry->post_type,
+									'programa'				=> $programa,
+									'authors'				=> $authors_concat,
 									$entry->post_type		=> true,
 								);
-
 			
 		}
 		$entries_feed['radio'] = fetchRadio();
@@ -237,13 +243,79 @@ function mobile_login_check($user_id, $user_token){
 	function fetch_home($offset = 0){
 		
 		$args = array(
-				'post_type'   		=> array('columna'),
+				'post_type'   		=> array('columna', 'podcast'),
 				'post_status' 		=> 'publish',
-				'posts_per_page' 	=> 3,
+				'posts_per_page' 	=> 10,
 				'orderby'   		=> 'date',
 			);
 		$query = new WP_Query($args);
 		return $query->posts;
+	}
+
+	/**
+	 * Fetch podcast episodes
+	 * @param $podcast_id
+	 */
+	function fetch_podcast($podcast_id = NULL){
+
+		$args = array(
+					'post_type' => 'podcast',
+					'orderby' 	=> 'date',
+					'order' 	=> 'DESC',
+					'tax_query' => array(
+					    array(
+					    'taxonomy' => 'programa',
+					    'field' => 'id',
+					    'terms' => $podcast_id
+					     )
+					  )
+					);
+		$podcasts = get_posts($args);
+		foreach ($podcasts as $each_podcast) {
+			$thumb = wp_get_attachment_image_src( get_post_thumbnail_id($each_podcast->ID), 'medium');
+			$cover = !empty($thumb) ? $thumb[0] : NULL;
+			$stream = get_post_meta($each_podcast->ID, "_file_url_meta", TRUE);
+
+			$array_temp[] = array(
+									"ID" 		=> $each_podcast->ID,
+									"title" 	=> $each_podcast->post_title,
+									"slug" 		=> $each_podcast->post_name,
+									"cover"		=> $cover,
+									"stream" 	=> $stream,
+									"date" 		=> date("Y-m-d", strtotime($each_podcast->post_date)),
+								);
+		}
+		
+		$return_array  = array (
+									"pool" => $array_temp,
+									"count" => count($array_temp),
+								);
+
+		return $return_array;
+	}
+
+	/**
+	 * Fetch detailed information of podcast episode
+	 * @param $episode_id
+	 */
+	function fetch_episode($episode_id = NULL){
+
+		$podcast =  get_post($episode_id);
+		$podcast_term = wp_get_post_terms($episode_id, "programa");
+		$podcast_term = !empty($podcast_term) ? $podcast_term[0] : NULL;
+		
+		$episodes = fetch_podcast($podcast_term->term_id);
+		
+		$return_array  = array (
+									"ID" 			=> $podcast->ID,
+									"title" 		=> $podcast->post_title,
+									"programa" 		=> $podcast_term->name,
+									"programa_id" 	=> $podcast_term->term_id,
+									"date" 			=> date("Y-m-d", strtotime($post_date)),
+									"episode_count" => $podcast_term->count,
+									"episodes" 		=> $episodes
+								);
+		return json_encode($return_array);
 	}
 
 
