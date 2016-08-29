@@ -375,61 +375,16 @@ class Router{
 		*/
 			
 			/**
-			 * Get search elements
-			 * @category GET Endpoint
-			 */
-			$slim->get('/rest/v1(/:logged)/content/search-composite/', function($logged = 'not_logged'){
-
-				echo fetch_search_composite( $logged );
-				exit;
-			});
-
-			/**
 			 * Search website
 			 * @param String $s
 			 * @todo Divide search by: people, tag, events and accept the parameter as a filter
 			 */
 			$slim->get('/rest/v1/content/search/:s(/:offset)/',function( $s, $offset = 0) {
-				echo json_encode(search_dedalo($s, $offset));
+				echo json_encode(search_airelibre($s, $offset));
 				exit;
 			});
 
-			/**
-			 * Advanced search
-			 * @param String $message via $_POST
-			 * @param File $file via $_FILES
-			 * @return Array/Object advanced results compound
-			 */
-			$slim->post('/rest/v1/:logged_user/content/search/advanced/',function($logged_user = NULL) {
-				$args = NULL;
-				$args['key_string'] = (!empty($_POST) AND isset($_POST['message'])) ? $_POST['message'] : NULL;
-				$args['files'] 	 	= !empty($_FILES) ? $_FILES['file'] : NULL;
-				echo json_encode(exec_advanced_search($logged_user, $args));
-				exit;
-			});
-
-			/**
-			 * Search usernames for autocomplete
-			 * @param String $s
-			 * @category GET Endpoint
-			 */
-			$slim->get('/rest/v1/:logged/search/:s',function($logged, $s) {
-				return search_usernames($logged, $s);
-				exit;
-			});
-
-			/**
-			 * Get products marked as featured
-			 * @param Int $limit
-			 * @category GET Endpoint
-			 */
-			$slim->get('/rest/v1/products/featured(/:limit)', function($limit = 4){
-				echo fetch_featured_products($limit);
-				exit;
-			});
-
-
-
+		
 		/*
 		 *                     __ _ _           
 		 *    _ __  _ __ ___  / _(_) | ___  ___ 
