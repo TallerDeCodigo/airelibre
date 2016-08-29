@@ -230,7 +230,7 @@ class Router{
 			 * @type ANNONYMOUS
 			 * Dedalo approved
 			 */
-			$slim->get('/rest/v1/feed/',function (){
+			$slim->get('/rest/v1/feed/home/',function (){
 				// TODO Use user information to cure feed
 				echo fetch_main_feed();
 				exit;
