@@ -36,7 +36,7 @@
 				<div class="grid-sizer"></div>
 				<?php
 					$args = array(
-							'post_type' => array('columna', 'podcast'),
+							'post_type' => array('columna'),
 							'posts_per_page' => 3,
 							'orderby' => 'rand'
 						);
@@ -46,6 +46,7 @@
 					$posttype = get_post_type();
 					$autores = wp_get_post_terms($post->ID, 'autor');
 					foreach($autores as $autor);
+					$categories = wp_get_post_terms($post->ID, 'category');
 					if($post->ID == $excludeID){ continue; }
 					if($posttype == 'columna'){
 				?>
@@ -61,7 +62,9 @@
 					<div class="art-info">
 						<span class="art-author"><?php echo $autor->name; ?></span>
 						<span class="art-date"><?php echo get_the_date('d/m/Y'); ?></span>
-						<span class="art-categ">[DEPORTES]</span>
+						<?php foreach($categories as $cat){ ?>
+						<span class="art-categ"><a href="<?php echo site_url(); ?>/category/<?php echo $cat->slug; ?>">[<?php echo $cat->name; ?>]</a></span>
+						<?php } ?>
 					</div>
 				</div>
 
@@ -83,7 +86,7 @@
 						<span><?php the_title(); ?></span>
 					</div>
 					<div class="pod-data">junio 15, 2016</div>
-					<a href="#" class="pod-play"><img src="<?php echo THEMEPATH; ?>images/play-blue.svg"></a>
+					
 				</div>
 			
 				<?php } endforeach; wp_reset_postdata(); ?>

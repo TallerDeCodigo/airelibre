@@ -59,6 +59,23 @@
 		<nav class="submenu" style="display:none">
 			<div class="arrow-sub"><img src="<?php echo THEMEPATH; ?>images/down.svg"></div>
 			<div class="wrapper">
+				<?php
+					global $wpdb;
+					$sql ="SELECT * FROM wp_terms wpt
+							INNER JOIN wp_term_relationships wptrel
+							INNER JOIN wp_term_taxonomy wptax
+								ON wptax.term_taxonomy_id = wptrel.term_taxonomy_id
+							WHERE wpt.term_id = wptax.term_id
+							AND wptax.taxonomy = 'autor'
+							GROUP BY wpt.term_id
+							ORDER BY SUBSTR(LTRIM(name), LOCATE(' ',LTRIM(name)));	
+						;";
+					$terms = $wpdb->get_results($sql);
+
+					foreach($terms as $term):
+						echo $term->name.'<br/>';
+					endforeach;
+				?>
 				<div class="letra">
 					<span>A</span>
 					<a href="#">John Akerman</a>

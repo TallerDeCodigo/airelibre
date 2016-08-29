@@ -38,6 +38,7 @@
 
 					$posts = get_posts($args);
 					foreach($posts as $post): setup_postdata($post);
+					$categories = wp_get_post_terms($post->ID, 'category');
 					$posttype = get_post_type();
 					if($posttype == 'columna'){
 				?>
@@ -53,7 +54,9 @@
 					<div class="art-info">
 						<span class="art-author"><?php echo $objeto->name; ?></span>
 						<span class="art-date"><?php echo get_the_date('d/m/Y'); ?></span>
-						<span class="art-categ">[DEPORTES]</span>
+						<?php foreach($categories as $cat){ ?>
+						<span class="art-categ"><a href="<?php echo site_url(); ?>/category/<?php echo $cat->slug; ?>">[<?php echo $cat->name; ?>]</a></span>
+						<?php } ?>
 					</div>
 				</div>
 

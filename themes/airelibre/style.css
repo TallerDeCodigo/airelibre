@@ -172,7 +172,7 @@ footer a {text-decoration:none;color:inherit;}
 .main-page {background:#cecece;padding:5px 0px 120px;position:relative;}
 .grid {margin:0 auto;}
 .grid:after {content:'';display:block;clear:both;}
-.grid-item {float:left;background:#FFF;border:0.45em solid #cecece;border-right:none;border-left:0.85em solid #cecece;overflow:hidden;}
+.grid-item {float:left;background:#FFF;border:0.45em solid #cecece;border-right:none;border-left:0.85em solid #cecece;overflow:hidden; padding-bottom: 10px;}
 .grid-link {text-decoration:none;color:inherit;}
 
 .destacado {position:relative;}
@@ -184,7 +184,7 @@ footer a {text-decoration:none;color:inherit;}
 .art-descr {font-family:'Crimson';font-weight:600;font-size:225%;line-height:110%;padding:10px 15px;}
 .art-info {color:#ababab;padding:10px 15px;font-size:115%;margin-top:18px;}
 .art-info span {display:block;}
-.art-categ {color:#0245ff; display: block; float: left; margin-bottom: 10px}
+.art-categ {color:#0245ff; display: block; float: left;}
 .art-categ a {color:#0245ff; text-decoration: none;}
 
 .grid-item:hover .art-title span {color:#FFF;border-bottom:5px solid #FFF;}
@@ -306,7 +306,7 @@ li.selected {color:#FFF;background:#0023ff;}
 
 
 @media (min-width:1000px) {
-	.main-page, .single, section.podcast {padding-top:150px;}
+	.main-page, .single, section.podcast {padding-top:150px; padding-bottom: 50px;}
 	.person {margin-top:144px;}
 	.mobile,#nav-icon3 {display:none;}
 
