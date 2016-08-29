@@ -221,12 +221,23 @@ function mobile_login_check($user_id, $user_token){
 		$results = get_posts($args);
 		$final = array("pool" => array(), "count" => 0);
 		foreach ($results as &$each_result) {
+			
+			$programa =  wp_get_post_terms($each_result->ID, "programa");
+			$programa = !empty($programa) ? $programa[0]->name : NULL;
+			
+			$authors_concat =  "";
+			$authors =  wp_get_post_terms($each_result->ID, "autor");
+			if(!empty($authors))
+				$authors_concat = (count($authors) == 1) ? "Con: {$authors[0]->name}" :  "Con: {$authors[0]->name} y {$authors[1]->name}";
+
 			$final["pool"][] = array(
 									"ID"	=> $each_result->ID,
 									"title" => $each_result->post_title,
 									"slug" 	=> $each_result->post_name,
 									"thumb_url" => get_the_post_thumbnail_url( $each_result->ID, "medium" ),
 									"excerpt" => $each_result->post_excerpt,
+									'programa'				=> $programa,
+									'authors'				=> $authors_concat,
 									$each_result->post_type => TRUE
 								);
 				$each_result->{$each_result->post_type} = TRUE;
