@@ -3,6 +3,7 @@
 	the_post(); 
 	$autores = wp_get_post_terms($post->ID, 'autor');
 	foreach($autores as $autor);
+	$categories = wp_get_post_terms($post->ID, 'category');
 	$excludeID = $post->ID;
 ?>
 
@@ -15,9 +16,11 @@
 				<div class="info-left">
 					<span class="left-author"><?php echo $autor->name; ?></span>
 					<span class="left-date"><?php echo get_the_date('d/m/Y'); ?></span>
-					<span class="left-tag">[CINE] [POLITICA]</span>
-					<!-- <a href="#">GUARDAR</a>
-					<a href="#">COMPARTIR</a> -->
+					<?php foreach($categories as $cat){ ?>
+					<span class="art-categ"><a href="<?php echo site_url(); ?>/category/<?php echo $cat->slug; ?>">[<?php echo $cat->name; ?>]</a></span>
+					<?php } ?>
+					<!-- <a class="info-action" href="#">GUARDAR</a>
+					<a class="info-action" href="#">COMPARTIR</a> -->
 				</div>
 				<!-- <div class="quote">Una película es como un campo de batalla: tiene amor, odio, acción, violencia y muerte. En una palabra: emociones.<span>–Samuel Fuller, en <i>Pierrot el loco</i></span></div> -->
 				<?php the_content(); ?>

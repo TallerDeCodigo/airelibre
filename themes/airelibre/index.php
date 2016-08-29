@@ -24,6 +24,8 @@
 					$excludeID = $post->ID; 
 					$autores = wp_get_post_terms($post->ID, 'autor');
 					foreach($autores as $autor);
+					$categories = wp_get_post_terms($post->ID, 'category');
+					
 					
 				?>
 				<div class="grid-item destacado grid-item--width2 columna">
@@ -37,7 +39,9 @@
 					<div class="art-info">
 						<span class="art-author"><?php echo $autor->name; ?></span>
 						<span class="art-date"><?php echo get_the_date('d/m/Y'); ?></span>
-						<span class="art-categ">[DEPORTES]</span>
+						<?php foreach($categories as $cat){ ?>
+						<span class="art-categ">[<?php echo $cat->name; ?>]</span>
+						<?php } ?>
 					</div>
 				</div>
 
@@ -55,6 +59,8 @@
 					$posttype = get_post_type();
 					$autores = wp_get_post_terms($post->ID, 'autor');
 					foreach($autores as $autor);
+					$categories = wp_get_post_terms($post->ID, 'category');
+					
 					if($post->ID == $excludeID){ continue; }
 					if($posttype == 'columna'){
 				?>
@@ -70,7 +76,9 @@
 					<div class="art-info">
 						<span class="art-author"><?php echo $autor->name; ?></span>
 						<span class="art-date"><?php echo get_the_date('d/m/Y'); ?></span>
-						<span class="art-categ">[DEPORTES]</span>
+						<?php foreach($categories as $cat){ ?>
+						<span class="art-categ">[<?php echo $cat->name; ?>]</span>
+						<?php } ?>
 					</div>
 				</div>
 
