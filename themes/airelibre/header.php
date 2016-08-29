@@ -64,114 +64,34 @@
 					$sql ="SELECT * FROM wp_terms wpt
 							INNER JOIN wp_term_relationships wptrel
 							INNER JOIN wp_term_taxonomy wptax
-								ON wptax.term_taxonomy_id = wptrel.term_taxonomy_id
 							WHERE wpt.term_id = wptax.term_id
 							AND wptax.taxonomy = 'autor'
 							GROUP BY wpt.term_id
-							ORDER BY SUBSTR(LTRIM(name), LOCATE(' ',LTRIM(name)));	
-						;";
+							ORDER BY SUBSTR(LTRIM(name), LOCATE(' ',LTRIM(name)));";
 					$terms = $wpdb->get_results($sql);
-
+					$letra = '';
+					$final_array = array();
 					foreach($terms as $term):
-						echo $term->name.'<br/>';
+						$nombre = $term->name;
+						$apellido = explode(' ', $nombre);
+						
+						$letra = ($letra !== $apellido[1][0]) ? $apellido[1][0] : $letra;
+						$final_array[$letra][] = $nombre;
+					endforeach;
+					
+					foreach ($final_array as $key => $value): ?>
+						<div class="letra">
+							<span><?php echo $key; ?></span>
+						<?php
+							foreach ($final_array[$key] as $author_name): ?>
+								<a href="#"><?php echo $author_name; ?></a>
+						<?php 
+							endforeach;
+							?>
+						</div>
+					<?php 
 					endforeach;
 				?>
-				<div class="letra">
-					<span>A</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>B</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>C</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>D</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>E</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>F</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>G</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>H</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>I</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>L</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>M</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>P</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>R</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>S</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
-				<div class="letra">
-					<span>V</span>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-					<a href="#">John Akerman</a>
-				</div>
 			</div>
 		</nav>
 		<section class="player">

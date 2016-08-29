@@ -77,16 +77,18 @@
 				?>
 				
 				<div class="grid-item podcast">
-					<div class="pod-img">
-						<img src="<?php echo $portada['url']; ?>">
-						<span><?php echo $programa->name; ?></span>
-					</div>
-					<div class="pod-title">
-						<!-- <span>Ep. 01</span> -->
-						<span><?php the_title(); ?></span>
-					</div>
-					<div class="pod-data">junio 15, 2016</div>
-					
+					<a class="grid-link" href="<?php the_permalink(); ?>">
+						<div class="pod-img">
+							<img src="<?php echo $portada['url']; ?>">
+							<span><?php echo $programa->name; ?></span>
+						</div>
+						<div class="pod-title">
+							<!-- <span>Ep. 01</span> -->
+							<span><?php the_title(); ?></span>
+						</div>
+						<div class="pod-data">junio 15, 2016</div>
+						<!--<a href="#" class="pod-play"><img src="<a class="grid-link" href="<?php the_permalink(); ?>">"></a>-->
+					</a>
 				</div>
 			
 				<?php } endforeach; wp_reset_postdata(); ?>
