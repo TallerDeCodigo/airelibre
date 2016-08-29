@@ -35,7 +35,7 @@
 			'hierarchical'       => false,
 			'menu_position'      => 6,
 			'taxonomies'         => array( 'category' ),
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail' )
+			'supports'           => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail' )
 		);
 		register_post_type( 'podcast', $args );
 

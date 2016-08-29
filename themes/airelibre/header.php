@@ -16,14 +16,14 @@
 			<p class="chromeframe">Estás usando una versión <strong>vieja</strong> de tu explorador. Por favor <a href="http://browsehappy.com/" target="_blank"> actualiza tu explorador</a> para tener una experiencia completa.</p>
 		<![endif]-->
 		<header class="mobile">
-			<a class="mob-logo" href="#"><img src="<?php echo THEMEPATH; ?>images/mobile.svg"></a>
+			<a class="mob-logo" href="<?php echo site_url(''); ?>"><img src="<?php echo THEMEPATH; ?>images/mobile.svg"></a>
 		</header>
 		<div id="nav-icon3"><span></span><span></span><span></span><span></span></div>
 		<header class="desktop">
 			<div class="wrapper">
 				<div class="logo left">
-					<img class="logogif" src="<?php echo THEMEPATH; ?>images/logo.gif">
-					<img class="logosvg" src="<?php echo THEMEPATH; ?>images/mobile.svg">
+					<a href="<?php echo site_url(); ?>"><img class="logogif" src="<?php echo THEMEPATH; ?>images/logo.gif"></a>
+					<a href="<?php echo site_url(); ?>"><img class="logosvg" src="<?php echo THEMEPATH; ?>images/mobile.svg"></a>
 				</div>
 				<div class="menu right">
 					<nav class="social">
@@ -31,7 +31,7 @@
 						<a href="#" class="nav-item"><img src="<?php echo THEMEPATH; ?>images/social/fb.svg"></a>
 						<a href="#" class="nav-item"><img src="<?php echo THEMEPATH; ?>images/social/sp.svg"></a>
 						<a href="#" class="nav-item"><img src="<?php echo THEMEPATH; ?>images/social/sc.svg"></a>
-						<div class="nav-item ultima">HOLA, MARIANA</div>
+						<!-- <div class="nav-item ultima">HOLA, MARIANA</div> -->
 					</nav>
 					<nav class="botones">
 						<a data-filter="*" class="nav-item">RADIO</a>
@@ -59,6 +59,23 @@
 		<nav class="submenu" style="display:none">
 			<div class="arrow-sub"><img src="<?php echo THEMEPATH; ?>images/down.svg"></div>
 			<div class="wrapper">
+				<?php
+					global $wpdb;
+					$sql ="SELECT * FROM wp_terms wpt
+							INNER JOIN wp_term_relationships wptrel
+							INNER JOIN wp_term_taxonomy wptax
+								ON wptax.term_taxonomy_id = wptrel.term_taxonomy_id
+							WHERE wpt.term_id = wptax.term_id
+							AND wptax.taxonomy = 'autor'
+							GROUP BY wpt.term_id
+							ORDER BY SUBSTR(LTRIM(name), LOCATE(' ',LTRIM(name)));	
+						;";
+					$terms = $wpdb->get_results($sql);
+
+					foreach($terms as $term):
+						echo $term->name.'<br/>';
+					endforeach;
+				?>
 				<div class="letra">
 					<span>A</span>
 					<a href="#">John Akerman</a>
@@ -165,9 +182,9 @@
 					<div class="showname">LA HORA DE LA COMIDA [14:00 – 16:00]</div>
 					<div class="breadcrumbs">Hunting » Fishlights » Serpientes EP</div>
 				</div>
-				<div class="changer">
+				<!-- <div class="changer">
 					<div class="podc-ch">PODCAST</div>
 					<div class="live-ch circle roja">AL AIRE LIBRE</div>
-				</div>
+				</div> -->
 			</div>
 		</section>

@@ -78,7 +78,7 @@
 
 	add_filter( 'show_admin_bar', function($content){
 		// return ( current_user_can('administrator') ) ? $content : false;
-		return false;
+		return $content;
 	});
 
 
@@ -135,7 +135,7 @@
 
 	include_once( 'inc/api/router.class.php' );
 
-	include_once( 'inc/api/User.class.php' );
+	// include_once( 'inc/api/User.class.php' );
 	
 	
 // MODIFICAR EL MAIN QUERY ///////////////////////////////////////////////////////////
@@ -161,14 +161,14 @@
 
 
 
-	/*add_filter('excerpt_length', function($length){
-		return 20;
-	});*/
+	add_filter('excerpt_length', function($length){
+		return 25;
+	});
 
 
-	/*add_filter('excerpt_more', function(){
-		return ' &raquo;';
-	});*/
+	add_filter('excerpt_more', function(){
+		return '...';
+	});
 
 
 
@@ -272,4 +272,64 @@
 
 		}
 		return FALSE;
+	}
+
+
+/// TAX META CLASS ///////////////////////
+
+
+	//include the main class file
+	require_once("Tax-meta-class/Tax-meta-class.php");
+	if (is_admin()){
+	  /* 
+	   * prefix of meta keys, optional
+	   */
+	  $prefix = '';
+	  /* 
+	   * configure your meta box
+	   */
+	  $config = array(
+	    'id' => 'info_programa_meta',          // meta box id, unique per meta box
+	    'title' => 'Información del programa',          // meta box title
+	    'pages' => array('programa', 'autor'),        // taxonomy name, accept categories, post_tag and custom taxonomies
+	    'context' => 'normal',            // where the meta box appear: normal (default), advanced, side; optional
+	    'fields' => array(),            // list of meta fields (can be added by field arrays)
+	    'local_images' => false,          // Use local or hosted images (meta box images for add/remove)
+	    'use_with_theme' => true          //change path if used with theme set to true, false for a plugin or anything else for a custom path(default false).
+	  );
+	  
+	  
+	  /*
+	   * Initiate your meta box
+	   */
+	  $my_meta =  new Tax_Meta_Class($config);
+	  
+	  /*
+	   * Add fields to your meta box
+	   */
+	  
+	  
+	  //Image field
+	  $my_meta->addImage($prefix.'image_field_id',array('name'=> __('Portada ','tax-meta')));
+	 
+	  /*
+	   * To Create a reapeater Block first create an array of fields
+	   * use the same functions as above but add true as a last param
+	   */
+	  
+	  $repeater_fields[] = $my_meta->addText($prefix.'re_text_field_id',array('name'=> __('My Text ','tax-meta')),true);
+	  $repeater_fields[] = $my_meta->addTextarea($prefix.'re_textarea_field_id',array('name'=> __('My Textarea ','tax-meta')),true);
+	  $repeater_fields[] = $my_meta->addCheckbox($prefix.'re_checkbox_field_id',array('name'=> __('My Checkbox ','tax-meta')),true);
+	  $repeater_fields[] = $my_meta->addImage($prefix.'image_field_id',array('name'=> __('Portada ','tax-meta')),true);
+	  
+	  /*
+	   * Then just add the fields to the repeater block
+	   */
+	  // //repeater block
+	  // $my_meta->addRepeaterBlock($prefix.'re_',array('inline' => true, 'name' => __('This is a Repeater Block','tax-meta'),'fields' => $repeater_fields));
+	  /*
+	   * Don't Forget to Close up the meta box decleration
+	   */
+	  //Finish Meta Box Decleration
+	  $my_meta->Finish();
 	}
