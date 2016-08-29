@@ -1,34 +1,23 @@
-<?php
+<?php 
 	get_header(); 
 	$objeto = get_queried_object();
-	$imagen = get_term_meta($objeto->term_id, 'image_field_id', true);
-	// echo '<pre>';
-	// print_r($objeto);
-	// echo '</pre>';
 ?>
-		<section class="person">
-			<img class="per-bkg" src="<?php echo $imagen['url']; ?>">
-			<div class="wrapper">
-				<div class="per-info">
-					<span class="per-name"><?php echo $objeto->name; ?></span>
-					<!-- <a class="mob-follow" href="#">SEGUIR</a> -->
-					<p class="per-desc"><?php echo $objeto->description; ?></p>
-					<img class="per-mobile" src="<?php echo THEMEPATH; ?>/images/person2.png">
-				</div>
-				<!-- <a class="per-follow" href="#">SEGUIR</a> -->
-			</div>
-		</section>
-		<section class="bottom-single">
-			<div class="related-title closer">COLUMNAS Y PODCASTS</div>
+		<!--[if lt IE 9]>
+			<p class="chromeframe">Estás usando una versión <strong>vieja</strong> de tu explorador. Por favor <a href="http://browsehappy.com/" target="_blank"> actualiza tu explorador</a> para tener una experiencia completa.</p>
+		<![endif]-->
+		<section class="main-page">
+		<h2><?php echo $objeto->name; ?></h2>
 			<div class="grid wrapper-inf">
+
 				<div class="grid-sizer"></div>
+			
 				<?php
 					$args = array(
 							'post_type' => array('columna', 'podcast'),
 							'tax_query' => array(
 							//'relation' => 'AND',
 								array(
-									'taxonomy' => 'autor',
+									'taxonomy' => 'category',
 									'field'    => 'term_id',
 									'terms'    => $objeto->term_id,
 								)
@@ -39,6 +28,11 @@
 					$posts = get_posts($args);
 					foreach($posts as $post): setup_postdata($post);
 					$posttype = get_post_type();
+					$autores = wp_get_post_terms($post->ID, 'autor');
+					foreach($autores as $autor);
+					$categories = wp_get_post_terms($post->ID, 'category');
+					
+					
 					if($posttype == 'columna'){
 				?>
 
@@ -51,9 +45,11 @@
 						<div class="art-descr"><?php the_excerpt(); ?></div>
 					</a>
 					<div class="art-info">
-						<span class="art-author"><?php echo $objeto->name; ?></span>
+						<span class="art-author"><?php echo $autor->name; ?></span>
 						<span class="art-date"><?php echo get_the_date('d/m/Y'); ?></span>
-						<span class="art-categ">[DEPORTES]</span>
+						<?php foreach($categories as $cat){ ?>
+						<span class="art-categ">[<?php echo $cat->name; ?>]</span>
+						<?php } ?>
 					</div>
 				</div>
 
@@ -79,8 +75,10 @@
 				</div>
 			
 				<?php } endforeach; wp_reset_postdata(); ?>
-			
+
 			</div>
 			<!-- <div class="more-posts">VER MÁS</div> -->
 		</section>
+		
 <?php get_footer(); ?>
+

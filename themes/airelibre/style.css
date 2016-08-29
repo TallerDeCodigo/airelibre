@@ -184,8 +184,8 @@ footer a {text-decoration:none;color:inherit;}
 .art-descr {font-family:'Crimson';font-weight:600;font-size:225%;line-height:110%;padding:10px 15px;}
 .art-info {color:#ababab;padding:10px 15px;font-size:115%;margin-top:18px;}
 .art-info span {display:block;}
-.art-categ {color:#0245ff;}
-
+.art-categ {color:#0245ff; display: block; float: left; margin-bottom: 10px}
+.art-categ a {color:#0245ff; text-decoration: none;}
 
 .grid-item:hover .art-title span {color:#FFF;border-bottom:5px solid #FFF;}
 .grid-item:hover .art-descr {color:#FFF;}
@@ -219,7 +219,7 @@ blockquote span {display:block;}
 .left-author {color:#0245ff;}
 .left-date {color:#ababab;}
 .left-tag {color:#ff3752;font-weight:900;margin-top:25px;font-size:94%;}
-.info-left a {margin:23px 0px;font-weight:900;letter-spacing:0.1em;width:110px;border-radius:5px;text-align:center;font-size:85%;display:block;text-decoration:none;border:2px solid #d0d4db;color:#d0d4db;}
+.info-left a.info-action{margin:23px 0px;font-weight:900;letter-spacing:0.1em;width:110px;border-radius:5px;text-align:center;font-size:85%;display:block;text-decoration:none;border:2px solid #d0d4db;color:#d0d4db;}
 
 .related-title {font-size:200%;font-weight:900;font-style:italic;}
 .bottom-single {background:#cecece;padding:5px 0px 120px;position:relative;}
