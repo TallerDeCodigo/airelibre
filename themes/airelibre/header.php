@@ -67,12 +67,9 @@
 						<div class="letra">
 							<span><?php echo $key; ?></span>
 						<?php
-							foreach ($alphabetized[$key] as $author_name): 
-								$slug = get_term_by('name', $author_name, 'autor');
 
-						?>
-
-								<a href="<?php echo site_url().'/autores/'.$slug->slug; ?>"><?php echo $author_name; ?></a>
+							foreach ($alphabetized[$key] as $author_name): ?>
+								<a href="<?php echo site_url("autores/".$author_name['slug']); ?>"><?php echo $author_name["name"]; ?></a
 						<?php 
 							endforeach;
 							?>

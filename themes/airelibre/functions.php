@@ -346,10 +346,16 @@
 		$final_array = array();
 		foreach($terms as $term):
 			$nombre = $term->name;
+			$autor_id = $term->term_id;
+			$slug = $term->slug;
 			$apellido = explode(' ', $nombre);
 			
 			$letra = ($letra !== $apellido[1][0]) ? $apellido[1][0] : $letra;
-			$final_array[$letra][] = $nombre;
+			$final_array[$letra][] = array(
+												"id" => $autor_id,
+												"name" => $nombre,
+												"slug" => $slug,
+											);
 		endforeach;
 		return $final_array;
 	}
