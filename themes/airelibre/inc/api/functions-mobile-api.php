@@ -162,10 +162,14 @@ function mobile_login_check($user_id, $user_token){
 	
 	function fetchRadio(){
 		/*** TODO Check time and send playlist with covers ***/
-		// return array(
-		// 				""
-		// 			);
-		return "http://airelibre.dev/wp-content/uploads/radio/1.mp3";
+		$catalogue = file_get_contents(THEMEPATH."inc/radioPlist.json");
+		$catalogue = json_decode($catalogue);
+		$catalogue = (array) $catalogue;
+		
+		return array(
+						"stream" => "http://airelibre.dev/wp-content/uploads/radio/1.mp3",
+						"meta"	 => $catalogue
+					);
 	}
 
 

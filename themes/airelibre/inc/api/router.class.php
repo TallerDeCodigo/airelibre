@@ -248,6 +248,19 @@ class Router{
 			});
 			
 			/**
+			 * Get radio feed
+			 * @param String $user_login The user to retrieve timeline for
+			 * @param Int $offset Number of offsetted posts pages for pagination purposes
+			 * @param String $filter
+			 * @type ANNONYMOUS
+			 */
+			$slim->get('/rest/v1/feed/radio/',function (){
+				// TODO Use user information to cure feed
+				echo json_encode(fetchRadio());
+				exit;
+			});
+			
+			/**
 			 * Get archive feed
 			 * @param String $user_login The user to retrieve timeline for
 			 * @param Int $offset Number of offsetted posts pages for pagination purposes
