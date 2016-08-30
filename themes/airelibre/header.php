@@ -60,13 +60,18 @@
 			<div class="arrow-sub"><img src="<?php echo THEMEPATH; ?>images/down.svg"></div>
 			<div class="wrapper">
 				<?php
-					$alphabetized = fetch_terms_alphabetized('autor');
+					$alphabetized = fetch_terms_alphabetized('autor', TRUE);
+					file_put_contents(
+						'/logs/php.log',
+						var_export( $alphabetized, true ) . PHP_EOL,
+						FILE_APPEND
+					);
 					foreach ($alphabetized as $key => $value): ?>
 						<div class="letra">
 							<span><?php echo $key; ?></span>
 						<?php
 							foreach ($alphabetized[$key] as $author_name): ?>
-								<a href="#"><?php echo $author_name; ?></a>
+								<a href="<?php echo site_url("autores/".$author_name['slug']); ?>"><?php echo $author_name["name"]; ?></a>
 						<?php 
 							endforeach;
 							?>

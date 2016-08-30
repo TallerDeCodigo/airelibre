@@ -277,8 +277,8 @@ class Router{
 			 * @param Integer $offset for pagination
 			 * @category GET Endpoint
 			 */
-			$slim->get('/rest/v1/content/alphabet/terms/:taxonomy/', function($taxonomy = NULL ){
-				echo json_encode(fetch_terms_alphabetized($taxonomy));
+			$slim->get('/rest/v1/alphabet/terms/:taxonomy/', function($taxonomy = NULL ){
+				echo json_encode(fetch_terms_alphabetized($taxonomy, TRUE));
 				exit;
 			});
 
