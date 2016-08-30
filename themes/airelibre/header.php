@@ -60,30 +60,12 @@
 			<div class="arrow-sub"><img src="<?php echo THEMEPATH; ?>images/down.svg"></div>
 			<div class="wrapper">
 				<?php
-					global $wpdb;
-					$sql ="SELECT * FROM wp_terms wpt
-							INNER JOIN wp_term_relationships wptrel
-							INNER JOIN wp_term_taxonomy wptax
-							WHERE wpt.term_id = wptax.term_id
-							AND wptax.taxonomy = 'autor'
-							GROUP BY wpt.term_id
-							ORDER BY SUBSTR(LTRIM(name), LOCATE(' ',LTRIM(name)));";
-					$terms = $wpdb->get_results($sql);
-					$letra = '';
-					$final_array = array();
-					foreach($terms as $term):
-						$nombre = $term->name;
-						$apellido = explode(' ', $nombre);
-						
-						$letra = ($letra !== $apellido[1][0]) ? $apellido[1][0] : $letra;
-						$final_array[$letra][] = $nombre;
-					endforeach;
-					
-					foreach ($final_array as $key => $value): ?>
+					$alphabetized = fetch_terms_alphabetized('autor');
+					foreach ($alphabetized as $key => $value): ?>
 						<div class="letra">
 							<span><?php echo $key; ?></span>
 						<?php
-							foreach ($final_array[$key] as $author_name): ?>
+							foreach ($alphabetized[$key] as $author_name): ?>
 								<a href="#"><?php echo $author_name; ?></a>
 						<?php 
 							endforeach;

@@ -333,3 +333,26 @@
 	  //Finish Meta Box Decleration
 	  $my_meta->Finish();
 	}
+
+
+	function fetch_terms_alphabetized($taxonomy = NULL){
+		global $wpdb;
+		$sql ="SELECT * FROM wp_terms wpt
+				INNER JOIN wp_term_relationships wptrel
+				INNER JOIN wp_term_taxonomy wptax
+				WHERE wpt.term_id = wptax.term_id
+				AND wptax.taxonomy = '{$taxonomy}'
+				GROUP BY wpt.term_id
+				ORDER BY SUBSTR(LTRIM(name), LOCATE(' ',LTRIM(name)));";
+		$terms = $wpdb->get_results($sql);
+		$letra = '';
+		$final_array = array();
+		foreach($terms as $term):
+			$nombre = $term->name;
+			$apellido = explode(' ', $nombre);
+			
+			$letra = ($letra !== $apellido[1][0]) ? $apellido[1][0] : $letra;
+			$final_array[$letra][] = $nombre;
+		endforeach;
+		return $final_array;
+	}

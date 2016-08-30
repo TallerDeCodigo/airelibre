@@ -270,7 +270,17 @@ class Router{
 				exit;
 			});
 
-
+			/**
+			 * Get categories feed alphabetized
+			 * @param Integer $level where 0 is top level and $parent is expected for deeper levels
+			 * @param Integer $limit
+			 * @param Integer $offset for pagination
+			 * @category GET Endpoint
+			 */
+			$slim->get('/rest/v1/content/alphabet/terms/:taxonomy/', function($taxonomy = NULL ){
+				echo json_encode(fetch_terms_alphabetized($taxonomy));
+				exit;
+			});
 
 
 
@@ -289,17 +299,7 @@ class Router{
 				exit;
 			});
 
-			/**
-			 * Get categories feed by level
-			 * @param Integer $level where 0 is top level and $parent is expected for deeper levels
-			 * @param Integer $limit
-			 * @param Integer $offset for pagination
-			 * @category GET Endpoint
-			 */
-			$slim->get('/rest/v1/content/enum/categories/:level/:limit(/:offset)/', function($level, $limit = 5, $offset = 0){
-				echo fetch_categories($level, $limit, $offset);
-				exit;
-			});
+			
 
 			/**
 			 * Get categories tree
