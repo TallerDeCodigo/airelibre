@@ -208,6 +208,34 @@
 	    }
 	});
 
+	/// RADIO ////////////////////
+
+	$('.pause').hide();
+
+	var audioElement = document.createElement('audio');
+        audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/1.mp3');
+        //audioElement.setAttribute('autoplay', 'autoplay');
+        //audioElement.load()
+
+        $.get();
+
+        audioElement.addEventListener("load", function() {
+            audioElement.play();
+        }, true);
+
+        $('.play').on('click', function() {
+            audioElement.play();
+            $(this).hide();
+            $('.pause').show();
+        
+        });
+
+        $('.pause').on('click', function() {
+            audioElement.pause();
+            $(this).hide();
+            $('.play').show();
+        });
+
 })(jQuery);
 
 // jQuery(document).ready(function($) {

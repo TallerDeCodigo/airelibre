@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="dd058afa-24f8-439f-b482-ab60d354b309"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 76 76"
+	 style="enable-background:new 0 0 76 76;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{clip-path:url(#SVGID_4_);fill:#FFFFFF;}
+	.st2{clip-path:url(#SVGID_2_);fill:#FF1B41;}
+	.st3{clip-path:url(#SVGID_6_);}
+	.st4{fill:#FF1B41;}
+</style>
+<title>Untitled-9</title>
+<g>
+	<defs>
+		<path id="SVGID_1_" d="M38.4,73.6c19.3,0,34.9-15.9,34.9-35.6c0-19.6-15.6-35.6-34.9-35.6S3.5,18.3,3.5,38
+			C3.5,57.7,19.1,73.6,38.4,73.6z"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<g class="st0">
+		<defs>
+			<rect id="SVGID_3_" x="-44.5" y="-25.6" width="2880" height="120"/>
+		</defs>
+		<clipPath id="SVGID_4_">
+			<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
+		</clipPath>
+		<rect x="-6.5" y="-7.6" class="st1" width="89.8" height="91.2"/>
+	</g>
+	<path class="st2" d="M38.4,75.6C18.1,75.6,1.5,58.7,1.5,38c0-20.7,16.6-37.6,36.9-37.6S75.3,17.3,75.3,38
+		C75.3,58.7,58.8,75.6,38.4,75.6z M38.4,4.4C20.3,4.4,5.5,19.5,5.5,38c0,18.5,14.8,33.6,32.9,33.6c18.1,0,32.9-15.1,32.9-33.6
+		C71.3,19.5,56.6,4.4,38.4,4.4L38.4,4.4z"/>
+	<g class="st0">
+		<defs>
+			<path id="SVGID_5_" d="M30.7,19.1c-0.7-0.4-1.5-0.5-2.2-0.3c-0.7,0.2-1.1,1.1-1.1,2.5v33.3c0,1.4,0.4,2.2,1.1,2.5
+				c0.7,0.3,1.5,0.2,2.1-0.3L56.6,40c1.1-1.1,1.1-2.9,0-4L30.7,19.1z"/>
+		</defs>
+		<clipPath id="SVGID_6_">
+			<use xlink:href="#SVGID_5_"  style="overflow:visible;"/>
+		</clipPath>
+		<g class="st3">
+			<defs>
+				<rect id="SVGID_7_" x="-44.5" y="-25.6" width="2880" height="120"/>
+			</defs>
+			<clipPath id="SVGID_8_">
+				<use xlink:href="#SVGID_7_"  style="overflow:visible;"/>
+			</clipPath>
+		</g>
+	</g>
+</g>
+<g>
+	<path class="st4" d="M32.6,57.4h-8.1c-0.8,0-1.5-0.7-1.5-1.5V20c0-0.8,0.7-1.5,1.5-1.5h8.1c0.8,0,1.5,0.7,1.5,1.5v36
+		C34.1,56.8,33.4,57.4,32.6,57.4z"/>
+	<path class="st4" d="M51.5,57.5h-8.1c-0.8,0-1.5-0.7-1.5-1.5V20c0-0.8,0.7-1.5,1.5-1.5h8.1c0.8,0,1.5,0.7,1.5,1.5v36
+		C53,56.8,52.3,57.5,51.5,57.5z"/>
+</g>
+</svg>

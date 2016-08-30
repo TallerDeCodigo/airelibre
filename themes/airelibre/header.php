@@ -9,6 +9,8 @@
 		<meta http-equiv="cleartype" content="on">
 		<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 		<?php wp_head(); ?>
+
+		
 	</head>
 
 	<body>
@@ -79,6 +81,7 @@
 		<section class="player">
 			<div class="wrapper">
 				<img class="play" src="<?php echo THEMEPATH; ?>images/play.svg">
+				<img class="pause" src="<?php echo THEMEPATH; ?>images/pause.svg">
 				<img class="album" src="<?php echo THEMEPATH; ?>images/album.png">
 				<div class="audio-title">
 					<div class="showname">LA HORA DE LA COMIDA [14:00 – 16:00]</div>
@@ -90,3 +93,5 @@
 				</div> -->
 			</div>
 		</section>
+
+	
