@@ -211,7 +211,7 @@ function mobile_login_check($user_id, $user_token){
 
 	function fetch_archive_feed($kind = NULL){
 		if($kind == "recent")
-			$kind = array("columna","podcast");
+			$kind = array("columna");
 		$args = array(
 					"post_type" 		=> $kind,
 					"post_status"		=> "publish",
@@ -254,9 +254,9 @@ function mobile_login_check($user_id, $user_token){
 	function fetch_home($offset = 0){
 		
 		$args = array(
-				'post_type'   		=> array('columna', 'podcast'),
+				'post_type'   		=> array('columna'),
 				'post_status' 		=> 'publish',
-				'posts_per_page' 	=> -1,
+				'posts_per_page' 	=> 1,
 				'orderby'   		=> 'date',
 			);
 		$query = new WP_Query($args);

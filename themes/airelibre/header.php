@@ -60,12 +60,7 @@
 			<div class="arrow-sub"><img src="<?php echo THEMEPATH; ?>images/down.svg"></div>
 			<div class="wrapper">
 				<?php
-					$alphabetized = fetch_terms_alphabetized('autor', TRUE);
-					file_put_contents(
-						'/logs/php.log',
-						var_export( $alphabetized, true ) . PHP_EOL,
-						FILE_APPEND
-					);
+					$alphabetized = fetch_terms_alphabetized('autor');
 					foreach ($alphabetized as $key => $value): ?>
 						<div class="letra">
 							<span><?php echo $key; ?></span>

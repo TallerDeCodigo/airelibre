@@ -335,7 +335,7 @@
 	}
 
 
-	function fetch_terms_alphabetized($taxonomy = NULL, $complementary = FALSE){
+	function fetch_terms_alphabetized($taxonomy = NULL){
 		global $wpdb;
 		$sql ="SELECT * FROM wp_terms wpt
 				INNER JOIN wp_term_relationships wptrel
