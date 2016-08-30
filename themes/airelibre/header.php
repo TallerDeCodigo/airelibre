@@ -36,7 +36,7 @@
 						<!-- <div class="nav-item ultima">HOLA, MARIANA</div> -->
 					</nav>
 					<nav class="botones">
-						<a data-filter="*" class="nav-item">RADIO</a>
+						<!-- <a data-filter="*" class="nav-item">RADIO</a> -->
 						<a data-filter=".podcast" class="nav-item">PODCASTS</a>
 						<a data-filter=".columna" class="nav-item">COLUMNAS</a>
 						<a class="nav-item dropdown">AUTORES <img src="<?php echo THEMEPATH; ?>images/down.svg"></a>
@@ -67,8 +67,12 @@
 						<div class="letra">
 							<span><?php echo $key; ?></span>
 						<?php
-							foreach ($alphabetized[$key] as $author_name): ?>
-								<a href="#"><?php echo $author_name; ?></a>
+							foreach ($alphabetized[$key] as $author_name): 
+								$slug = get_term_by('name', $author_name, 'autor');
+
+						?>
+
+								<a href="<?php echo site_url().'/autores/'.$slug->slug; ?>"><?php echo $author_name; ?></a>
 						<?php 
 							endforeach;
 							?>
@@ -87,6 +91,15 @@
 					<div class="showname">LA HORA DE LA COMIDA [14:00 – 16:00]</div>
 					<div class="breadcrumbs">Hunting » Fishlights » Serpientes EP</div>
 				</div>
+				<?php 
+				$file = site_url().'/wp-content/uploads/radio/1.mp3';
+				$mp3file = new MP3File($file);//http://www.npr.org/rss/podcast.php?id=510282
+				//$duration1 = $mp3file->getDurationEstimate();//(faster) for CBR only
+				$duration2 = $mp3file->getDuration();//(slower) for VBR (or CBR)
+				
+				//echo MP3File::formatTime($duration2)."\n";
+				?>
+
 				<!-- <div class="changer">
 					<div class="podc-ch">PODCAST</div>
 					<div class="live-ch circle roja">AL AIRE LIBRE</div>
