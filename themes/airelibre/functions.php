@@ -122,12 +122,9 @@
 
 	require_once('inc/post-types.php');
 
-
 	require_once('inc/metaboxes.php');
 
-
 	require_once('inc/taxonomies.php');
-
 
 	require_once('inc/pages.php');
 
@@ -135,7 +132,7 @@
 
 	include_once( 'inc/api/router.class.php' );
 
-	// include_once( 'inc/api/User.class.php' );
+	include_once( 'inc/mp3.php' );
 	
 	
 // MODIFICAR EL MAIN QUERY ///////////////////////////////////////////////////////////

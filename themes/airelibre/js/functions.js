@@ -219,9 +219,9 @@
 
         $.get();
 
-        audioElement.addEventListener("load", function() {
-            audioElement.play();
-        }, true);
+        // audioElement.addEventListener("load", function() {
+        //     audioElement.play();
+        // }, true);
 
         $('.play').on('click', function() {
             audioElement.play();
@@ -235,6 +235,26 @@
             $(this).hide();
             $('.play').show();
         });
+
+        $('.play_podcast').on('click', function(){
+
+        	var new_audio = $(this).data('audio');
+
+        	audioElement.setAttribute('src', new_audio);
+        	audioElement.play();
+
+        });
+
+
+     /// PODCASTS PLAYLIST ///////
+
+    $('.pl-item').on('click', function(){
+
+    		$('.pl-item').removeClass('selected');
+        	$(this).addClass('selected');
+
+        });
+
 
 })(jQuery);
 

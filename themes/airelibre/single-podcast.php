@@ -12,9 +12,9 @@
 				<div class="mob-pod-head">
 					<div class="pod-img">
 						<img src="<?php echo $portada['url']; ?>">
-						<span><?php echo $programa->name; ?></span>
+						<!-- <span><?php echo $programa->name; ?></span> -->
 					</div>
-					<span class="cast-tab">PODCAST</span>
+					<span class="cast-tab"><?php echo $programa->name; ?></span>
 					<span class="cast-title desk-cast"><?php the_title(); ?></span>
 					<p>por: <?php foreach($autores as $autor){ echo $autor->name.' '; }?></p>
 					<!-- <a class="suscribe done" href="#">SUSCRITO</a> -->
@@ -22,70 +22,54 @@
 				<div class="cast-full">
 					<div class="pod-img">
 						<img src="<?php echo $portada['url']; ?>">
-						<span><?php echo $programa->name; ?></span>
+						<!-- <span><?php echo $programa->name; ?></span> -->
 					</div>
 					<span class="cast-title mob-cast"><?php the_title(); ?></span>
 					<p><?php echo $programa->description; ?></p>
 				</div>
 			</div>
 		</section>
+		<?php wp_reset_postdata(); ?>
 		<section class="playlist">
 			<div class="wrapper-769">
 				<ul>
+				<?php
+					$args = array(
+							'post_type' => 'podcast',
+							'tax_query' => array(
+									array(
+										'taxonomy' => 'programa',
+										'field'    => 'term_id',
+										'terms'    => $programa->term_id,
+									),
+								),
+							'posts_per_page' => -1,
+							'order' => 'ASC'
+						);
+
+					$episodios = get_posts($args);
+					$count = 0;
+					foreach($episodios as $post): setup_postdata($post);
+					$count ++;
+					// $file = get_post_meta($post->ID, '_file_url_meta', true);
+					// $mp3file1 = new MP3File($file);//http://www.npr.org/rss/podcast.php?id=510282
+					// //$duration1 = $mp3file->getDurationEstimate();//(faster) for CBR only
+					// $duration2 = $mp3file1->getDuration();//(slower) for VBR (or CBR)
+				
+					
+
+				?>
+					
 					<li class="pl-item">
-						<div class="pl-number">1</div>
-						<div class="pl-add"><img src="<?php echo THEMEPATH; ?>images/play-blue.svg"></div>
+						<div class="pl-number"><?php echo $count; ?></div>
+						<div class="pl-add"><img class="play_podcast" src="<?php echo THEMEPATH; ?>images/play-blue.svg" data-audio="<?php echo get_post_meta($post->ID, '_file_url_meta', true); ?>"></div>
 						<div class="pl-descr">
-							<span class="pl-itm-tt">Let me be your friend · junio 31</span>
-							<span>Donec id elit non mi porta gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla.</span>
+							<span class="pl-itm-tt"><?php the_title(); ?>· <?php echo get_the_date('d/m/Y'); ?></span>
+							<span><?php the_excerpt(); ?></span>
 						</div>
-						<div class="pl-time">23 min</div>
+						<div class="pl-time"><?php //echo MP3File::formatTime($duration2)."\n"; ?></div>
 					</li>
-					<li class="pl-item selected">
-						<div class="pl-number">2</div>
-						<div class="pl-add"><img src="<?php echo THEMEPATH; ?>images/play-blue.svg"></div>
-						<div class="pl-descr">
-							<span class="pl-itm-tt">Let me be your friend · junio 31</span>
-							<span>Donec id elit non mi porta gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla.</span>
-						</div>
-						<div class="pl-time">23 min</div>
-					</li>
-					<li class="pl-item">
-						<div class="pl-number">3</div>
-						<div class="pl-add"><img src="<?php echo THEMEPATH; ?>images/play-blue.svg"></div>
-						<div class="pl-descr">
-							<span class="pl-itm-tt">Let me be your friend · junio 31</span>
-							<span>Donec id elit non mi porta gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla.</span>
-						</div>
-						<div class="pl-time">23 min</div>
-					</li>
-					<li class="pl-item">
-						<div class="pl-number">4</div>
-						<div class="pl-add"><img src="<?php echo THEMEPATH; ?>images/play-blue.svg"></div>
-						<div class="pl-descr">
-							<span class="pl-itm-tt">Let me be your friend · junio 31</span>
-							<span>Donec id elit non mi porta gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla.</span>
-						</div>
-						<div class="pl-time">23 min</div>
-					</li>
-					<li class="pl-item">
-						<div class="pl-number">5</div>
-						<div class="pl-add"><img src="<?php echo THEMEPATH; ?>images/play-blue.svg"></div>
-						<div class="pl-descr">
-							<span class="pl-itm-tt">Let me be your friend · junio 31</span>
-							<span>Donec id elit non mi porta gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla.</span>
-						</div>
-						<div class="pl-time">23 min</div>
-					</li>
-					<li class="pl-item">
-						<div class="pl-number">6</div>
-						<div class="pl-add"><img src="<?php echo THEMEPATH; ?>images/play-blue.svg"></div>
-						<div class="pl-descr">
-							<span class="pl-itm-tt">Let me be your friend · junio 31</span>
-							<span>Donec id elit non mi porta gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla.</span>
-						</div>
-						<div class="pl-time">23 min</div>
-					</li>
+					<?php endforeach; wp_reset_postdata(); ?>
 				</ul>
 			</div>	
 		</section>
