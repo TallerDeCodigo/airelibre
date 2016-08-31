@@ -106,7 +106,7 @@ class Router{
 
 				$token 		= (isset($_POST['token'])) 		? $_POST['token'] 	: NULL;
 				$user_id 	= (isset($_POST['user_id'])) 	? $_POST['user_id'] : NULL;
-				$validate_id 	= (isset($_POST['validate_id'])) ? $_POST['validate_id'] : NULL;
+				$validate_id = (isset($_POST['validate_id'])) ? $_POST['validate_id'] : NULL;
 				
 				if(!$token OR !$user_id) return FALSE;
 
