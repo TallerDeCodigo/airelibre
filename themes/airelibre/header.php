@@ -69,7 +69,7 @@
 						<?php
 
 							foreach ($alphabetized[$key] as $author_name): ?>
-								<a href="<?php echo site_url("autores/".$author_name['slug']); ?>"><?php echo $author_name["name"]; ?></a
+								<a href="<?php echo site_url("autores/".$author_name['slug']); ?>"><?php echo $author_name["name"]; ?></a>
 						<?php 
 							endforeach;
 							?>

@@ -213,7 +213,7 @@
 	$('.pause').hide();
 
 	var audioElement = document.createElement('audio');
-        audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/1.mp3');
+        audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/25.mp3');
         //audioElement.setAttribute('autoplay', 'autoplay');
         //audioElement.load()
 
@@ -244,6 +244,11 @@
         	audioElement.play();
 
         });
+
+        audioElement.addEventListener("ended", function(){
+		     audioElement.currentTime = 0;
+		     console.log("ended");
+		});
 
 
      /// PODCASTS PLAYLIST ///////
