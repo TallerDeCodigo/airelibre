@@ -80,14 +80,22 @@
 					?>
 				</div>
 			</nav>
+
+			<?php 
+				global $songs;
+				foreach($songs as $song);
+				// echo '<pre>';
+				// print_r($song);
+				// echo '</pre>';
+			?>
 			<section class="player">
 				<div class="wrapper">
 					<img class="play controller_radio" src="<?php echo THEMEPATH; ?>images/play.svg">
 					<!-- <img class="pause" src="<?php echo THEMEPATH; ?>images/pause.svg" -->
-					<img class="album" src="<?php echo THEMEPATH; ?>images/album.png">
+					<img class="album" src="<?php echo $song[0]->cover;?>">
 					<div class="audio-title">
-						<div class="showname">LA HORA DE LA COMIDA [14:00 – 16:00]</div>
-						<div class="breadcrumbs">Hunting » Fishlights » Serpientes EP</div>
+						<div class="showname"><?php echo $song[0]->title;?></div>
+						<div class="breadcrumbs"><?php echo $song[0]->artist;?></div>
 					</div>
 					<?php 
 					$file = site_url().'/wp-content/uploads/radio/1.mp3';
