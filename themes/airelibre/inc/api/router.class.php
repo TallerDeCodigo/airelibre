@@ -328,7 +328,7 @@ class Router{
 
 			/**
 			 * Get design tool archive and detailed info
-			 * @param String $taxonomy ['category', 'design-tools', 'license']
+			 * @param String $taxonomy ['autores']
 			 * @param Integer $term_id 
 			 * @category GET Endpoint
 			 */
