@@ -220,17 +220,18 @@ function mobile_login_check($user_id, $user_token){
 					"post_type" 		=> $kind,
 					"post_status"		=> "publish",
 					"orderby"			=> "date",
-					"posts_per_page"	=> 10
+					"posts_per_page"	=> 20
 				);
 		$results = get_posts($args);
 		$final = array("pool" => array(), "count" => 0);
 		foreach ($results as &$each_result) {
 			
 			$programa =  wp_get_post_terms($each_result->ID, "programa");
-			$programa = !empty($programa) ? $programa[0]->name : NULL;
-				
+			$programa_name = !empty($programa) ? $programa[0]->name : NULL;
+
 			if($programa){
-				$thumb_url = get_the_post_thumbnail_url( $each_result->ID, "medium" );
+				$thumb_url = get_term_meta($programa[0]->term_id,'image_field_id', true);
+				$thumb_url = $thumb_url['url'];
 			}else{
 				$thumb_url = get_the_post_thumbnail_url( $each_result->ID, "medium" );
 			}
@@ -244,9 +245,9 @@ function mobile_login_check($user_id, $user_token){
 									"ID"	=> $each_result->ID,
 									"title" => $each_result->post_title,
 									"slug" 	=> $each_result->post_name,
-									"thumb_url" => get_the_post_thumbnail_url( $each_result->ID, "medium" ),
+									"thumb_url" => $thumb_url,
 									"excerpt" => $each_result->post_excerpt,
-									'programa'				=> $programa,
+									'programa'				=> $programa_name,
 									'authors'				=> $authors_concat,
 									$each_result->post_type => TRUE
 								);
@@ -293,8 +294,11 @@ function mobile_login_check($user_id, $user_token){
 					);
 		$podcasts = get_posts($args);
 		foreach ($podcasts as $each_podcast) {
-			$thumb = wp_get_attachment_image_src( get_post_thumbnail_id($each_podcast->ID), 'medium');
-			$cover = !empty($thumb) ? $thumb[0] : NULL;
+
+			$programa =  wp_get_post_terms($each_podcast->ID, "programa");
+			$programa_name = !empty($programa) ? $programa[0]->name : NULL;
+			$thumb_url = get_term_meta($programa[0]->term_id,'image_field_id', true);
+			$cover = !empty($thumb_url) ? $thumb_url['url'] : NULL;
 			$stream = get_post_meta($each_podcast->ID, "_file_url_meta", TRUE);
 
 			$array_temp[] = array(
@@ -302,6 +306,7 @@ function mobile_login_check($user_id, $user_token){
 									"title" 	=> $each_podcast->post_title,
 									"slug" 		=> $each_podcast->post_name,
 									"cover"		=> $cover,
+									"programa"	=> $programa_name,
 									"stream" 	=> $stream,
 									"playing" 	=> ($playing == $each_podcast->ID) ? TRUE : FALSE,
 									"date" 		=> date("Y-m-d", strtotime($each_podcast->post_date)),
@@ -336,6 +341,11 @@ function mobile_login_check($user_id, $user_token){
 		$thumb = wp_get_attachment_image_src( get_post_thumbnail_id($episode_id), 'medium');
 		$cover = !empty($thumb) ? $thumb[0] : NULL;
 		
+		$programa =  wp_get_post_terms($episode_id, "programa");
+		$programa_name = !empty($programa) ? $programa[0]->name : NULL;
+		$thumb_url = get_term_meta($podcast_term->term_id,'image_field_id', true);
+		$cover = !empty($thumb_url) ? $thumb_url['url'] : NULL;
+
 		$return_array  = array (
 									"ID" 			=> $podcast->ID,
 									"title" 		=> $podcast->post_title,
@@ -343,6 +353,7 @@ function mobile_login_check($user_id, $user_token){
 									"programa_id" 	=> $podcast_term->term_id,
 									"authors" 		=> $authors_concat,
 									"cover" 		=> $cover,
+									"programa"		=> $programa_name,
 									"date" 			=> date("Y-m-d", strtotime($podcast->post_date)),
 									"episode_count" => $podcast_term->count,
 									"episodes" 		=> $episodes
