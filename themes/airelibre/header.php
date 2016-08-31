@@ -40,7 +40,7 @@
 						<a data-filter=".podcast" class="nav-item">PODCASTS</a>
 						<a data-filter=".columna" class="nav-item">COLUMNAS</a>
 						<a class="nav-item dropdown">AUTORES <img src="<?php echo THEMEPATH; ?>images/down.svg"></a>
-						<div class="nav-item ultima"><input type="text" name="search1" placeholder="Búsqueda"><img id="search1" src="<?php echo THEMEPATH; ?>images/search.svg"></div>
+						<!-- <div class="nav-item ultima"><input type="text" name="search1" placeholder="Búsqueda"><img id="search1" src="<?php echo THEMEPATH; ?>images/search.svg"></div> -->
 					</nav>
 					<div class="filler-right"></div>
 				</div>
