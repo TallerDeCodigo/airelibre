@@ -64,7 +64,7 @@
 						<div class="pl-number"><?php echo $count; ?></div>
 						<div class="pl-add"><img class="play_podcast" src="<?php echo THEMEPATH; ?>images/play-blue.svg" data-audio="<?php echo get_post_meta($post->ID, '_file_url_meta', true); ?>"></div>
 						<div class="pl-descr">
-							<span class="pl-itm-tt"><?php the_title(); ?>· <?php echo get_the_date('d/m/Y'); ?></span>
+							<span class="pl-itm-tt"><?php the_title(); ?> · <?php echo get_the_date('d/m/Y'); ?></span>
 							<span><?php the_excerpt(); ?></span>
 						</div>
 						<div class="pl-time"><?php //echo MP3File::formatTime($duration2)."\n"; ?></div>

@@ -51,7 +51,8 @@
 				<?php
 					$args = array(
 							'post_type' => array('columna', 'podcast'),
-							'posts_per_page' => -1
+							'posts_per_page' => -1,
+							'orderby' => 'rand',
 						);
 
 					$posts = get_posts($args);
