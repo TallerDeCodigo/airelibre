@@ -155,6 +155,7 @@ footer a {text-decoration:none;color:inherit;}
 .player .play {position:relative;width:32px;height:auto;}
 .player .play:hover {cursor:pointer; position:relative;width:32px;height:auto;}
 .player .pause {position:relative;width:32px;height:auto;}
+.player .pause:hover {cursor:pointer; position:relative;width:32px;height:auto;}
 .player .album {height:55px;width:auto;}
 .showname {font-weight:900;}
 .breadcrumbs {color:#ababab;font-style:italic;}

@@ -97,7 +97,7 @@
 				?>
 				
 				<div class="grid-item podcast">
-					<a class="grid-link" href="<?php the_permalink(); ?>">
+					<a class="grid-link inlink" href="<?php the_permalink(); ?>">
 						<div class="pod-img">
 							<img src="<?php echo $portada['url']; ?>">
 							<span><?php echo $programa->name; ?></span>

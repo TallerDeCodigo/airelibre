@@ -5,52 +5,11 @@
 		<section class="main-page">
 			<div class="grid wrapper-inf">
 				<div class="grid-sizer"></div>
-				<?php
-					$args = array(
-							'post_type' => 'columna',
-							'meta_query' => array(
-									array(
-										'key' => 'check_destacado',
-										'value' => 1,
-										'compare' => '=',
-									)
-								),
-							'posts_per_page' => 1,
-
-						);
-
-					$posts = get_posts($args);
-					foreach($posts as $post): setup_postdata($post);
-					$excludeID = $post->ID; 
-					$autores = wp_get_post_terms($post->ID, 'autor');
-					foreach($autores as $autor);
-					$categories = wp_get_post_terms($post->ID, 'category');
-					
-					
-				?>
-				<div class="grid-item destacado grid-item--width2 columna">
-					<a class="grid-link inlink" href="<?php the_permalink(); ?>">
-						<?php if(has_post_thumbnail($post->ID)){ ?>
-							<div class="img-wrapper"><?php the_post_thumbnail('large'); ?></div>
-						<?php } ?>
-						<div class="art-title"><span><?php the_title(); ?></span></div>
-						<div class="art-descr"><?php the_excerpt(); ?></div>
-					</a>
-					<div class="art-info">
-						<span class="art-author"><?php echo $autor->name; ?></span>
-						<span class="art-date"><?php echo get_the_date('d/m/Y'); ?></span>
-						<?php foreach($categories as $cat){ ?>
-						<span class="art-categ">[<?php echo $cat->name; ?>]</span>
-						<?php } ?>
-					</div>
-				</div>
-
-				<?php endforeach; wp_reset_postdata(); ?>
 
 	
 				<?php
 					$args = array(
-							'post_type' => array('columna', 'podcast'),
+							'post_type' => array('columna'),
 							'posts_per_page' => -1,
 							'orderby' => 'rand',
 						);
@@ -101,8 +60,8 @@
 							<!-- <span>Ep. 01</span> -->
 							<span><?php the_title(); ?></span>
 						</div>
-						<div class="pod-data"><?php echo get_the_date('d/m/Y'); ?></div>
-						<!--<a href="#" class="pod-play"><img src="<a class="grid-link" href="<?php the_permalink(); ?>">"></a>-->
+						<div class="pod-data">junio 15, 2016</div>
+						<!--<a href="#" class="pod-play"><img src="<a class="grid-link inlink" href="<?php the_permalink(); ?>">"></a>-->
 					</a>
 				</div>
 			

@@ -66,8 +66,64 @@
 				    
 			});
 
+		/*** NAVEGACIÓN */
+
+		var newHash = '';
+
+		$('.inlink').on('click', function(e){
+			e.preventDefault();
+			var newHash = $(this).attr('href');
+			console.log(newHash);
+			$('#content').empty();
+			$('#content').load(newHash+ '#content');
+
+			var myNewState = {
+		    data: {
+			        a: 1,
+			        b: 2
+			    },
+			    title: '',
+			    url: newHash
+			};
+			history.pushState(myNewState.data, myNewState.title, myNewState.url);
+			window.onpopstate = function(event){
+			    console.log(myNewState.url); // will be our state data, so myNewState.data
+			}
 
 
+
+		});
+
+		window.addEventListener('popstate', function(event) {
+		    var State = History.getState(); 
+		   	console.log(State);
+		   // $('#left_col').html(State.data.leftcol);
+		});
+
+
+		 var History = window.History;
+	    var origTitle = document.title;
+
+	    if ( !History.enabled ) { return false; }
+	    History.pushState({state:$(this).attr('data-state'),leftcol:$('#left_col').html()}, origTitle, $(this).attr("href"));           // save initial state to browser history
+
+	    function updateContent(data) {
+	        if(data == null) return;                    // check if null (can be triggered by Chrome on page load)
+	        $('#left_col').html(data);              // replace left col with new (or old from history) data
+	        History.pushState({state:$(this).attr('data-state'),leftcol:$('#left_col').html()}, origTitle, $(this).attr("href"));           // save this state to browser history
+	    }
+
+	    History.Adapter.bind(window,'statechange',function(){           // use this NOT popstate (history.JS)
+	        var State = History.getState();
+	        //History.log(State.data, State.title, State.url);
+	        updateContent(State.data.leftcol);                                          // call update content with data for left col from saved state
+	    });
+
+	    $('.ajaxload').live("click", function() {                                   // attach click event, get html and send it to updateContent
+	        $.get($(this).attr("rel"), updateContent);
+	        return false;
+	    });
+		
 
 		/**
 		 * Validación de emails
@@ -214,7 +270,7 @@
 
 	/// RADIO ////////////////////
 
-	$('.pause').hide();
+	//$('.pause').hide();
 
 	var audioElement = document.createElement('audio');
         audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/25.mp3');
@@ -227,18 +283,22 @@
         //     audioElement.play();
         // }, true);
 
-        $('.play').on('click', function() {
-            audioElement.play();
-            $(this).hide();
-            $('.pause').show();
-        
+        $('.controller_radio').on('click', function(){
+
+        	if($(this).hasClass('play')){
+        		audioElement.play();
+	          	$(this).addClass('pause');
+	          	$(this).removeClass('play');
+	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/pause.svg');
+	          } else {
+	          	 audioElement.pause();
+	            $(this).addClass('play');
+	          	$(this).removeClass('pause');
+	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/play.svg');
+	          }
+
         });
 
-        $('.pause').on('click', function() {
-            audioElement.pause();
-            $(this).hide();
-            $('.play').show();
-        });
 
         $('.play_podcast').on('click', function(){
 
@@ -246,6 +306,9 @@
 
         	audioElement.setAttribute('src', new_audio);
         	audioElement.play();
+        	$('.controller_radio').removeClass('play');
+        	$('.controller_radio').removeClass('pause');
+        	$('.controller_radio').addClass('pause');
 
         });
 

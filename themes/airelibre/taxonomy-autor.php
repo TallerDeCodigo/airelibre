@@ -46,7 +46,7 @@
 				?>
 
 				<div class="grid-item normal columna">
-					<a class="grid-link" href="<?php the_permalink(); ?>">
+					<a class="grid-link inlink" href="<?php the_permalink(); ?>">
 						<?php if(has_post_thumbnail($post->ID)){
 							the_post_thumbnail('small');
 						}?>
@@ -71,7 +71,7 @@
 				?>
 				
 				<div class="grid-item podcast">
-					<a class="grid-link" href="<?php the_permalink(); ?>">
+					<a class="grid-link inlink" href="<?php the_permalink(); ?>">
 						<div class="pod-img">
 							<img src="<?php echo $portada['url']; ?>">
 							<span><?php echo $programa->name; ?></span>
@@ -81,7 +81,7 @@
 							<span><?php the_title(); ?></span>
 						</div>
 						<div class="pod-data">junio 15, 2016</div>
-						<!--<a href="#" class="pod-play"><img src="<a class="grid-link" href="<?php the_permalink(); ?>">"></a>-->
+						<!--<a href="#" class="pod-play"><img src="<a class="grid-link inlink" href="<?php the_permalink(); ?>">"></a>-->
 					</a>
 				</div>
 			
