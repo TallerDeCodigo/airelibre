@@ -362,7 +362,7 @@ li.selected {color:#FFF;background:#0023ff;}
 	/* PLAYER - MOBILE */
 
 	footer {margin-bottom:54px;}
-	.player {background:#FFF;bottom:0px;box-shadow:0px -1px 1px #cecece;overflow:hidden;}
+	.player {background:#FFF;bottom:0px!important;box-shadow:0px -1px 1px #cecece;overflow:hidden;}
 	.player .wrapper {height:55px;}
 	.player .play {top:12px;margin:0px 9px;}
 	.player .play:hover {cursor:pointer; top:12px;margin:0px 9px;}
@@ -424,6 +424,7 @@ li.selected {color:#FFF;background:#0023ff;}
 
 	.pl-item {padding:0px 15px 0px 40px;}
 	.cast-full p {font-size:125%;}
+	.player {bottom:0px!important;}
 }
 
 @media (min-width:650px) {

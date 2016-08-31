@@ -225,7 +225,7 @@
 	        top: '-45px'
 	    }
 	});
-
+	
 	$('.player').transe({
 	    0: {
 	        top: '90px'
