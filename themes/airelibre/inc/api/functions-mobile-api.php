@@ -230,9 +230,9 @@ function mobile_login_check($user_id, $user_token){
 			$programa = !empty($programa) ? $programa[0]->name : NULL;
 				
 			if($programa){
-				$thumb_url = get_the_post_thumbnail_url( $each_result->ID, "medium" )
+				$thumb_url = get_the_post_thumbnail_url( $each_result->ID, "medium" );
 			}else{
-				$thumb_url = get_the_post_thumbnail_url( $each_result->ID, "medium" )
+				$thumb_url = get_the_post_thumbnail_url( $each_result->ID, "medium" );
 			}
 
 			$authors_concat =  "";
