@@ -283,9 +283,11 @@
         	
         	audioElement.setAttribute('src', new_audio);
         	audioElement.play();
+        	
         	$('.controller_radio').removeClass('play');
         	$('.controller_radio').removeClass('pause');
         	$('.controller_radio').addClass('pause');
+        	$('.controller_radio').attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/pause.svg');
 
         	$('.showname').empty().text(titulo);
         	$('.breadcrumbs').empty().text(programa);
