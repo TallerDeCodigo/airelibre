@@ -17,7 +17,7 @@
 					<span class="left-author"><?php echo $autor->name; ?></span>
 					<span class="left-date"><?php echo get_the_date('d/m/Y'); ?></span>
 					<?php foreach($categories as $cat){ ?>
-					<span class="art-categ"><a href="<?php echo site_url(); ?>/category/<?php echo $cat->slug; ?>">[<?php echo $cat->name; ?>]</a></span>
+					<span class="art-categ"><a class="inlink" href="<?php echo site_url(); ?>/category/<?php echo $cat->slug; ?>">[<?php echo $cat->name; ?>]</a></span>
 					<?php } ?>
 					<!-- <a class="info-action" href="#">GUARDAR</a>
 					<a class="info-action" href="#">COMPARTIR</a> -->
@@ -27,7 +27,7 @@
 			</div>
 			<!-- <img class="big-img" src="<?php echo THEMEPATH; ?>images/mad.png" /> -->
 			<!-- <div class="img-foot"><span>Wikimedia Commons photograph of a restaurant in Jimma, Ethiopia.</span> Photo by Rod Waddington. Some rights reserved.</div> -->
-			<div class="more-author"><a class="" href="<?php echo site_url();?>/autores/<?php echo $autor->slug; ?>/">VER MÁS DE <?php echo $autor->name; ?></a></div>
+			<div class="more-author"><a class="inlink" href="<?php echo site_url();?>/autores/<?php echo $autor->slug; ?>/">VER MÁS DE <?php echo $autor->name; ?></a></div>
 		</section>
 		<?php wp_reset_query(); wp_reset_postdata(); ?>
 		<section class="bottom-single">
@@ -48,11 +48,11 @@
 					foreach($autores as $autor);
 					$categories = wp_get_post_terms($post->ID, 'category');
 					if($post->ID == $excludeID){ continue; }
-					if($posttype == 'columna'){
+					
 				?>
 
 				<div class="grid-item normal columna">
-					<a class="grid-link" href="<?php the_permalink(); ?>">
+					<a class="grid-link inlink" href="<?php the_permalink(); ?>">
 						<?php if(has_post_thumbnail($post->ID)){
 							the_post_thumbnail('small');
 						}?>
@@ -68,30 +68,7 @@
 					</div>
 				</div>
 
-				<?php 
-					} elseif($posttype == 'podcast'){ 
-					$terms = wp_get_post_terms($post->ID, 'programa');
-					foreach($terms as $programa);
-					$portada = get_term_meta($programa->term_id,'image_field_id', true);
-					
-				?>
-				
-				<div class="grid-item podcast">
-					<a class="grid-link" href="<?php the_permalink(); ?>">
-						<div class="pod-img">
-							<img src="<?php echo $portada['url']; ?>">
-							<span><?php echo $programa->name; ?></span>
-						</div>
-						<div class="pod-title">
-							<!-- <span>Ep. 01</span> -->
-							<span><?php the_title(); ?></span>
-						</div>
-						<div class="pod-data">junio 15, 2016</div>
-						<!--<a href="#" class="pod-play"><img src="<a class="grid-link" href="<?php the_permalink(); ?>">"></a>-->
-					</a>
-				</div>
-			
-				<?php } endforeach; wp_reset_postdata(); ?>
+				<?php endforeach; wp_reset_postdata(); ?>
 			</div>
 			<!-- <div class="more-posts">VER MÁS</div> -->
 		</section>

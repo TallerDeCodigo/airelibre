@@ -1,5 +1,7 @@
 (function($){
 
+	function docReady(){
+
 	"use strict";
 
 	$(function(){
@@ -66,7 +68,31 @@
 				    
 			});
 
+		/*** NAVEGACIÓN */
 
+		// var newHash = '';
+
+		// $('.inlink').on('click', function(e){
+		// 	e.preventDefault();
+		// 	var newHash = $(this).attr('href');
+		// 	console.log(newHash);
+		// 	$('#content').empty();
+		// 	$('#content').load(newHash+ '#content');
+
+		// 	var myNewState = {
+		//     data: {
+		// 	        a: 1,
+		// 	        b: 2
+		// 	    },
+		// 	    title: '',
+		// 	    url: newHash
+		// 	};
+		// 	history.pushState(myNewState.data, myNewState.title, myNewState.url);
+		// 	window.onpopstate = function(event){
+		// 	    console.log(myNewState.url); // will be our state data, so myNewState.data
+		// 	}
+
+		// });
 
 
 		/**
@@ -170,14 +196,18 @@
 	    }
 	});
 
-	$('.player').transe({
-	    0: {
-	        top: '90px'
-	    },
-	    40: {
-	        top: '45px'
-	    }
-	});
+	var width = $(window).width();
+	if(width > 999){
+
+		$('.player').transe({
+		    0: {
+		        top: '90px'
+		    },
+		    40: {
+		        top: '45px'
+		    }
+		});
+	}
 
 	$('.submenu').transe({
 	    0: {
@@ -214,7 +244,7 @@
 
 	/// RADIO ////////////////////
 
-	$('.pause').hide();
+	//$('.pause').hide();
 
 	var audioElement = document.createElement('audio');
         audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/25.mp3');
@@ -227,25 +257,42 @@
         //     audioElement.play();
         // }, true);
 
-        $('.play').on('click', function() {
-            audioElement.play();
-            $(this).hide();
-            $('.pause').show();
-        
+        $('.controller_radio').on('click', function(){
+
+        	if($(this).hasClass('play')){
+        		audioElement.play();
+	          	$(this).addClass('pause');
+	          	$(this).removeClass('play');
+	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/pause.svg');
+	          } else {
+	          	 audioElement.pause();
+	            $(this).addClass('play');
+	          	$(this).removeClass('pause');
+	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/play.svg');
+	          }
+
         });
 
-        $('.pause').on('click', function() {
-            audioElement.pause();
-            $(this).hide();
-            $('.play').show();
-        });
 
         $('.play_podcast').on('click', function(){
 
         	var new_audio = $(this).data('audio');
-
+        	var portada = $(this).data('portada');
+        	var titulo = $(this).data('titulo');
+        	var programa = $(this).data('programa');
+        	
         	audioElement.setAttribute('src', new_audio);
         	audioElement.play();
+        	
+        	$('.controller_radio').removeClass('play');
+        	$('.controller_radio').removeClass('pause');
+        	$('.controller_radio').addClass('pause');
+        	$('.controller_radio').attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/pause.svg');
+
+        	$('.showname').empty().text(titulo);
+        	$('.breadcrumbs').empty().text(programa);
+        	$('.album').attr('src', portada);
+        	console.log(portada);
 
         });
 
@@ -257,44 +304,16 @@
 
      /// PODCASTS PLAYLIST ///////
 
-    $('.pl-item').on('click', function(){
+	    $('.pl-item').on('click', function(){
 
-    		$('.pl-item').removeClass('selected');
-        	$(this).addClass('selected');
+	    		$('.pl-item').removeClass('selected');
+	        	$(this).addClass('selected');
 
         });
 
+	}
 
+	docReady();
+	
 })(jQuery);
 
-// jQuery(document).ready(function($) {
-//     var $mainContent = $("#container"),
-//         siteUrl = "http://" + top.location.host.toString(),
-//         url = ''; 
-
-//     $(document).delegate("a[href^='"+siteUrl+"']:not([href*=/wp-admin/]):not([href*=/wp-login.php]):not([href$=/feed/])", "click", function() {
-//         location.hash = this.pathname;
-//         return false;
-//     }); 
-
-//     $("#searchform").submit(function(e) {
-//         location.hash = '?s=' + $("#s").val();
-//         e.preventDefault();
-//     }); 
-
-//     $(window).bind('hashchange', function(){
-//         url = window.location.hash.substring(1); 
-
-//         if (!url) {
-//             return;
-//         } 
-
-//         url = url + " #content"; 
-
-//         $mainContent.animate({opacity: "0.1"}).html('&lt;p&gt;Please wait...&lt;/&gt;').load(url, function() {
-//             $mainContent.animate({opacity: "1"});
-//         });
-//     });
-
-//     $(window).trigger('hashchange');
-// });

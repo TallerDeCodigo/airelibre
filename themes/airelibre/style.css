@@ -155,6 +155,7 @@ footer a {text-decoration:none;color:inherit;}
 .player .play {position:relative;width:32px;height:auto;}
 .player .play:hover {cursor:pointer; position:relative;width:32px;height:auto;}
 .player .pause {position:relative;width:32px;height:auto;}
+.player .pause:hover {cursor:pointer; position:relative;width:32px;height:auto;}
 .player .album {height:55px;width:auto;}
 .showname {font-weight:900;}
 .breadcrumbs {color:#ababab;font-style:italic;}
@@ -214,6 +215,7 @@ blockquote span {display:block;}
 .img-foot span {color:#000;font-weight:900;}
 .single p {color:#5c5c5c;font-family:'Crimson';font-weight:300;font-size:164%;line-height:150%;}
 .single p span {font-family:'Regular';font-weight:900;color:#000;font-size:110%;border-bottom:4px solid #000;height:34px;}
+.single p img {width: 100%; height: auto;}
 .more-author {border-bottom:2px solid #979797;border-top:2px solid #979797;font-size:162%;overflow:hidden;font-style:italic;color:#2a3545;margin-top:35px; text-transform: uppercase; text-decoration: none;}
 .more-author a {color:#2a3545; text-transform: uppercase; text-decoration: none;}
 
@@ -360,7 +362,7 @@ li.selected {color:#FFF;background:#0023ff;}
 	/* PLAYER - MOBILE */
 
 	footer {margin-bottom:54px;}
-	.player {background:#FFF;bottom:0px;box-shadow:0px -1px 1px #cecece;overflow:hidden;}
+	.player {background:#FFF;bottom:0px!important;box-shadow:0px -1px 1px #cecece;overflow:hidden;}
 	.player .wrapper {height:55px;}
 	.player .play {top:12px;margin:0px 9px;}
 	.player .play:hover {cursor:pointer; top:12px;margin:0px 9px;}
@@ -422,6 +424,7 @@ li.selected {color:#FFF;background:#0023ff;}
 
 	.pl-item {padding:0px 15px 0px 40px;}
 	.cast-full p {font-size:125%;}
+	.player {bottom:0px!important;}
 }
 
 @media (min-width:650px) {

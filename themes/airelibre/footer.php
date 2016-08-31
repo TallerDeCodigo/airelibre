@@ -1,4 +1,4 @@
-	
+		
 		<footer>
 			<div class="wrapper">
 				<a href="#" class="downl">DESCARGAR APP</a>
@@ -10,6 +10,7 @@
 			</div>
 		</footer>
 		<?php wp_footer(); ?>
+		</div><!-- end #content -->
 	</body>
 
 </html>
