@@ -48,7 +48,7 @@
 					foreach($autores as $autor);
 					$categories = wp_get_post_terms($post->ID, 'category');
 					if($post->ID == $excludeID){ continue; }
-					if($posttype == 'columna'){
+					
 				?>
 
 				<div class="grid-item normal columna">
@@ -68,30 +68,7 @@
 					</div>
 				</div>
 
-				<?php 
-					} elseif($posttype == 'podcast'){ 
-					$terms = wp_get_post_terms($post->ID, 'programa');
-					foreach($terms as $programa);
-					$portada = get_term_meta($programa->term_id,'image_field_id', true);
-					
-				?>
-				
-				<div class="grid-item podcast">
-					<a class="grid-link" href="<?php the_permalink(); ?>">
-						<div class="pod-img">
-							<img src="<?php echo $portada['url']; ?>">
-							<span><?php echo $programa->name; ?></span>
-						</div>
-						<div class="pod-title">
-							<!-- <span>Ep. 01</span> -->
-							<span><?php the_title(); ?></span>
-						</div>
-						<div class="pod-data">junio 15, 2016</div>
-						<!--<a href="#" class="pod-play"><img src="<a class="grid-link" href="<?php the_permalink(); ?>">"></a>-->
-					</a>
-				</div>
-			
-				<?php } endforeach; wp_reset_postdata(); ?>
+				<?php endforeach; wp_reset_postdata(); ?>
 			</div>
 			<!-- <div class="more-posts">VER MÁS</div> -->
 		</section>
