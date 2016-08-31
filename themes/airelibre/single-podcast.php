@@ -62,7 +62,9 @@
 					
 					<li class="pl-item">
 						<div class="pl-number"><?php echo $count; ?></div>
-						<div class="pl-add"><img class="play_podcast" src="<?php echo THEMEPATH; ?>images/play-blue.svg" data-audio="<?php echo get_post_meta($post->ID, '_file_url_meta', true); ?>"></div>
+						<div class="pl-add">
+							<img class="play_podcast" src="<?php echo THEMEPATH; ?>images/play-blue.svg" data-audio="<?php echo get_post_meta($post->ID, '_file_url_meta', true); ?>" data-titulo="<?php the_title(); ?>" data-programa="<?php echo $programa->name; ?>" data-portada="<?php echo $portada['url']; ?>">
+						</div>
 						<div class="pl-descr">
 							<span class="pl-itm-tt"><?php the_title(); ?> · <?php echo get_the_date('d/m/Y'); ?></span>
 							<span><?php the_excerpt(); ?></span>

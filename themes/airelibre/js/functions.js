@@ -277,12 +277,20 @@
         $('.play_podcast').on('click', function(){
 
         	var new_audio = $(this).data('audio');
-
+        	var portada = $(this).data('portada');
+        	var titulo = $(this).data('titulo');
+        	var programa = $(this).data('programa');
+        	
         	audioElement.setAttribute('src', new_audio);
         	audioElement.play();
         	$('.controller_radio').removeClass('play');
         	$('.controller_radio').removeClass('pause');
         	$('.controller_radio').addClass('pause');
+
+        	$('.showname').empty().text(titulo);
+        	$('.breadcrumbs').empty().text(programa);
+        	$('.album').attr('src', portada);
+        	console.log(portada);
 
         });
 
