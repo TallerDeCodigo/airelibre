@@ -1,5 +1,7 @@
 (function($){
 
+	function docReady(){
+
 	"use strict";
 
 	$(function(){
@@ -68,62 +70,30 @@
 
 		/*** NAVEGACIÓN */
 
-		var newHash = '';
+		// var newHash = '';
 
-		$('.inlink').on('click', function(e){
-			e.preventDefault();
-			var newHash = $(this).attr('href');
-			console.log(newHash);
-			$('#content').empty();
-			$('#content').load(newHash+ '#content');
+		// $('.inlink').on('click', function(e){
+		// 	e.preventDefault();
+		// 	var newHash = $(this).attr('href');
+		// 	console.log(newHash);
+		// 	$('#content').empty();
+		// 	$('#content').load(newHash+ '#content');
 
-			var myNewState = {
-		    data: {
-			        a: 1,
-			        b: 2
-			    },
-			    title: '',
-			    url: newHash
-			};
-			history.pushState(myNewState.data, myNewState.title, myNewState.url);
-			window.onpopstate = function(event){
-			    console.log(myNewState.url); // will be our state data, so myNewState.data
-			}
+		// 	var myNewState = {
+		//     data: {
+		// 	        a: 1,
+		// 	        b: 2
+		// 	    },
+		// 	    title: '',
+		// 	    url: newHash
+		// 	};
+		// 	history.pushState(myNewState.data, myNewState.title, myNewState.url);
+		// 	window.onpopstate = function(event){
+		// 	    console.log(myNewState.url); // will be our state data, so myNewState.data
+		// 	}
 
+		// });
 
-
-		});
-
-		window.addEventListener('popstate', function(event) {
-		    var State = History.getState(); 
-		   	console.log(State);
-		   // $('#left_col').html(State.data.leftcol);
-		});
-
-
-		 var History = window.History;
-	    var origTitle = document.title;
-
-	    if ( !History.enabled ) { return false; }
-	    History.pushState({state:$(this).attr('data-state'),leftcol:$('#left_col').html()}, origTitle, $(this).attr("href"));           // save initial state to browser history
-
-	    function updateContent(data) {
-	        if(data == null) return;                    // check if null (can be triggered by Chrome on page load)
-	        $('#left_col').html(data);              // replace left col with new (or old from history) data
-	        History.pushState({state:$(this).attr('data-state'),leftcol:$('#left_col').html()}, origTitle, $(this).attr("href"));           // save this state to browser history
-	    }
-
-	    History.Adapter.bind(window,'statechange',function(){           // use this NOT popstate (history.JS)
-	        var State = History.getState();
-	        //History.log(State.data, State.title, State.url);
-	        updateContent(State.data.leftcol);                                          // call update content with data for left col from saved state
-	    });
-
-	    $('.ajaxload').live("click", function() {                                   // attach click event, get html and send it to updateContent
-	        $.get($(this).attr("rel"), updateContent);
-	        return false;
-	    });
-		
 
 		/**
 		 * Validación de emails
@@ -225,15 +195,19 @@
 	        top: '-45px'
 	    }
 	});
-	
-	$('.player').transe({
-	    0: {
-	        top: '90px'
-	    },
-	    40: {
-	        top: '45px'
-	    }
-	});
+
+	var width = $(window).width();
+	if(width > 999){
+
+		$('.player').transe({
+		    0: {
+		        top: '90px'
+		    },
+		    40: {
+		        top: '45px'
+		    }
+		});
+	}
 
 	$('.submenu').transe({
 	    0: {
@@ -320,44 +294,16 @@
 
      /// PODCASTS PLAYLIST ///////
 
-    $('.pl-item').on('click', function(){
+	    $('.pl-item').on('click', function(){
 
-    		$('.pl-item').removeClass('selected');
-        	$(this).addClass('selected');
+	    		$('.pl-item').removeClass('selected');
+	        	$(this).addClass('selected');
 
         });
 
+	}
 
+	docReady();
+	
 })(jQuery);
 
-// jQuery(document).ready(function($) {
-//     var $mainContent = $("#container"),
-//         siteUrl = "http://" + top.location.host.toString(),
-//         url = ''; 
-
-//     $(document).delegate("a[href^='"+siteUrl+"']:not([href*=/wp-admin/]):not([href*=/wp-login.php]):not([href$=/feed/])", "click", function() {
-//         location.hash = this.pathname;
-//         return false;
-//     }); 
-
-//     $("#searchform").submit(function(e) {
-//         location.hash = '?s=' + $("#s").val();
-//         e.preventDefault();
-//     }); 
-
-//     $(window).bind('hashchange', function(){
-//         url = window.location.hash.substring(1); 
-
-//         if (!url) {
-//             return;
-//         } 
-
-//         url = url + " #content"; 
-
-//         $mainContent.animate({opacity: "0.1"}).html('&lt;p&gt;Please wait...&lt;/&gt;').load(url, function() {
-//             $mainContent.animate({opacity: "1"});
-//         });
-//     });
-
-//     $(window).trigger('hashchange');
-// });
