@@ -2,6 +2,7 @@
 	get_header(); 
 	$objeto = get_queried_object();
 	$imagen = get_term_meta($objeto->term_id, 'image_field_id', true);
+	$imagen_mov = get_term_meta($objeto->term_id,'image_field_id_movil', true);
 	// echo '<pre>';
 	// print_r($objeto);
 	// echo '</pre>';
@@ -13,7 +14,8 @@
 					<span class="per-name"><?php echo $objeto->name; ?></span>
 					<!-- <a class="mob-follow" href="#">SEGUIR</a> -->
 					<p class="per-desc"><?php echo $objeto->description; ?></p>
-					<img class="per-mobile" src="<?php echo THEMEPATH; ?>/images/person2.png">
+					<img class="per-mobile" src="<?php echo $imagen_mov['url']; ?>">
+					
 				</div>
 				<!-- <a class="per-follow" href="#">SEGUIR</a> -->
 			</div>

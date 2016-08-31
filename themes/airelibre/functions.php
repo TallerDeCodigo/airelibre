@@ -308,16 +308,18 @@
 	  
 	  //Image field
 	  $my_meta->addImage($prefix.'image_field_id',array('name'=> __('Portada ','tax-meta')));
+	  $my_meta->addImage($prefix.'image_field_id_movil',array('name'=> __('Portada móvil (sólo autores)','tax-meta')));
 	 
 	  /*
 	   * To Create a reapeater Block first create an array of fields
-	   * use the same functions as above but add true as a last param
+	   * use the same functions as above but add true as a last param222
 	   */
 	  
 	  $repeater_fields[] = $my_meta->addText($prefix.'re_text_field_id',array('name'=> __('My Text ','tax-meta')),true);
 	  $repeater_fields[] = $my_meta->addTextarea($prefix.'re_textarea_field_id',array('name'=> __('My Textarea ','tax-meta')),true);
 	  $repeater_fields[] = $my_meta->addCheckbox($prefix.'re_checkbox_field_id',array('name'=> __('My Checkbox ','tax-meta')),true);
 	  $repeater_fields[] = $my_meta->addImage($prefix.'image_field_id',array('name'=> __('Portada ','tax-meta')),true);
+	  $repeater_fields[] = $my_meta->addImage($prefix.'image_field_id_movil',array('name'=> __('Portada móvil (sólo autores) ','tax-meta')),true);
 	  
 	  /*
 	   * Then just add the fields to the repeater block
