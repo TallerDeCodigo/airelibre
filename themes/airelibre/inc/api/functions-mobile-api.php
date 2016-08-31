@@ -161,11 +161,11 @@ function mobile_login_check($user_id, $user_token){
 }
 	
 	function fetchRadio(){
-		/*** TODO Check time and send playlist with covers ***/
 		$catalogue = file_get_contents(THEMEPATH."inc/radioPlist.json");
 		$catalogue = json_decode($catalogue);
 		$catalogue = (array) $catalogue;
 		
+		/*** TODO Send radio according to Datetime ***/
 		return array(
 						"stream" => site_url("wp-content/uploads/radio/1.mp3"),
 						"meta"	 => $catalogue
