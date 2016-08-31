@@ -167,7 +167,7 @@ function mobile_login_check($user_id, $user_token){
 		$catalogue = (array) $catalogue;
 		
 		return array(
-						"stream" => "http://airelibre.dev/wp-content/uploads/radio/1.mp3",
+						"stream" => site_url("wp-content/uploads/radio/1.mp3"),
 						"meta"	 => $catalogue
 					);
 	}
@@ -200,7 +200,7 @@ function mobile_login_check($user_id, $user_token){
 									'title' 				=> $entry->post_title,
 									'excerpt' 				=> $trimmed_description,
 									'content' 				=> $entry->post_content,
-									'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
+									'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : NULL,
 									'type'					=> $entry->post_type,
 									'programa'				=> $programa,
 									'authors'				=> $authors_concat,
@@ -220,15 +220,22 @@ function mobile_login_check($user_id, $user_token){
 					"post_type" 		=> $kind,
 					"post_status"		=> "publish",
 					"orderby"			=> "date",
-					"posts_per_page"	=> 10
+					"posts_per_page"	=> 20
 				);
 		$results = get_posts($args);
 		$final = array("pool" => array(), "count" => 0);
 		foreach ($results as &$each_result) {
 			
 			$programa =  wp_get_post_terms($each_result->ID, "programa");
-			$programa = !empty($programa) ? $programa[0]->name : NULL;
-			
+			$programa_name = !empty($programa) ? $programa[0]->name : NULL;
+
+			if($programa){
+				$thumb_url = get_term_meta($programa[0]->term_id,'image_field_id', true);
+				$thumb_url = $thumb_url['url'];
+			}else{
+				$thumb_url = get_the_post_thumbnail_url( $each_result->ID, "medium" );
+			}
+
 			$authors_concat =  "";
 			$authors =  wp_get_post_terms($each_result->ID, "autor");
 			if(!empty($authors))
@@ -238,9 +245,9 @@ function mobile_login_check($user_id, $user_token){
 									"ID"	=> $each_result->ID,
 									"title" => $each_result->post_title,
 									"slug" 	=> $each_result->post_name,
-									"thumb_url" => get_the_post_thumbnail_url( $each_result->ID, "medium" ),
+									"thumb_url" => $thumb_url,
 									"excerpt" => $each_result->post_excerpt,
-									'programa'				=> $programa,
+									'programa'				=> $programa_name,
 									'authors'				=> $authors_concat,
 									$each_result->post_type => TRUE
 								);
@@ -287,8 +294,11 @@ function mobile_login_check($user_id, $user_token){
 					);
 		$podcasts = get_posts($args);
 		foreach ($podcasts as $each_podcast) {
-			$thumb = wp_get_attachment_image_src( get_post_thumbnail_id($each_podcast->ID), 'medium');
-			$cover = !empty($thumb) ? $thumb[0] : NULL;
+
+			$programa =  wp_get_post_terms($each_podcast->ID, "programa");
+			$programa_name = !empty($programa) ? $programa[0]->name : NULL;
+			$thumb_url = get_term_meta($programa[0]->term_id,'image_field_id', true);
+			$cover = !empty($thumb_url) ? $thumb_url['url'] : NULL;
 			$stream = get_post_meta($each_podcast->ID, "_file_url_meta", TRUE);
 
 			$array_temp[] = array(
@@ -296,6 +306,7 @@ function mobile_login_check($user_id, $user_token){
 									"title" 	=> $each_podcast->post_title,
 									"slug" 		=> $each_podcast->post_name,
 									"cover"		=> $cover,
+									"programa"	=> $programa_name,
 									"stream" 	=> $stream,
 									"playing" 	=> ($playing == $each_podcast->ID) ? TRUE : FALSE,
 									"date" 		=> date("Y-m-d", strtotime($each_podcast->post_date)),
@@ -330,6 +341,11 @@ function mobile_login_check($user_id, $user_token){
 		$thumb = wp_get_attachment_image_src( get_post_thumbnail_id($episode_id), 'medium');
 		$cover = !empty($thumb) ? $thumb[0] : NULL;
 		
+		$programa =  wp_get_post_terms($episode_id, "programa");
+		$programa_name = !empty($programa) ? $programa[0]->name : NULL;
+		$thumb_url = get_term_meta($podcast_term->term_id,'image_field_id', true);
+		$cover = !empty($thumb_url) ? $thumb_url['url'] : NULL;
+
 		$return_array  = array (
 									"ID" 			=> $podcast->ID,
 									"title" 		=> $podcast->post_title,
@@ -337,6 +353,7 @@ function mobile_login_check($user_id, $user_token){
 									"programa_id" 	=> $podcast_term->term_id,
 									"authors" 		=> $authors_concat,
 									"cover" 		=> $cover,
+									"programa"		=> $programa_name,
 									"date" 			=> date("Y-m-d", strtotime($podcast->post_date)),
 									"episode_count" => $podcast_term->count,
 									"episodes" 		=> $episodes
@@ -506,7 +523,7 @@ function mobile_login_check($user_id, $user_token){
 								"author" 			=> $author[0]->name,
 								"slug" 				=> $post->post_name,
 								"type" 				=> $post->post_type,
-								"thumb_url" 		=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
+								"thumb_url" 		=> ($post_thumbnail_url) ? $post_thumbnail_url : NULL,
 								$post->post_type 	=> true
 							);
 
@@ -684,7 +701,7 @@ function mobile_login_check($user_id, $user_token){
 		$return_array = array();
 		$term = get_term_by("id", $tax_id, $taxonomy);
 		$args = array(
-						"post_type" 	=>	"productos",
+						"post_type" 	=>	array("podcast", "columna"),
 						"post_status" 	=>	"publish",
 						"posts_per_page" =>	($limit) ? $limit : -1,
 						"tax_query" => array(
@@ -695,7 +712,7 @@ function mobile_login_check($user_id, $user_token){
 											),
 										),
 					);
-		$products = get_posts($args);
+		$posts = get_posts($args);
 		$return_array = array(
 								"ID" 	=> $term->term_id,
 								"name" 	=> $term->name,
@@ -703,31 +720,32 @@ function mobile_login_check($user_id, $user_token){
 								"pool" 	=> array(),
 								"count" => 0,
 							);
-		foreach ($products as $each_result) {
-			$product_price 			= (get_post_meta($each_result->ID,'precio_producto', true) != '') ? get_post_meta($each_result->ID,'precio_producto', true) : NULL;
-			$product_author 		= (get_user_by("id", $each_result->post_author)) ? get_user_by("id", $each_result->post_author) : NULL;
-
-			$designer_brand			= $product_author->data;
-
+		foreach ($posts as $each_result) {
+		
 			$trimmed_description 	= ($each_result->post_content !== '') ? wp_trim_words( $each_result->post_content, $num_words = 15, $more = '...' ) : NULL;
 			$post_thumbnail_id = get_post_thumbnail_id($each_result->ID);
 			$post_thumbnail_url = wp_get_attachment_image_src($post_thumbnail_id,'large');
 			$post_thumbnail_url = $post_thumbnail_url[0];
-			$foto_user = get_user_meta( $designer_brand->ID, 'foto_user', TRUE );
+
+			$programa =  wp_get_post_terms($each_result->ID, "programa");
+			$programa = !empty($programa) ? $programa[0]->name : NULL;
+			
+			$authors_concat =  "";
+			$authors =  wp_get_post_terms($each_result->ID, "autor");
+			if(!empty($authors))
+				$authors_concat = (count($authors) == 1) ? "Con: {$authors[0]->name}" :  "Con: {$authors[0]->name} y {$authors[1]->name}";
+
 			$return_array['pool'][] = 	array(
-												"ID" 					=> $each_result->ID,
-												"product_title" 		=> $each_result->post_title,
-												"product_description" 	=> $trimmed_description,
-												"slug" 					=> $each_result->slug,
-												"price"					=> $product_price,
-												"thumb_url"				=> ($post_thumbnail_url) ? $post_thumbnail_url : "",
-												"designer_brand"		=> array(
-																				"ID"   => $designer_brand->ID,
-																				"name" => $designer_brand->display_name,
-																				"profile_pic" 	=> ($foto_user) ? $foto_user : null,
-																			),
-												"type"					=> $each_result->post_type,
-											);
+										'ID' 					=> $each_result->ID,
+										'title' 				=> $each_result->post_title,
+										'excerpt' 				=> $trimmed_description,
+										'content' 				=> $each_result->post_content,
+										'thumb_url'				=> ($post_thumbnail_url) ? $post_thumbnail_url : NULL,
+										'type'					=> $each_result->post_type,
+										'programa'				=> $programa,
+										'authors'				=> $authors_concat,
+										$each_result->post_type	=> true,
+									);
 
 		}
 		$return_array['count'] = count($return_array['pool']);
