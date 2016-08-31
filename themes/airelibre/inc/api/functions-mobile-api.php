@@ -227,10 +227,11 @@ function mobile_login_check($user_id, $user_token){
 		foreach ($results as &$each_result) {
 			
 			$programa =  wp_get_post_terms($each_result->ID, "programa");
-			$programa_name = !empty($programa) ? $programa[0]->name : NULL;
+			$programa = !empty($programa) ? $programa[0] : NULL;
+			$programa_name = !empty($programa) ? $programa->name : NULL;
 
 			if($programa){
-				$thumb_url = get_term_meta($programa[0]->term_id,'image_field_id', true);
+				$thumb_url = get_term_meta($programa->term_id,'image_field_id', true);
 				$thumb_url = $thumb_url['url'];
 			}else{
 				$thumb_url = get_the_post_thumbnail_url( $each_result->ID, "medium" );
@@ -248,6 +249,7 @@ function mobile_login_check($user_id, $user_token){
 									"thumb_url" => $thumb_url,
 									"excerpt" => $each_result->post_excerpt,
 									'programa'				=> $programa_name,
+									'programa_id'			=> $programa->term_id,
 									'authors'				=> $authors_concat,
 									$each_result->post_type => TRUE
 								);
@@ -278,7 +280,7 @@ function mobile_login_check($user_id, $user_token){
 	 * Fetch podcast episodes
 	 * @param $podcast_id
 	 */
-	function fetch_podcast($podcast_id = NULL, $playing = NULL){
+	function fetch_podcast_episodes($podcast_id = NULL, $playing = NULL){
 
 		$args = array(
 					'post_type' => 'podcast',
@@ -296,10 +298,16 @@ function mobile_login_check($user_id, $user_token){
 		foreach ($podcasts as $each_podcast) {
 
 			$programa =  wp_get_post_terms($each_podcast->ID, "programa");
-			$programa_name = !empty($programa) ? $programa[0]->name : NULL;
-			$thumb_url = get_term_meta($programa[0]->term_id,'image_field_id', true);
+			$programa = !empty($programa) ? $programa[0] : NULL;
+			$programa_name = !empty($programa) ? $programa->name : NULL;
+			$thumb_url = get_term_meta($programa->term_id,'image_field_id', true);
 			$cover = !empty($thumb_url) ? $thumb_url['url'] : NULL;
 			$stream = get_post_meta($each_podcast->ID, "_file_url_meta", TRUE);
+
+			$authors_concat =  "";
+			$authors =  wp_get_post_terms($each_podcast->ID, "autor");
+			if(!empty($authors))
+				$authors_concat = (count($authors) == 1) ? "Con: {$authors[0]->name}" :  "Con: {$authors[0]->name} y {$authors[1]->name}";
 
 			$array_temp[] = array(
 									"ID" 		=> $each_podcast->ID,
@@ -307,8 +315,10 @@ function mobile_login_check($user_id, $user_token){
 									"slug" 		=> $each_podcast->post_name,
 									"cover"		=> $cover,
 									"programa"	=> $programa_name,
+									"programa_id"	=> $programa->term_id,
+									"authors"	=> $authors_concat,
 									"stream" 	=> $stream,
-									"playing" 	=> ($playing == $each_podcast->ID) ? TRUE : FALSE,
+									// "playing" 	=> ($playing == $each_podcast->ID) ? TRUE : FALSE,
 									"date" 		=> date("Y-m-d", strtotime($each_podcast->post_date)),
 								);
 		}
@@ -325,13 +335,13 @@ function mobile_login_check($user_id, $user_token){
 	 * Fetch detailed information of podcast episode
 	 * @param $episode_id
 	 */
-	function fetch_episode($episode_id = NULL){
+	function fetch_podcast($episode_id = NULL){
 
 		$podcast =  get_post($episode_id);
 		$podcast_term = wp_get_post_terms($episode_id, "programa");
 		$podcast_term = !empty($podcast_term) ? $podcast_term[0] : NULL;
 		
-		$episodes = fetch_podcast($podcast_term->term_id, $episode_id);
+		$episodes = fetch_podcast_episodes($podcast_term->term_id, $episode_id);
 
 		$authors_concat =  "";
 		$authors =  wp_get_post_terms($episode_id, "autor");

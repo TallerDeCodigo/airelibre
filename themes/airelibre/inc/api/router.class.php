@@ -278,8 +278,7 @@ class Router{
 			 * @param String $episode_id
 			 */
 			$slim->get('/rest/v1/podcasts/:episode_id/', function ($episode_id){
-				// TODO Use user information to cure feed
-				echo fetch_episode($episode_id);
+				echo fetch_podcast($episode_id);
 				exit;
 			});
 
