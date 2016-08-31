@@ -266,7 +266,7 @@
   			var timerArray = myTimer.split(":");
   			var minutes = (timerArray[0]*60)*1000;
   			var seconds = timerArray[1]*1000;
-  			generalTimer += minutes+seconds;
+  			generalTimer = minutes+seconds;
   			plPointer++;
         }
 
