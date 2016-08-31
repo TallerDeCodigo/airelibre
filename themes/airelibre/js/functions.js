@@ -244,10 +244,14 @@
 
 	/// RADIO ////////////////////
 
+
+
 	//$('.pause').hide();
 
 	var audioElement = document.createElement('audio');
-        audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/25.mp3');
+        audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/01.mp3');
+    var generalTimer = null;
+    var plPointer = 0;
         //audioElement.setAttribute('autoplay', 'autoplay');
         //audioElement.load()
 
@@ -256,6 +260,28 @@
         // audioElement.addEventListener("load", function() {
         //     audioElement.play();
         // }, true);
+       
+        function setGeneralTimer(myTimer){
+
+  			var timerArray = myTimer.split(":");
+  			var minutes = (timerArray[0]*60)*1000;
+  			var seconds = timerArray[1]*1000;
+  			generalTimer += minutes+seconds;
+  			plPointer++;
+        }
+
+        function mySetTimeout(){
+      		
+      		setTimeout( function(){
+      			var context = radio_pl.meta[plPointer-1];
+          		$('.showname').empty().text(context.title);
+	        	$('.album').attr('src', context.cover);
+	        	$('.breadcrumbs').empty().text(context.artist);
+	        	var myTimer = radio_pl.meta[plPointer].start;
+	        	setGeneralTimer(myTimer);
+	        	mySetTimeout();
+          	}, generalTimer);
+        }
 
         $('.controller_radio').on('click', function(){
 
@@ -264,14 +290,17 @@
 	          	$(this).addClass('pause');
 	          	$(this).removeClass('play');
 	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/pause.svg');
-	          } else {
-	          	 audioElement.pause();
+          		setGeneralTimer(radio_pl.meta[0].start);
+          		mySetTimeout();
+	        } else {
+	          	audioElement.pause();
 	            $(this).addClass('play');
 	          	$(this).removeClass('pause');
 	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/play.svg');
-	          }
+	        }
 
         });
+
 
 
         $('.play_podcast').on('click', function(){

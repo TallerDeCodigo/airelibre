@@ -28,6 +28,10 @@
 		// localize scripts
 		wp_localize_script( 'functions', 'ajax_url', admin_url('admin-ajax.php') );
 
+		// localize var
+		global $songs;
+		wp_localize_script( 'functions', 'radio_pl', $songs = fetchRadio() );
+
 		// styles
 		wp_enqueue_style( 'styles', get_stylesheet_uri() );
 
