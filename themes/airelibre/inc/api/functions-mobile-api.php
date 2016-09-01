@@ -167,7 +167,7 @@ function mobile_login_check($user_id, $user_token){
 		
 		/*** TODO Send radio according to Datetime ***/
 		return array(
-						"stream" => site_url("wp-content/uploads/radio/1.mp3"),
+						"stream" => site_url("wp-content/uploads/radio/01.mp3"),
 						"meta"	 => $catalogue
 					);
 	}
