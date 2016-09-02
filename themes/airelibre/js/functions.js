@@ -70,29 +70,29 @@
 
 		/*** NAVEGACIÓN */
 
-		// var newHash = '';
+		var newHash = '';
 
-		// $('.inlink').on('click', function(e){
-		// 	e.preventDefault();
-		// 	var newHash = $(this).attr('href');
-		// 	console.log(newHash);
-		// 	$('#content').empty();
-		// 	$('#content').load(newHash+ '#content');
+		$('.inlink').on('click', function(e){
+			e.preventDefault();
+			var newHash = $(this).attr('href');
+			console.log(newHash);
+			$('#content').empty();
+			$('#content').load(newHash+ '#content');
 
-		// 	var myNewState = {
-		//     data: {
-		// 	        a: 1,
-		// 	        b: 2
-		// 	    },
-		// 	    title: '',
-		// 	    url: newHash
-		// 	};
-		// 	history.pushState(myNewState.data, myNewState.title, myNewState.url);
-		// 	window.onpopstate = function(event){
-		// 	    console.log(myNewState.url); // will be our state data, so myNewState.data
-		// 	}
+			var myNewState = {
+		    data: {
+			        a: 1,
+			        b: 2
+			    },
+			    title: '',
+			    url: newHash
+			};
+			history.pushState(myNewState.data, myNewState.title, myNewState.url);
+			window.onpopstate = function(event){
+			    console.log(myNewState.url); // will be our state data, so myNewState.data
+			}
 
-		// });
+		});
 
 
 		/**
