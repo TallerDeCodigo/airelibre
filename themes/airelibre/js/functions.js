@@ -12,25 +12,6 @@
 			$(window).load(function(){
 				$(function() {
 
-					$(".dropdown").click(function(){
-						$(".submenu").toggle();
-						$(".dropdown").toggleClass('active');
-					});
-
-					$("#nav-icon3").click(function(){
-			            $("#nav-icon3").toggleClass('open');
-			            if ($('.mob-menu').css('display') == 'none') {
-			            	$(".mob-menu").toggle();
-			            	$(".mob-menu").animate({opacity:"1"}, 300);
-			            } else {
-			            	$(".mob-menu").animate({opacity:"0"}, 300);
-			            	setTimeout(function() {
-			            		$(".mob-menu").toggle();
-			            		$("input[name=search2]").css("width", '0%');
-			            	}, 310);
-			            }
-			        });
-
 			        $("#search1").click(function(){
 			            $("input[name=search1]").show();
 			            $("input[name=search1]").focus();
@@ -70,30 +51,71 @@
 
 		/*** NAVEGACIÓN */
 
-		// var newHash = '';
+		var newHash = '';
 
-		// $('.inlink').on('click', function(e){
-		// 	e.preventDefault();
-		// 	var newHash = $(this).attr('href');
-		// 	console.log(newHash);
-		// 	$('#content').empty();
-		// 	$('#content').load(newHash+ '#content');
 
-		// 	var myNewState = {
-		//     data: {
-		// 	        a: 1,
-		// 	        b: 2
-		// 	    },
-		// 	    title: '',
-		// 	    url: newHash
-		// 	};
-		// 	history.pushState(myNewState.data, myNewState.title, myNewState.url);
-		// 	window.onpopstate = function(event){
-		// 	    console.log(myNewState.url); // will be our state data, so myNewState.data
-		// 	}
+		$(document).on('click', '.inlink', function(e) {
 
+		 	e.preventDefault();
+		 	var newHash = $(this).attr('href');
+		 	console.log(newHash);
+		 	$('#content').empty();
+		 	$('#content').addClass('contenido_hash');
+		 	$('#content').load(newHash+' #content');
+
+		 	var myNewState = {
+		     data: {
+		 	        a: 1,
+		 	        b: 2
+		 	    },
+		 	    title: '',
+		 	    url: newHash
+		 	};
+		 	history.pushState(myNewState.data, myNewState.title, myNewState.url);
+		 	window.onpopstate = function(event){
+		 	    console.log(myNewState.url); // previous 
+		 	    console.log(window.location.href); // actual
+		 	    var newHash = window.location.href;
+		 	    $('#content').empty();
+		 	    $('#content').load(newHash+' #content');
+		 	}
+
+		});
+
+		/* SUBMENU SIEMPRE */
+
+		$(".openmenu").click(function(){
+            $(".openmenu").toggleClass('open');
+            if ($('.mob-menu').css('display') == 'none') {
+            	$(".mob-menu").toggle();
+            	$(".mob-menu").animate({opacity:"1"}, 300);
+            } else {
+            	$(".mob-menu").animate({opacity:"0"}, 300);
+            	setTimeout(function() {
+            		$(".mob-menu").toggle();
+            		$("input[name=search2]").css("width", '0%');
+            	}, 310);
+            }
+        });
+
+		$(".dropdown").click(function(){
+			$(".submenu").toggle();
+			$(".dropdown").toggleClass('active');
+		});
+
+		$(document).on('click',function(e){
+		   if ( $(e.target).closest('.dropdown').length === 0 && $(e.target).closest('.submenu').length === 0 ) {
+		      	$(".submenu").hide();
+		      	$(".dropdown").removeClass('active');
+		   }
+		});
+
+		/* DON'T CHANGE THE PLAY ICON */
+
+
+		// $(window).unload(function(){
+		//   localStorage.setItem('alibre_playing','0');
 		// });
-
 
 		/**
 		 * Validación de emails
@@ -252,6 +274,22 @@
         audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/01.mp3');
     var generalTimer = null;
     var plPointer = 0;
+
+
+    // FULL PAGE LOAD
+
+	// var is_playing = localStorage.getItem('alibre_playing');
+
+	// if(is_playing=="1"){
+ //      	$('.controller_radio').addClass('pause');
+ //      	$('.controller_radio').removeClass('play');
+ //      	$('.controller_radio').attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/pause.svg');
+ //    } else {
+ //        $('.controller_radio').addClass('play');
+ //      	$('.controller_radio').removeClass('pause');
+ //      	$('.controller_radio').attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/play.svg');
+ //    }
+
         //audioElement.setAttribute('autoplay', 'autoplay');
         //audioElement.load()
 
@@ -285,23 +323,26 @@
 
         $('.controller_radio').on('click', function(){
 
-        	if($(this).hasClass('play')){
+        	// var is_playing = localStorage.getItem('alibre_playing');
+        	
+        	// if(is_playing==null||is_playing=="0"){
+        	if ($(this).hasClass('play')) {
         		audioElement.play();
 	          	$(this).addClass('pause');
 	          	$(this).removeClass('play');
 	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/pause.svg');
           		setGeneralTimer(radio_pl.meta[0].start);
           		mySetTimeout();
+          		// localStorage.setItem('alibre_playing',"1");
 	        } else {
 	          	audioElement.pause();
 	            $(this).addClass('play');
 	          	$(this).removeClass('pause');
 	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/play.svg');
+	          	// localStorage.setItem('alibre_playing',"0");
 	        }
 
         });
-
-
 
         $('.play_podcast').on('click', function(){
 
@@ -345,4 +386,3 @@
 	docReady();
 	
 })(jQuery);
-

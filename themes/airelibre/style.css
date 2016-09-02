@@ -231,7 +231,7 @@ blockquote span {display:block;}
 /* PERSON */
 
 .person {position:relative;overflow:hidden;}
-.per-bkg {height:100%;width:auto;position:absolute;top:-9999px;bottom:-9999px;left:-9999px;right:-9999px;margin:auto;}
+.per-bkg {height:100%;width:auto;position:absolute;top:-9999px;bottom:-9999px;left:-9999px;right:-9999px;margin:auto; opacity: .5}
 .per-name {font-family:'Regular';font-weight:600;font-style:italic;}
 .per-info {font-size:120%;}
 .per-info span {display:block;}
