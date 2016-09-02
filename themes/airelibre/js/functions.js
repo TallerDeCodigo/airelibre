@@ -25,7 +25,7 @@
 			        $(".separator").click(function(){
 			        	$(".submenu").css("opacity", '1');
 			        	$(".submenu").css("width", '0%');
-						$(".submenu").toggle();
+						$(".submenu").show();
 						$(".submenu").animate({width:'100%'}, 400);
 					});
 
@@ -53,7 +53,6 @@
 
 		var newHash = '';
 
-
 		$(document).on('click', '.inlink', function(e) {
 
 		 	e.preventDefault();
@@ -61,7 +60,10 @@
 		 	console.log(newHash);
 		 	$('#content').empty();
 		 	$('#content').addClass('contenido_hash');
-		 	$('#content').load(newHash+' #content');
+ 	 	    $('#content').load(newHash+' #content', function() {
+ 				var $grid = $('.grid').isotope();
+ 				$grid.isotope('layout');
+ 			});
 
 		 	var myNewState = {
 		     data: {
@@ -77,7 +79,10 @@
 		 	    console.log(window.location.href); // actual
 		 	    var newHash = window.location.href;
 		 	    $('#content').empty();
-		 	    $('#content').load(newHash+' #content');
+		 	    $('#content').load(newHash+' #content', function() {
+					var $grid = $('.grid').isotope();
+					$grid.isotope('layout');
+				});
 		 	}
 
 		});
@@ -98,17 +103,33 @@
             }
         });
 
+        $(".autorin").click(function(){
+		    $(".dropdown").removeClass('active');
+		    $(".openmenu").removeClass('open');
+		    if ($('.mob-menu').css('display') == 'none') {
+		    	$(".submenu").hide();
+		    } else {
+		    	$(".mob-menu").animate({opacity:"0"}, 300);
+		    	setTimeout(function() {
+		    		$(".mob-menu").toggle();
+		    		$("input[name=search2]").css("width", '0%');
+		    		$(".submenu").hide();
+		    	}, 310);
+		    }
+        });
+
 		$(".dropdown").click(function(){
 			$(".submenu").toggle();
 			$(".dropdown").toggleClass('active');
 		});
 
 		$(document).on('click',function(e){
-		   if ( $(e.target).closest('.dropdown').length === 0 && $(e.target).closest('.submenu').length === 0 ) {
+		   if ( $(e.target).closest('.dropdown').length === 0 && $(e.target).closest('.submenu').length === 0 && $(e.target).closest('.separator').length === 0 ) {
 		      	$(".submenu").hide();
 		      	$(".dropdown").removeClass('active');
 		   }
 		});
+
 
 		/* DON'T CHANGE THE PLAY ICON */
 
@@ -275,20 +296,10 @@
     var generalTimer = null;
     var plPointer = 0;
 
-
-    // FULL PAGE LOAD
-
-	// var is_playing = localStorage.getItem('alibre_playing');
-
-	// if(is_playing=="1"){
- //      	$('.controller_radio').addClass('pause');
- //      	$('.controller_radio').removeClass('play');
- //      	$('.controller_radio').attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/pause.svg');
- //    } else {
- //        $('.controller_radio').addClass('play');
- //      	$('.controller_radio').removeClass('pause');
- //      	$('.controller_radio').attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/play.svg');
- //    }
+    var whichsounds = 'rd';
+    var started = 0;
+    var eltimer0 = new Date();
+    var eltimer = new Date();
 
         //audioElement.setAttribute('autoplay', 'autoplay');
         //audioElement.load()
@@ -306,13 +317,16 @@
   			var seconds = timerArray[1]*1000;
   			generalTimer = minutes+seconds;
   			plPointer++;
+  			if (plPointer>1) {
+  				console.log('Rola '+(plPointer-1));
+  			}
         }
 
         function mySetTimeout(){
       		
       		setTimeout( function(){
       			var context = radio_pl.meta[plPointer-1];
-          		$('.showname').empty().text(context.title);
+	      		$('.showname').empty().text(context.title);
 	        	$('.album').attr('src', context.cover);
 	        	$('.breadcrumbs').empty().text(context.artist);
 	        	var myTimer = radio_pl.meta[plPointer].start;
@@ -323,28 +337,40 @@
 
         $('.controller_radio').on('click', function(){
 
-        	// var is_playing = localStorage.getItem('alibre_playing');
-        	
-        	// if(is_playing==null||is_playing=="0"){
         	if ($(this).hasClass('play')) {
-        		audioElement.play();
+
 	          	$(this).addClass('pause');
 	          	$(this).removeClass('play');
 	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/pause.svg');
-          		setGeneralTimer(radio_pl.meta[0].start);
-          		mySetTimeout();
-          		// localStorage.setItem('alibre_playing',"1");
+          		if (whichsounds=="rd" && started==0) {
+          			eltimer0 = new Date();
+          			eltimer0 = eltimer0.getTime();
+          			console.log('Empieza');
+          			mySetTimeout();
+          			setGeneralTimer(radio_pl.meta[0].start);
+          			started=1;
+          		} else if (whichsounds=="rd" && started==1){
+					eltimer = new Date();
+          			eltimer = eltimer.getTime();
+          			eltimer = eltimer - eltimer0;
+          			eltimer = Math.round(eltimer/1000);
+          			console.log('Reanuda a los: '+eltimer+'s');
+          			audioElement.currentTime = eltimer;
+          		}
+        		audioElement.play();
+
 	        } else {
+
 	          	audioElement.pause();
 	            $(this).addClass('play');
 	          	$(this).removeClass('pause');
 	          	$(this).attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/play.svg');
-	          	// localStorage.setItem('alibre_playing',"0");
+
 	        }
 
         });
 
-        $('.play_podcast').on('click', function(){
+        $(document).on('click', '.play_podcast', function() {
 
         	var new_audio = $(this).data('audio');
         	var portada = $(this).data('portada');
@@ -353,6 +379,10 @@
         	
         	audioElement.setAttribute('src', new_audio);
         	audioElement.play();
+
+        	$('.podc-ch').addClass('circle').addClass('blue');
+        	$('.live-ch').removeClass('circle').removeClass('roja');
+        	whichsounds = "pc";
         	
         	$('.controller_radio').removeClass('play');
         	$('.controller_radio').removeClass('pause');
@@ -366,6 +396,34 @@
 
         });
 
+        /* BACK TO RADIO */
+
+        $(".live-ch").click(function(){
+        	if (whichsounds=="pc") {
+        		$('.podc-ch').removeClass('circle').removeClass('blue');
+        		$('.live-ch').addClass('circle').addClass('roja');
+        		whichsounds = 'rd';
+        		audioElement.pause();
+        		audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/01.mp3');
+        		$('.controller_radio').addClass('play');
+	          	$('.controller_radio').removeClass('pause');
+	          	$('.controller_radio').attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/play.svg');
+	          	
+    		  	if (started==0) {
+		  			$('.showname').empty().text(radio_pl.meta[0].title);
+		  		  	$('.album').attr('src', radio_pl.meta[0].cover);
+		  		  	$('.breadcrumbs').empty().text(radio_pl.meta[0].artist);
+		  		} else {
+		  		  	var rola = plPointer-1;
+	    		  	console.log('Rola '+rola);
+	  		  		$('.showname').empty().text(radio_pl.meta[rola-1].title);
+	  		  	  	$('.album').attr('src', radio_pl.meta[rola-1].cover);
+	  		  	  	$('.breadcrumbs').empty().text(radio_pl.meta[rola-1].artist);
+		  		}
+    			
+        	}
+        });
+
         audioElement.addEventListener("ended", function(){
 		     audioElement.currentTime = 0;
 		     console.log("ended");
@@ -374,7 +432,7 @@
 
      /// PODCASTS PLAYLIST ///////
 
-	    $('.pl-item').on('click', function(){
+	    $(document).on('click', '.pl-item', function() {
 
 	    		$('.pl-item').removeClass('selected');
 	        	$(this).addClass('selected');

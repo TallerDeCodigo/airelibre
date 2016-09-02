@@ -370,11 +370,13 @@ li.selected {color:#FFF;background:#0023ff;}
 	.player .album {display:none;}
 	.audio-title {top:9px;margin-left:0px;}
 
-	.changer {width:80px;height:32px;right:10px;margin:-16px 0px 0px -100px;}
+	.changer {width:95px;height:32px;right:10px;margin:-16px 0px 0px -100px;}
 	.changer div {border-radius:9px;}
 	.podc-ch {width:85%;line-height:30px;text-align:center;}
-	.live-ch {width:85%;line-height:12px;padding:2px 0px;text-align:left;}
-	.circle {padding-left:16px;}
+	.live-ch {width:85%;line-height:12px;padding:2px 8px;text-align:left;}
+	.circle {z-index:1900;}
+	.circle.roja {padding-left:21px;}
+	.circle.blue {padding-left:11px;}
 
 	/* SUB-MENU - MOBILE */
 

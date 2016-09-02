@@ -50,8 +50,8 @@
 			<nav class="mob-menu" style="display:none">
 				<div class="mbm-item"><input type="text" name="search2" placeholder="Búsqueda"><img id="search2" src="<?php echo THEMEPATH; ?>images/search2.svg"></div>
 				<!-- <a href="#" class="mbm-item">RADIO</a> -->
-				<a  href="<?php echo site_url(); ?>/podcasts" class="mbm-item inlink">PODCASTS</a>
-				<a  href="<?php echo site_url(); ?>/columnas" class="mbm-item inlink">COLUMNAS</a>
+				<a  href="<?php echo site_url(); ?>/podcasts" class="mbm-item inlink openmenu">PODCASTS</a>
+				<a  href="<?php echo site_url(); ?>/columnas" class="mbm-item inlink openmenu">COLUMNAS</a>
 				<a  class="mbm-item separator">AUTORES</a>
 				<a  href="#" class="mbm-item1">TWITTER</a>
 				<a  href="#" class="mbm-item1">FACEBOOK</a>
@@ -70,7 +70,7 @@
 							<?php
 
 								foreach ($alphabetized[$key] as $author_name): ?>
-									<a class="inlink" href="<?php echo site_url("autores/".$author_name['slug']); ?>"><?php echo $author_name["name"]; ?></a>
+									<a class="inlink autorin" href="<?php echo site_url("autores/".$author_name['slug']); ?>"><?php echo $author_name["name"]; ?></a>
 							<?php 
 								endforeach;
 								?>
@@ -106,10 +106,10 @@
 					// echo MP3File::formatTime($duration2)."\n";
 					?>
 
-					<!-- <div class="changer">
+					<div class="changer">
 						<div class="podc-ch">PODCAST</div>
 						<div class="live-ch circle roja">AL AIRE LIBRE</div>
-					</div> -->
+					</div>
 				</div>
 			</section>
 		</div><!-- end #top -->
