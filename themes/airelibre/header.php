@@ -19,9 +19,9 @@
 		<![endif]-->
 		<div id="top">
 			<header class="mobile">
-				<a class="mob-logo" href="<?php echo site_url(''); ?>"><img src="<?php echo THEMEPATH; ?>images/mobile.svg"></a>
+				<a class="mob-logo inlink" href="<?php echo site_url(''); ?>"><img src="<?php echo THEMEPATH; ?>images/mobile.svg"></a>
 			</header>
-			<div id="nav-icon3"><span></span><span></span><span></span><span></span></div>
+			<div class="openmenu" id="nav-icon3"><span></span><span></span><span></span><span></span></div>
 			<header class="desktop">
 				<div class="wrapper">
 					<div class="logo left">
