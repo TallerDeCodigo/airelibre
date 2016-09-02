@@ -136,7 +136,7 @@
 
 	include_once( 'inc/api/router.class.php' );
 
-	include_once( 'inc/mp3.php' );
+	//include_once( 'inc/mp3.php' );
 	
 	
 // MODIFICAR EL MAIN QUERY ///////////////////////////////////////////////////////////

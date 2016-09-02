@@ -98,12 +98,12 @@
 						<div class="breadcrumbs"><?php echo $song[0]->artist;?></div>
 					</div>
 					<?php 
-					$file = site_url().'/wp-content/uploads/radio/1.mp3';
-					$mp3file = new MP3File($file);//http://www.npr.org/rss/podcast.php?id=510282
-					//$duration1 = $mp3file->getDurationEstimate();//(faster) for CBR only
-					$duration2 = $mp3file->getDuration();//(slower) for VBR (or CBR)
+					// $file = site_url().'/wp-content/uploads/radio/1.mp3';
+					// $mp3file = new MP3File($file);//http://www.npr.org/rss/podcast.php?id=510282
+					// $duration1 = $mp3file->getDurationEstimate();//(faster) for CBR only
+					// $duration2 = $mp3file->getDuration();//(slower) for VBR (or CBR)
 					
-					//echo MP3File::formatTime($duration2)."\n";
+					// echo MP3File::formatTime($duration2)."\n";
 					?>
 
 					<!-- <div class="changer">
