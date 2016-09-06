@@ -106,10 +106,10 @@
 					// echo MP3File::formatTime($duration2)."\n";
 					?>
 
-					<div class="changer">
+					<!-- <div class="changer">
 						<div class="podc-ch">PODCAST</div>
 						<div class="live-ch circle roja">AL AIRE LIBRE</div>
-					</div>
+					</div> -->
 				</div>
 			</section>
 		</div><!-- end #top -->
