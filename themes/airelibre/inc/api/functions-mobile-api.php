@@ -160,17 +160,25 @@ function mobile_login_check($user_id, $user_token){
 	wp_send_json_success();
 }
 	
+	
+
 	function fetchRadio(){
-		$catalogue = file_get_contents(THEMEPATH."inc/radioPlist.json");
+		
+		global $randomList;
+	
+		
+		$catalogue = file_get_contents(THEMEPATH."inc/radioPlist".$randomList.".json");
 		$catalogue = json_decode($catalogue);
 		$catalogue = (array) $catalogue;
 		
+
 		/*** TODO Send radio according to Datetime ***/
 		return array(
-						"stream" => site_url("wp-content/uploads/radio/01.mp3"),
+						"stream" => site_url("wp-content/uploads/radio/".$randomList.".mp3"),
 						"meta"	 => $catalogue
 					);
 	}
+
 
 
 	// Feed

@@ -82,6 +82,10 @@
 			</nav>
 
 			<?php 
+
+				global $randomList;
+	
+				
 				global $songs;
 				foreach($songs as $song);
 				// echo '<pre>';
