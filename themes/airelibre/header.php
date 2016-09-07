@@ -85,7 +85,7 @@
 			<?php 
 
 				global $randomList;
-	
+				echo $randomList;
 				
 				global $songs;
 				foreach($songs as $song);

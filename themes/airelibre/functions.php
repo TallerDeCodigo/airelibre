@@ -18,7 +18,7 @@
 // FRONT END SCRIPTS AND STYLES //////////////////////////////////////////////////////
 
 
-	$randomList = rand(1, 10);
+	$randomList = rand(1, 18);
 	
 
 	add_action( 'wp_enqueue_scripts', function(){

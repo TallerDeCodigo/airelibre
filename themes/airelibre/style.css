@@ -159,6 +159,7 @@ footer a {text-decoration:none;color:inherit;}
 .player .album {height:55px;width:auto;}
 .showname {font-weight:900;}
 .breadcrumbs {color:#ababab;font-style:italic;}
+.live-ch:hover {cursor: pointer;}
 
 .changer {position:absolute;top:50%;font-weight:900;}
 .changer div {position:absolute;height:100%;top:0px;background:#FFF;font-size:85%;}
