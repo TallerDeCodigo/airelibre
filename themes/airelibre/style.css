@@ -478,6 +478,7 @@ li.selected {color:#FFF;background:#0023ff;}
 	.pl-item {padding:0px;}
 	.pl-number {width:70px;text-align:center;}
 	.pl-add {position:absolute;left:0px;top:0px;}
+	.pl-add img {opacity:1;}
 
 }
 
