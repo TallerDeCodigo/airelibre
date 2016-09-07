@@ -102,7 +102,7 @@
 							<span><?php the_title(); ?></span>
 						</div>
 						<div class="pod-data"><?php echo get_the_date('d/m/Y'); ?></div>
-						<!--<a href="#" class="pod-play"><img src="<a class="grid-link" href="<?php the_permalink(); ?>">"></a>-->
+						<a href="<?php the_permalink(); ?>" class="pod-play"><img src="<?php echo THEMEPATH; ?>/images/play-blue.svg"></a>
 					</a>
 				</div>
 			
