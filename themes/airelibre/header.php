@@ -41,6 +41,7 @@
 							<a  href="<?php echo site_url(); ?>/podcasts" class="nav-item inlink">PODCASTS</a>
 							<a  href="<?php echo site_url(); ?>/columnas" class="nav-item inlink">COLUMNAS</a>
 							<a class="nav-item dropdown">AUTORES <img src="<?php echo THEMEPATH; ?>images/down.svg"></a>
+							<a class="nav-item">FORMA PARTE DE AIRE LIBRE</a>
 							<!-- <div class="nav-item ultima"><input type="text" name="search1" placeholder="Búsqueda"><img id="search1" src="<?php echo THEMEPATH; ?>images/search.svg"></div> -->
 						</nav>
 						<div class="filler-right"></div>
@@ -110,10 +111,10 @@
 					// echo MP3File::formatTime($duration2)."\n";
 					?>
 
-					<!-- <div class="changer">
-						<div class="podc-ch">PODCAST</div>
+					<div class="changer">
+						<!-- <div class="podc-ch">PODCAST</div> -->
 						<div class="live-ch circle roja">AL AIRE LIBRE</div>
-					</div> -->
+					</div>
 				</div>
 			</section>
 		</div><!-- end #top -->
