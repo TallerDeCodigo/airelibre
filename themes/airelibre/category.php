@@ -71,7 +71,7 @@
 						<span><?php the_title(); ?></span>
 					</div>
 					<div class="pod-data">junio 15, 2016</div>
-					<a href="#" class="pod-play"><img src="<?php echo THEMEPATH; ?>images/play-blue.svg"></a>
+					<a href="<?php the_permalink(); ?>" class="pod-play"><img src="<?php echo THEMEPATH; ?>/images/play-blue.svg"></a>
 				</div>
 			
 				<?php } endforeach; wp_reset_postdata(); ?>

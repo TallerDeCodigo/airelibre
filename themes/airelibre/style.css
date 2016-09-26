@@ -159,6 +159,7 @@ footer a {text-decoration:none;color:inherit;}
 .player .album {height:55px;width:auto;}
 .showname {font-weight:900;}
 .breadcrumbs {color:#ababab;font-style:italic;}
+.live-ch:hover {cursor: pointer;}
 
 .changer {position:absolute;top:50%;font-weight:900;}
 .changer div {position:absolute;height:100%;top:0px;background:#FFF;font-size:85%;}
@@ -480,6 +481,7 @@ li.selected {color:#FFF;background:#0023ff;}
 	.pl-item {padding:0px;}
 	.pl-number {width:70px;text-align:center;}
 	.pl-add {position:absolute;left:0px;top:0px;}
+	.pl-add img {opacity:1;}
 
 	section p iframe {width:100%!important;}
 

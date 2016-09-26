@@ -18,19 +18,26 @@
 // FRONT END SCRIPTS AND STYLES //////////////////////////////////////////////////////
 
 
+	$randomList = rand(1, 18);
+	
 
 	add_action( 'wp_enqueue_scripts', function(){
 
 		// scripts
 		wp_enqueue_script( 'plugins', JSPATH.'plugins.js', array('jquery'), '1.0', TRUE );
 		wp_enqueue_script( 'functions', JSPATH.'functions.js', array('plugins'), '1.0', TRUE );
-
+		
+		
 		// localize scripts
 		wp_localize_script( 'functions', 'ajax_url', admin_url('admin-ajax.php') );
+		
 
 		// localize var
 		global $songs;
 		wp_localize_script( 'functions', 'radio_pl', $songs = fetchRadio() );
+		
+		global $randomList;
+		wp_localize_script( 'functions', 'random_list', $randomList );
 
 		// styles
 		wp_enqueue_style( 'styles', get_stylesheet_uri() );

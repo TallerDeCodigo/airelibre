@@ -12,6 +12,8 @@
 			$(window).load(function(){
 				$(function() {
 
+					$(".wrapper-666").fitVids();
+
 			        $("#search1").click(function(){
 			            $("input[name=search1]").show();
 			            $("input[name=search1]").focus();
@@ -63,6 +65,7 @@
  	 	    $('#content').load(newHash+' #content', function() {
  				var $grid = $('.grid').isotope();
  				$grid.isotope('layout');
+ 				$(".wrapper-666").fitVids();
  			});
 
 		 	var myNewState = {
@@ -82,6 +85,7 @@
 		 	    $('#content').load(newHash+' #content', function() {
 					var $grid = $('.grid').isotope();
 					$grid.isotope('layout');
+					$(".wrapper-666").fitVids();
 				});
 		 	}
 
@@ -281,18 +285,18 @@
 	    }
 	});
 
-	/// FITVIDS ///////
 
-	$(".wrapper-666").fitVids();
 
 	/// RADIO ////////////////////
 
-
+	//console.log(random_list);
 
 	//$('.pause').hide();
 
+
 	var audioElement = document.createElement('audio');
-        audioElement.setAttribute('src', 'http://localhost/~manuelon/al/wp-content/uploads/radio/1.mp3');
+    audioElement.setAttribute('src', 'http://localhost/~manuelon/al/wp-content/uploads/radio/1.mp3');
+    console.log(audioElement);
     var generalTimer = null;
     var plPointer = 0;
 
@@ -434,9 +438,13 @@
 
 	    $(document).on('click', '.pl-item', function() {
 
-	    		$('.pl-item').removeClass('selected');
-	        	$(this).addClass('selected');
+    		$('.pl-item').removeClass('selected');
+        	$(this).addClass('selected');
 
+        });
+
+        $(document).on('click', '.live-ch', function() {
+	    	location.reload();
         });
 
 	}
