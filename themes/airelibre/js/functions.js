@@ -292,7 +292,7 @@
 	//$('.pause').hide();
 
 	var audioElement = document.createElement('audio');
-        audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/01.mp3');
+        audioElement.setAttribute('src', 'http://localhost/~manuelon/al/wp-content/uploads/radio/1.mp3');
     var generalTimer = null;
     var plPointer = 0;
 
@@ -404,7 +404,7 @@
         		$('.live-ch').addClass('circle').addClass('roja');
         		whichsounds = 'rd';
         		audioElement.pause();
-        		audioElement.setAttribute('src', 'http://airelibre.devtdc.online/wp-content/uploads/radio/01.mp3');
+        		audioElement.setAttribute('src', 'http://localhost/~manuelon/al/wp-content/uploads/radio/1.mp3');
         		$('.controller_radio').addClass('play');
 	          	$('.controller_radio').removeClass('pause');
 	          	$('.controller_radio').attr('src', 'http://airelibre.devtdc.online/wp-content/themes/airelibre/images/play.svg');
